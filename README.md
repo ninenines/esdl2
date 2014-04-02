@@ -8,6 +8,8 @@ Status
 
 Week-end project. Work in progress.
 
-You need at least Erlang 17.0 or a release candidate of it
-for this project to run. It uses maps for a portion of its
-interface.
+The following limitations apply:
+
+ *  Erlang 17.0+ is required
+ *  SDL 2.0.3+ is required
+ *  No support for UTF-8 strings, only Latin-1

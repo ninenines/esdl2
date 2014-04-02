@@ -14,10 +14,14 @@
 
 PRIV_DIR ?= ../priv
 
+# SDL 2.0.3 has this option enabled that causes problems with NIF functions.
+SDL2_LIBS_FILTER_OUT = -Wl,--no-undefined
+SDL2_LIBS = $(filter-out $(SDL2_LIBS_FILTER_OUT),$(shell sdl2-config --static-libs))
+
 all: env.mk
 	mkdir -p $(PRIV_DIR)
 	gcc *.c -fPIC -shared -o $(PRIV_DIR)/esdl2.so -I $(ERTS_INCLUDE_DIR) \
-		`sdl2-config --cflags` `sdl2-config --static-libs` -lSDL2_image
+		`sdl2-config --cflags` $(SDL2_LIBS) -lSDL2_image
 
 env.mk:
 	erl -noshell -noinput -eval "file:write_file(\"env.mk\", \

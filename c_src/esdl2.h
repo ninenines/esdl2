@@ -113,6 +113,20 @@
 	F(get_clipboard_text, 0) \
 	F(has_clipboard_text, 0) \
 	F(set_clipboard_text, 1) \
+	/* sdl_cpu_info */ \
+	F(get_cpu_cache_line_size, 0) \
+	F(get_cpu_count, 0) \
+	F(get_system_ram, 0) \
+	F(has_3dnow, 0) \
+	F(has_avx, 0) \
+	F(has_altivec, 0) \
+	F(has_mmx, 0) \
+	F(has_rdtsc, 0) \
+	F(has_sse, 0) \
+	F(has_sse2, 0) \
+	F(has_sse3, 0) \
+	F(has_sse41, 0) \
+	F(has_sse42, 0) \
 	/* sdl_events */ \
 	F(poll_event, 0) \
 	/* sdl_filesystem */ \

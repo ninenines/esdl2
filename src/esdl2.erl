@@ -27,6 +27,21 @@
 -export([has_clipboard_text/0]).
 -export([set_clipboard_text/1]).
 
+%% sdl_cpu_info
+-export([get_cpu_cache_line_size/0]).
+-export([get_cpu_count/0]).
+-export([get_system_ram/0]).
+-export([has_3dnow/0]).
+-export([has_avx/0]).
+-export([has_altivec/0]).
+-export([has_mmx/0]).
+-export([has_rdtsc/0]).
+-export([has_sse/0]).
+-export([has_sse2/0]).
+-export([has_sse3/0]).
+-export([has_sse41/0]).
+-export([has_sse42/0]).
+
 %% sdl_events
 -export([poll_event/0]).
 
@@ -99,6 +114,47 @@ has_clipboard_text() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 set_clipboard_text(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+%% sdl_cpu_info
+
+get_cpu_cache_line_size() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_cpu_count() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_system_ram() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_3dnow() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_avx() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_altivec() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_mmx() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_rdtsc() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_sse() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_sse2() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_sse3() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_sse41() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_sse42() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_events
