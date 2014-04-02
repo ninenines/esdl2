@@ -30,6 +30,9 @@
 %% sdl_events
 -export([poll_event/0]).
 
+%% sdl_power
+-export([get_power_info/0]).
+
 %% sdl_renderer
 -export([create_renderer/3]).
 -export([render_clear/1]).
@@ -97,6 +100,11 @@ set_clipboard_text(_) ->
 %% sdl_events
 
 poll_event() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+%% sdl_power
+
+get_power_info() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_renderer

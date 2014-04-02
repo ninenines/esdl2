@@ -22,6 +22,8 @@
 #define NIF_ATOMS(A) \
 	A(button) \
 	A(caps) \
+	A(charged) \
+	A(charging) \
 	A(close) \
 	A(data) \
 	A(enter) \
@@ -52,7 +54,9 @@
 	A(mouse_up) \
 	A(mouse_wheel) \
 	A(moved) \
+	A(no_battery) \
 	A(num) \
+	A(on_battery) \
 	A(quit) \
 	A(repeat) \
 	A(resized) \
@@ -72,6 +76,7 @@
 	A(timestamp) \
 	A(type) \
 	A(undefined) \
+	A(unknown) \
 	A(w) \
 	A(which) \
 	A(window) \
@@ -110,6 +115,8 @@
 	F(set_clipboard_text, 1) \
 	/* sdl_events */ \
 	F(poll_event, 0) \
+	/* sdl_power */ \
+	F(get_power_info, 0) \
 	/* sdl_renderer */ \
 	F(create_renderer, 3) \
 	F(render_clear, 1) \
