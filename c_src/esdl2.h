@@ -104,6 +104,10 @@
 	F(quit_subsystem, 1) \
 	F(set_main_ready, 0) \
 	F(was_init, 1) \
+	/* sdl_clipboard */ \
+	F(get_clipboard_text, 0) \
+	F(has_clipboard_text, 0) \
+	F(set_clipboard_text, 1) \
 	/* sdl_events */ \
 	F(poll_event, 0) \
 	/* sdl_renderer */ \

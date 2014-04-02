@@ -22,6 +22,11 @@
 -export([set_main_ready/0]).
 -export([was_init/1]).
 
+%% sdl_clipboard
+-export([get_clipboard_text/0]).
+-export([has_clipboard_text/0]).
+-export([set_clipboard_text/1]).
+
 %% sdl_events
 -export([poll_event/0]).
 
@@ -76,6 +81,17 @@ set_main_ready() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 was_init(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+%% sdl_clipboard
+
+get_clipboard_text() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_clipboard_text() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+set_clipboard_text(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_events
