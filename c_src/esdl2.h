@@ -117,6 +117,9 @@
 	F(img_load, 1) \
 	/* sdl_texture */ \
 	F(create_texture_from_surface, 2) \
+	/* sdl_version */ \
+	F(get_version, 0) \
+	F(get_revision, 0) \
 	/* sdl_window */ \
 	F(create_window, 6)
 

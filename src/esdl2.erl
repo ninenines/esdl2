@@ -39,6 +39,10 @@
 %% sdl_texture
 -export([create_texture_from_surface/2]).
 
+%% sdl_version
+-export([get_version/0]).
+-export([get_revision/0]).
+
 %% sdl_window
 -export([create_window/6]).
 
@@ -107,6 +111,14 @@ img_load(_) ->
 %% sdl_texture
 
 create_texture_from_surface(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+%% sdl_version
+
+get_version() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_revision() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_window
