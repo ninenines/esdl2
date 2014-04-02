@@ -17,4 +17,5 @@
 -export([create/6]).
 
 create(Title, X, Y, W, H, Flags) ->
-	esdl2:create_window(Title, X, Y, W, H, Flags).
+	esdl2:create_window(Title, X, Y, W, H, Flags),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.

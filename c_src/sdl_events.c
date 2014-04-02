@@ -68,7 +68,9 @@ NIF_FLAGS_TO_LIST_FUNCTION(keymod_flags_to_list, Uint16, KEYMOD_FLAGS)
 
 NIF_ENUM_TO_ATOM_FUNCTION(button_to_atom, Uint8, BUTTON_ENUM)
 
-NIF_FUNCTION(poll_event)
+// poll_event
+
+NIF_CALL_HANDLER(thread_poll_event)
 {
 	SDL_Event event;
 	ERL_NIF_TERM map;
@@ -176,4 +178,9 @@ NIF_FUNCTION(poll_event)
 	// @todo SDL_DropEvent	
 
 	return map;
+}
+
+NIF_FUNCTION(poll_event)
+{
+	return nif_thread_call(env, thread_poll_event, 0);
 }

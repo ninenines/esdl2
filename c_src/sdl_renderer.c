@@ -52,19 +52,14 @@ int map_to_rect(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Rect* rect)
 	return 1;
 }
 
-NIF_FUNCTION(create_renderer)
+// create_renderer
+
+NIF_CALL_HANDLER(thread_create_renderer)
 {
-	void* window_res;
-	int index;
-	Uint32 flags = 0;
 	SDL_Renderer* renderer;
 	ERL_NIF_TERM term;
 
-	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
-	BADARG_IF(!enif_get_int(env, argv[1], &index));
-	BADARG_IF(!list_to_renderer_flags(env, argv[2], &flags));
-
-	renderer = SDL_CreateRenderer(NIF_RES_GET(Window, window_res), index, flags);
+	renderer = SDL_CreateRenderer(args[0], (long)args[1], (long)args[2]);
 	if (!renderer)
 		return sdl_error_tuple(env);
 
@@ -76,13 +71,50 @@ NIF_FUNCTION(create_renderer)
 	);
 }
 
+NIF_FUNCTION(create_renderer)
+{
+	void* window_res;
+	int index;
+	Uint32 flags = 0;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+	BADARG_IF(!enif_get_int(env, argv[1], &index));
+	BADARG_IF(!list_to_renderer_flags(env, argv[2], &flags));
+
+	return nif_thread_call(env, thread_create_renderer, 3,
+		NIF_RES_GET(Window, window_res), index, flags);
+}
+
+// render_clear
+
+NIF_CALL_HANDLER(thread_render_clear)
+{
+	if (SDL_RenderClear(args[0]))
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
 NIF_FUNCTION(render_clear)
 {
 	void* renderer_res;
 
 	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
 
-	if (SDL_RenderClear(NIF_RES_GET(Renderer, renderer_res)))
+	return nif_thread_call(env, thread_render_clear, 1,
+		NIF_RES_GET(Renderer, renderer_res));
+}
+
+// render_copy
+
+NIF_CALL_HANDLER(thread_render_copy)
+{
+	int ret = SDL_RenderCopy(args[0], args[1], args[2], args[3]);
+
+	enif_free(args[2]);
+	enif_free(args[3]);
+
+	if (ret)
 		return sdl_error_tuple(env);
 
 	return atom_ok;
@@ -92,7 +124,7 @@ NIF_FUNCTION(render_copy)
 {
 	void* renderer_res;
 	void* texture_res;
-	SDL_Rect src, *srcPtr, dst, *dstPtr;
+	SDL_Rect *srcPtr, *dstPtr;
 
 	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
 	BADARG_IF(!enif_get_resource(env, argv[1], res_Texture, &texture_res));
@@ -102,7 +134,7 @@ NIF_FUNCTION(render_copy)
 	else {
 		BADARG_IF(!enif_is_map(env, argv[2]));
 
-		srcPtr = &src;
+		srcPtr = (SDL_Rect*)enif_alloc(sizeof(SDL_Rect));
 		if (!map_to_rect(env, argv[2], srcPtr))
 			return enif_make_badarg(env);
 	}
@@ -112,15 +144,20 @@ NIF_FUNCTION(render_copy)
 	else {
 		BADARG_IF(!enif_is_map(env, argv[3]));
 
-		dstPtr = &dst;
+		dstPtr = (SDL_Rect*)enif_alloc(sizeof(SDL_Rect));
 		if (!map_to_rect(env, argv[3], dstPtr))
 			return enif_make_badarg(env);
 	}
 
-	if (SDL_RenderCopy(NIF_RES_GET(Renderer, renderer_res), NIF_RES_GET(Texture, texture_res), srcPtr, dstPtr))
-		return sdl_error_tuple(env);
+	return nif_thread_call(env, thread_render_copy, 4,
+		NIF_RES_GET(Renderer, renderer_res), NIF_RES_GET(Texture, texture_res), srcPtr, dstPtr);
+}
 
-	return atom_ok;
+// render_present
+
+NIF_CAST_HANDLER(thread_render_present)
+{
+	SDL_RenderPresent(args[0]);
 }
 
 NIF_FUNCTION(render_present)
@@ -129,7 +166,39 @@ NIF_FUNCTION(render_present)
 
 	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
 
-	SDL_RenderPresent(NIF_RES_GET(Renderer, renderer_res));
+	return nif_thread_cast(env, thread_render_present, 1,
+		NIF_RES_GET(Renderer, renderer_res));
+}
+
+// render_set_logical_size
+
+NIF_CALL_HANDLER(thread_render_set_logical_size)
+{
+	if (SDL_RenderSetLogicalSize(args[0], (long)args[1], (long)args[2]))
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(render_set_logical_size)
+{
+	void* renderer_res;
+	int w, h;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+	BADARG_IF(!enif_get_int(env, argv[1], &w));
+	BADARG_IF(!enif_get_int(env, argv[2], &h));
+
+	return nif_thread_call(env, thread_render_set_logical_size, 3,
+		NIF_RES_GET(Renderer, renderer_res), w, h);
+}
+
+// set_render_draw_color
+
+NIF_CALL_HANDLER(thread_set_render_draw_color)
+{
+	if (SDL_SetRenderDrawColor(args[0], (long)args[1], (long)args[2], (long)args[3], (long)args[4]))
+		return sdl_error_tuple(env);
 
 	return atom_ok;
 }
@@ -147,8 +216,6 @@ NIF_FUNCTION(set_render_draw_color)
 	BADARG_IF(r < 0 || r > 255 || g < 0 || g > 255
 		|| b < 0 || b > 255 || a < 0 || a > 255);
 
-	if (SDL_SetRenderDrawColor(NIF_RES_GET(Renderer, renderer_res), r, g, b ,a))
-		return sdl_error_tuple(env);
-
-	return atom_ok;
+	return nif_thread_call(env, thread_set_render_draw_color, 5,
+		NIF_RES_GET(Renderer, renderer_res), r, g, b, a);
 }

@@ -17,4 +17,5 @@
 -export([poll/0]).
 
 poll() ->
-	esdl2:poll_event().
+	esdl2:poll_event(),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.

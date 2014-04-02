@@ -82,6 +82,7 @@
 	A(xrel) \
 	A(y) \
 	A(yrel) \
+	A(_nif_thread_ret_)
 
 // List of resources used by this NIF.
 
@@ -110,6 +111,7 @@
 	F(render_clear, 1) \
 	F(render_copy, 4) \
 	F(render_present, 1) \
+	F(render_set_logical_size, 3) \
 	F(set_render_draw_color, 5) \
 	/* sdl_surface */ \
 	F(img_load, 1) \

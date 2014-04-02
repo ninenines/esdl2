@@ -37,22 +37,17 @@ void dtor_Window(ErlNifEnv* env, void* obj)
 
 NIF_LIST_TO_FLAGS_FUNCTION(list_to_window_flags, Uint32, WINDOW_FLAGS)
 
-NIF_FUNCTION(create_window)
+// create_window
+
+NIF_CALL_HANDLER(thread_create_window)
 {
-	char title[255];
-	int x, y, w, h;
-	Uint32 flags = 0;
 	SDL_Window* window;
 	ERL_NIF_TERM term;
 
-	BADARG_IF(!enif_get_string(env, argv[0], title, 255, ERL_NIF_LATIN1));
-	BADARG_IF(!enif_get_int(env, argv[1], &x));
-	BADARG_IF(!enif_get_int(env, argv[2], &y));
-	BADARG_IF(!enif_get_int(env, argv[3], &w));
-	BADARG_IF(!enif_get_int(env, argv[4], &h));
-	BADARG_IF(!list_to_window_flags(env, argv[5], &flags));
+	window = SDL_CreateWindow(args[0], (long)args[1], (long)args[2], (long)args[3], (long)args[4], (long)args[5]);
 
-	window = SDL_CreateWindow(title, x, y, w, h, flags);
+	enif_free(args[0]);
+
 	if (!window)
 		return sdl_error_tuple(env);
 
@@ -62,4 +57,21 @@ NIF_FUNCTION(create_window)
 		atom_ok,
 		term
 	);
+}
+
+NIF_FUNCTION(create_window)
+{
+	char* title = (char*)enif_alloc(255);
+	int x, y, w, h;
+	Uint32 flags = 0;
+
+	BADARG_IF(!enif_get_string(env, argv[0], title, 255, ERL_NIF_LATIN1));
+	BADARG_IF(!enif_get_int(env, argv[1], &x));
+	BADARG_IF(!enif_get_int(env, argv[2], &y));
+	BADARG_IF(!enif_get_int(env, argv[3], &w));
+	BADARG_IF(!enif_get_int(env, argv[4], &h));
+	BADARG_IF(!list_to_window_flags(env, argv[5], &flags));
+
+	return nif_thread_call(env, thread_create_window, 6,
+		title, x, y, w, h, flags);
 }

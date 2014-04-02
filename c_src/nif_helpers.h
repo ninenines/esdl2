@@ -106,4 +106,15 @@
 		return atom_undefined; \
 	}
 
+// Threaded NIFs.
+
+typedef void* nif_thread_arg;
+
+void* nif_create_main_thread(char*);
+ERL_NIF_TERM nif_thread_cast(ErlNifEnv*, void (*f)(nif_thread_arg*), int a, ...);
+ERL_NIF_TERM nif_thread_call(ErlNifEnv*, ERL_NIF_TERM (*f)(ErlNifEnv*, nif_thread_arg*), int a, ...);
+
+#define NIF_CAST_HANDLER(f) void f(nif_thread_arg* args)
+#define NIF_CALL_HANDLER(f) ERL_NIF_TERM f(ErlNifEnv* env, nif_thread_arg* args)
+
 #endif

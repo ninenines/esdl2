@@ -13,6 +13,7 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "esdl2.h"
+#include <sys/queue.h>
 
 NIF_ATOMS(NIF_ATOM_DECL)
 NIF_RESOURCES(NIF_RES_DECL)
@@ -22,11 +23,14 @@ int load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
 	NIF_ATOMS(NIF_ATOM_INIT)
 	NIF_RESOURCES(NIF_RES_INIT)
 
+	*priv_data = nif_create_main_thread("esdl2");
+
 	return 0;
 }
 
 void unload(ErlNifEnv* env, void* priv_data)
 {
+	nif_destroy_main_thread(priv_data);
 }
 
 static ErlNifFunc nif_funcs[] = {

@@ -1,3 +1,4 @@
+*.swp
 c_src/env.mk
 ebin
 examples/*/*.beam

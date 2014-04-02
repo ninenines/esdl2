@@ -22,4 +22,5 @@ create_from_file(Renderer, Filename) ->
 	create_from_surface(Renderer, Surface).
 
 create_from_surface(Renderer, Surface) ->
-	esdl2:create_texture_from_surface(Renderer, Surface).
+	esdl2:create_texture_from_surface(Renderer, Surface),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.

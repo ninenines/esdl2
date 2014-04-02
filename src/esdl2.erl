@@ -30,6 +30,7 @@
 -export([render_clear/1]).
 -export([render_copy/4]).
 -export([render_present/1]).
+-export([render_set_logical_size/3]).
 -export([set_render_draw_color/5]).
 
 %% sdl_surface
@@ -90,6 +91,9 @@ render_copy(_, _, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 render_present(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+render_set_logical_size(_, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 set_render_draw_color(_, _, _, _, _) ->
