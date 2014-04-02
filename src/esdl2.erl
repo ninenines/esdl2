@@ -30,6 +30,10 @@
 %% sdl_events
 -export([poll_event/0]).
 
+%% sdl_filesystem
+-export([get_base_path/0]).
+-export([get_pref_path/2]).
+
 %% sdl_power
 -export([get_power_info/0]).
 
@@ -100,6 +104,14 @@ set_clipboard_text(_) ->
 %% sdl_events
 
 poll_event() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+%% sdl_filesystem
+
+get_base_path() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_pref_path(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_power

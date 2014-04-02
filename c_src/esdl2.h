@@ -115,6 +115,9 @@
 	F(set_clipboard_text, 1) \
 	/* sdl_events */ \
 	F(poll_event, 0) \
+	/* sdl_filesystem */ \
+	F(get_base_path, 0) \
+	F(get_pref_path, 2) \
 	/* sdl_power */ \
 	F(get_power_info, 0) \
 	/* sdl_renderer */ \
