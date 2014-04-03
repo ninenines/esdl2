@@ -38,6 +38,13 @@ void dtor_Window(ErlNifEnv* env, void* obj)
 NIF_LIST_TO_FLAGS_FUNCTION(list_to_window_flags, Uint32, WINDOW_FLAGS)
 NIF_FLAGS_TO_LIST_FUNCTION(window_flags_to_list, Uint32, WINDOW_FLAGS)
 
+#define WINDOW_FULLSCREEN_ENUM(E) \
+	E(fullscreen, SDL_WINDOW_FULLSCREEN) \
+	E(fullscreen_desktop, SDL_WINDOW_FULLSCREEN_DESKTOP) \
+	E(windowed, 0)
+
+NIF_ATOM_TO_ENUM_FUNCTION(atom_to_window_fullscreen, Uint32, WINDOW_FULLSCREEN_ENUM)
+
 // create_window
 
 NIF_CALL_HANDLER(thread_create_window)
@@ -484,4 +491,26 @@ NIF_FUNCTION(set_window_brightness)
 
 	return nif_thread_call(env, thread_set_window_brightness, 2,
 		NIF_RES_GET(Window, window_res), fp);
+}
+
+// set_window_fullscreen
+
+NIF_CALL_HANDLER(thread_set_window_fullscreen)
+{
+	if (SDL_SetWindowFullscreen(args[0], (long)args[1]))
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(set_window_fullscreen)
+{
+	void* window_res;
+	Uint32 flags;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+	BADARG_IF(!atom_to_window_fullscreen(env, argv[1], &flags));
+
+	return nif_thread_call(env, thread_set_window_fullscreen, 2,
+		NIF_RES_GET(Window, window_res), flags);
 }

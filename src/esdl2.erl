@@ -90,6 +90,7 @@
 -export([restore_window/1]).
 -export([set_window_bordered/2]).
 -export([set_window_brightness/2]).
+-export([set_window_fullscreen/2]).
 
 %% @todo We probably want to accept an env variable or somthing for the location.
 -on_load(on_load/0).
@@ -288,4 +289,7 @@ set_window_bordered(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 set_window_brightness(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+set_window_fullscreen(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).

@@ -178,6 +178,7 @@
 	F(restore_window, 1) \
 	F(set_window_bordered, 2) \
 	F(set_window_brightness, 2) \
+	F(set_window_fullscreen, 2) \
 
 // Generated declarations for the NIF.
 

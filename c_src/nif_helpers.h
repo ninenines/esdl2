@@ -98,6 +98,20 @@
 		return list; \
 	}
 
+#define NIF_ATOM_TO_ENUM(a, e) if (!strcmp(buf, #a)) { *val = e; return 1; }
+#define NIF_ATOM_TO_ENUM_FUNCTION(f, type, enum_list) \
+	int f(ErlNifEnv* env, ERL_NIF_TERM a, type* val) \
+	{ \
+		char buf[MAX_ATOM_LENGTH]; \
+		\
+		if (!enif_get_atom(env, a, buf, MAX_ATOM_LENGTH, ERL_NIF_LATIN1)) \
+			return 0; \
+		\
+		enum_list(NIF_ATOM_TO_ENUM) \
+		\
+		return 0; \
+	}
+
 #define NIF_ENUM_TO_ATOM(a, e) if (id == e) return atom_ ## a;
 #define NIF_ENUM_TO_ATOM_FUNCTION(f, type, enum_list) \
 	ERL_NIF_TERM f(type id) \
