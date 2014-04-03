@@ -175,6 +175,7 @@
 	F(maximize_window, 1) \
 	F(minimize_window, 1) \
 	F(raise_window, 1) \
+	F(restore_window, 1) \
 
 // Generated declarations for the NIF.
 
