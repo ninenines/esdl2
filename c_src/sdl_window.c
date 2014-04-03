@@ -126,3 +126,28 @@ NIF_FUNCTION(get_window_brightness)
 	return nif_thread_call(env, thread_get_window_brightness, 1,
 		NIF_RES_GET(Window, window_res));
 }
+
+// get_window_display_index
+
+NIF_CALL_HANDLER(thread_get_window_display_index)
+{
+	int i = SDL_GetWindowDisplayIndex(args[0]);
+
+	if (i < 0)
+		return sdl_error_tuple(env);
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		enif_make_int(env, i)
+	);
+}
+
+NIF_FUNCTION(get_window_display_index)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_get_window_display_index, 1,
+		NIF_RES_GET(Window, window_res));
+}
