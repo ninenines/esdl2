@@ -95,6 +95,7 @@
 -export([set_window_icon/2]).
 -export([set_window_maximum_size/3]).
 -export([set_window_minimum_size/3]).
+-export([set_window_position/3]).
 
 %% @todo We probably want to accept an env variable or somthing for the location.
 -on_load(on_load/0).
@@ -308,4 +309,7 @@ set_window_maximum_size(_, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 set_window_minimum_size(_, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+set_window_position(_, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).

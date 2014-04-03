@@ -183,6 +183,7 @@
 	F(set_window_icon, 2) \
 	F(set_window_maximum_size, 3) \
 	F(set_window_minimum_size, 3) \
+	F(set_window_position, 3) \
 
 // Generated declarations for the NIF.
 
