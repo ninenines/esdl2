@@ -86,6 +86,7 @@
 -export([hide_window/1]).
 -export([maximize_window/1]).
 -export([minimize_window/1]).
+-export([raise_window/1]).
 
 %% @todo We probably want to accept an env variable or somthing for the location.
 -on_load(on_load/0).
@@ -272,4 +273,7 @@ maximize_window(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 minimize_window(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+raise_window(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).

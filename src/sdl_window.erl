@@ -29,6 +29,7 @@
 -export([hide/1]).
 -export([maximize/1]).
 -export([minimize/1]).
+-export([raise/1]).
 
 create(Title, X, Y, W, H, Flags) ->
 	esdl2:create_window(Title, X, Y, W, H, Flags),
@@ -89,3 +90,6 @@ maximize(Window) ->
 
 minimize(Window) ->
 	esdl2:minimize_window(Window).
+
+raise(Window) ->
+	esdl2:raise_window(Window).
