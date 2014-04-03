@@ -439,18 +439,10 @@ NIF_CAST_HANDLER(thread_set_window_bordered)
 NIF_FUNCTION(set_window_bordered)
 {
 	void* window_res;
-	char buf[MAX_ATOM_LENGTH];
 	SDL_bool b;
 
 	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
-	BADARG_IF(!enif_get_atom(env, argv[1], buf, MAX_ATOM_LENGTH, ERL_NIF_LATIN1));
-
-	if (!strcmp(buf, "true"))
-		b = SDL_TRUE;
-	else {
-		BADARG_IF(0 != strcmp(buf, "false"));
-		b = SDL_FALSE;
-	}
+	BADARG_IF(!atom_to_bool(env, argv[1], &b));
 
 	return nif_thread_cast(env, thread_set_window_bordered, 2,
 		NIF_RES_GET(Window, window_res), b);
