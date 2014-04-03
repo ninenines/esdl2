@@ -543,3 +543,23 @@ NIF_FUNCTION(set_window_icon)
 	return nif_thread_call(env, thread_set_window_icon, 2,
 		NIF_RES_GET(Window, window_res), NIF_RES_GET(Surface, surface_res));
 }
+
+// set_window_maximum_size
+
+NIF_CAST_HANDLER(thread_set_window_maximum_size)
+{
+	SDL_SetWindowMaximumSize(args[0], (long)args[1], (long)args[2]);
+}
+
+NIF_FUNCTION(set_window_maximum_size)
+{
+	void* window_res;
+	int w, h;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+	BADARG_IF(!enif_get_int(env, argv[1], &w));
+	BADARG_IF(!enif_get_int(env, argv[2], &h));
+
+	return nif_thread_cast(env, thread_set_window_maximum_size, 3,
+		NIF_RES_GET(Window, window_res), w, h);
+}

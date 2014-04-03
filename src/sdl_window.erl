@@ -36,6 +36,7 @@
 -export([set_fullscreen/2]).
 -export([grab_input/2]).
 -export([set_icon/2]).
+-export([set_max_size/3]).
 
 create(Title, X, Y, W, H, Flags) ->
 	esdl2:create_window(Title, X, Y, W, H, Flags),
@@ -120,3 +121,6 @@ grab_input(Window, Grab) ->
 set_icon(Window, Surface) ->
 	esdl2:set_window_icon(Window, Surface),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+set_max_size(Window, W, H) ->
+	esdl2:set_window_maximum_size(Window, W, H).
