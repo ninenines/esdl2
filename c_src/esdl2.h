@@ -151,6 +151,7 @@
 	/* sdl_window */ \
 	F(create_window, 6) \
 	F(create_window_and_renderer, 3) \
+	F(get_window_brightness, 1) \
 
 // Generated declarations for the NIF.
 

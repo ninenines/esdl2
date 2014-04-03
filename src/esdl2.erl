@@ -73,6 +73,7 @@
 %% sdl_window
 -export([create_window/6]).
 -export([create_window_and_renderer/3]).
+-export([get_window_brightness/1]).
 
 %% @todo We probably want to accept an env variable or somthing for the location.
 -on_load(on_load/0).
@@ -220,4 +221,7 @@ create_window(_, _, _, _, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 create_window_and_renderer(_, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_window_brightness(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).

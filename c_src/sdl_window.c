@@ -109,3 +109,20 @@ NIF_FUNCTION(create_window_and_renderer)
 	return nif_thread_call(env, thread_create_window_and_renderer, 3,
 		w, h, flags);
 }
+
+// get_window_brightness
+
+NIF_CALL_HANDLER(thread_get_window_brightness)
+{
+	return enif_make_double(env, SDL_GetWindowBrightness(args[0]));
+}
+
+NIF_FUNCTION(get_window_brightness)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_get_window_brightness, 1,
+		NIF_RES_GET(Window, window_res));
+}
