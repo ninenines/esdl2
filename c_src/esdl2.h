@@ -167,6 +167,7 @@
 	F(get_window_grab, 1) \
 	F(get_window_id, 1) \
 	F(get_window_maximum_size, 1) \
+	F(get_window_minimum_size, 1) \
 
 // Generated declarations for the NIF.
 
