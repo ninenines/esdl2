@@ -37,6 +37,7 @@
 -export([grab_input/2]).
 -export([set_icon/2]).
 -export([set_max_size/3]).
+-export([set_min_size/3]).
 
 create(Title, X, Y, W, H, Flags) ->
 	esdl2:create_window(Title, X, Y, W, H, Flags),
@@ -124,3 +125,6 @@ set_icon(Window, Surface) ->
 
 set_max_size(Window, W, H) ->
 	esdl2:set_window_maximum_size(Window, W, H).
+
+set_min_size(Window, W, H) ->
+	esdl2:set_window_minimum_size(Window, W, H).
