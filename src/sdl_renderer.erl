@@ -18,6 +18,7 @@
 -export([clear/1]).
 -export([copy/2]).
 -export([copy/4]).
+-export([count_drivers/0]).
 -export([present/1]).
 -export([set_draw_color/5]).
 -export([set_logical_size/3]).
@@ -37,6 +38,9 @@ copy(Renderer, Texture) ->
 copy(Renderer, Texture, SrcRect, DstRect) ->
 	esdl2:render_copy(Renderer, Texture, SrcRect, DstRect),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+count_drivers() ->
+	esdl2:get_num_render_drivers().
 
 present(Renderer) ->
 	esdl2:render_present(Renderer).

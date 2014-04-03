@@ -85,6 +85,21 @@ NIF_FUNCTION(create_renderer)
 		NIF_RES_GET(Window, window_res), index, flags);
 }
 
+// get_num_render_drivers
+
+NIF_FUNCTION(get_num_render_drivers)
+{
+	int count = SDL_GetNumRenderDrivers();
+
+	if (count < 0)
+		return sdl_error_tuple(env);
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		enif_make_int(env, count)
+	);
+}
+
 // render_clear
 
 NIF_CALL_HANDLER(thread_render_clear)

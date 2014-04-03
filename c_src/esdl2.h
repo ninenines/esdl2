@@ -146,6 +146,7 @@
 	F(get_power_info, 0) \
 	/* sdl_renderer */ \
 	F(create_renderer, 3) \
+	F(get_num_render_drivers, 0) \
 	F(render_clear, 1) \
 	F(render_copy, 4) \
 	F(render_present, 1) \
