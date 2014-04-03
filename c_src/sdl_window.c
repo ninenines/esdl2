@@ -326,3 +326,20 @@ NIF_FUNCTION(get_window_size)
 	return nif_thread_call(env, thread_get_window_size, 1,
 		NIF_RES_GET(Window, window_res));
 }
+
+// get_window_title
+
+NIF_CALL_HANDLER(thread_get_window_title)
+{
+	return enif_make_string(env, SDL_GetWindowTitle(args[0]), ERL_NIF_LATIN1);
+}
+
+NIF_FUNCTION(get_window_title)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_get_window_title, 1,
+		NIF_RES_GET(Window, window_res));
+}
