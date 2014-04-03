@@ -185,6 +185,7 @@
 	F(set_window_minimum_size, 3) \
 	F(set_window_position, 3) \
 	F(set_window_size, 3) \
+	F(set_window_title, 2) \
 
 // Generated declarations for the NIF.
 

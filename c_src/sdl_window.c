@@ -623,3 +623,24 @@ NIF_FUNCTION(set_window_size)
 	return nif_thread_cast(env, thread_set_window_size, 3,
 		NIF_RES_GET(Window, window_res), w, h);
 }
+
+// set_window_title
+
+NIF_CAST_HANDLER(thread_set_window_title)
+{
+	SDL_SetWindowTitle(args[0], args[1]);
+
+	enif_free(args[1]);
+}
+
+NIF_FUNCTION(set_window_title)
+{
+	void* window_res;
+	char* title = (char*)enif_alloc(255);
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+	BADARG_IF(!enif_get_string(env, argv[1], title, 255, ERL_NIF_LATIN1));
+
+	return nif_thread_cast(env, thread_set_window_title, 2,
+		NIF_RES_GET(Window, window_res), title);
+}
