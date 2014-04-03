@@ -38,6 +38,12 @@ void dtor_Window(ErlNifEnv* env, void* obj)
 NIF_LIST_TO_FLAGS_FUNCTION(list_to_window_flags, Uint32, WINDOW_FLAGS)
 NIF_FLAGS_TO_LIST_FUNCTION(window_flags_to_list, Uint32, WINDOW_FLAGS)
 
+#define WINDOW_POS_ENUM(E) \
+	E(centered, SDL_WINDOWPOS_CENTERED) \
+	E(undefined, SDL_WINDOWPOS_UNDEFINED)
+
+NIF_ATOM_TO_ENUM_FUNCTION(atom_to_window_pos, int, WINDOW_POS_ENUM)
+
 #define WINDOW_FULLSCREEN_ENUM(E) \
 	E(fullscreen, SDL_WINDOW_FULLSCREEN) \
 	E(fullscreen_desktop, SDL_WINDOW_FULLSCREEN_DESKTOP) \
@@ -70,35 +76,22 @@ NIF_CALL_HANDLER(thread_create_window)
 NIF_FUNCTION(create_window)
 {
 	char* title = (char*)enif_alloc(255);
-	char buf[MAX_ATOM_LENGTH];
 	int x, y, w, h;
 	Uint32 flags = 0;
 
 	BADARG_IF(!enif_get_string(env, argv[0], title, 255, ERL_NIF_LATIN1));
 
 	if (enif_is_atom(env, argv[1])) {
-		BADARG_IF(!enif_get_atom(env, argv[1], buf, MAX_ATOM_LENGTH, ERL_NIF_LATIN1));
-
-		if (!strcmp(buf, "centered"))
-			x = SDL_WINDOWPOS_CENTERED;
-		else if (!strcmp(buf, "undefined"))
-			x = SDL_WINDOWPOS_UNDEFINED;
-		else
-			return enif_make_badarg(env);
-	} else
+		BADARG_IF(!atom_to_window_pos(env, argv[1], &x));
+	} else {
 		BADARG_IF(!enif_get_int(env, argv[1], &x));
+	}
 
 	if (enif_is_atom(env, argv[2])) {
-		BADARG_IF(!enif_get_atom(env, argv[2], buf, MAX_ATOM_LENGTH, ERL_NIF_LATIN1));
-
-		if (!strcmp(buf, "centered"))
-			y = SDL_WINDOWPOS_CENTERED;
-		else if (!strcmp(buf, "undefined"))
-			y = SDL_WINDOWPOS_UNDEFINED;
-		else
-			return enif_make_badarg(env);
-	} else
+		BADARG_IF(!atom_to_window_pos(env, argv[2], &y));
+	} else {
 		BADARG_IF(!enif_get_int(env, argv[2], &y));
+	}
 
 	BADARG_IF(!enif_get_int(env, argv[3], &w));
 	BADARG_IF(!enif_get_int(env, argv[4], &h));
