@@ -15,10 +15,11 @@
 -module(sdl_renderer).
 
 -export([create/3]).
+-export([count_drivers/0]).
+-export([get_draw_blend_mode/1]).
 -export([clear/1]).
 -export([copy/2]).
 -export([copy/4]).
--export([count_drivers/0]).
 -export([present/1]).
 -export([set_draw_color/5]).
 -export([set_logical_size/3]).
@@ -26,6 +27,17 @@
 create(Window, Index, Flags) ->
 	esdl2:create_renderer(Window, Index, Flags),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+count_drivers() ->
+	{ok, Count} = esdl2:get_num_render_drivers(),
+	Count.
+
+get_draw_blend_mode(Renderer) ->
+	esdl2:get_render_draw_blend_mode(Renderer),
+	receive {'_nif_thread_ret_', Ret} ->
+		{ok, Mode} = Ret,
+		Mode
+	end.
 
 clear(Renderer) ->
 	esdl2:render_clear(Renderer),
@@ -38,9 +50,6 @@ copy(Renderer, Texture) ->
 copy(Renderer, Texture, SrcRect, DstRect) ->
 	esdl2:render_copy(Renderer, Texture, SrcRect, DstRect),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
-
-count_drivers() ->
-	esdl2:get_num_render_drivers().
 
 present(Renderer) ->
 	esdl2:render_present(Renderer).

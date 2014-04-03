@@ -27,6 +27,14 @@ void dtor_Renderer(ErlNifEnv* env, void* obj)
 
 NIF_LIST_TO_FLAGS_FUNCTION(list_to_renderer_flags, Uint32, RENDERER_FLAGS)
 
+#define BLEND_MODE_ENUM(E) \
+	E(none, SDL_BLENDMODE_NONE) \
+	E(blend, SDL_BLENDMODE_BLEND) \
+	E(add, SDL_BLENDMODE_ADD) \
+	E(mod, SDL_BLENDMODE_MOD)
+
+NIF_ENUM_TO_ATOM_FUNCTION(blend_mode_to_atom, SDL_BlendMode, BLEND_MODE_ENUM)
+
 int map_to_rect(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Rect* rect)
 {
 	ERL_NIF_TERM x, y, w, h;
@@ -98,6 +106,31 @@ NIF_FUNCTION(get_num_render_drivers)
 		atom_ok,
 		enif_make_int(env, count)
 	);
+}
+
+// get_render_draw_blend_mode
+
+NIF_CALL_HANDLER(thread_get_render_draw_blend_mode)
+{
+	SDL_BlendMode mode;
+
+	if (SDL_GetRenderDrawBlendMode(args[0], &mode))
+		return sdl_error_tuple(env);
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		blend_mode_to_atom(mode)
+	);
+}
+
+NIF_FUNCTION(get_render_draw_blend_mode)
+{
+	void* renderer_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+
+	return nif_thread_call(env, thread_get_render_draw_blend_mode, 1,
+		NIF_RES_GET(Renderer, renderer_res));
 }
 
 // render_clear

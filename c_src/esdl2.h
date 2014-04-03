@@ -20,7 +20,9 @@
 // List of atoms used by this NIF.
 
 #define NIF_ATOMS(A) \
+	A(add) \
 	A(allow_high_dpi) \
+	A(blend) \
 	A(borderless) \
 	A(button) \
 	A(caps) \
@@ -63,6 +65,7 @@
 	A(mouse_wheel) \
 	A(moved) \
 	A(no_battery) \
+	A(none) \
 	A(num) \
 	A(on_battery) \
 	A(opengl) \
@@ -147,6 +150,7 @@
 	/* sdl_renderer */ \
 	F(create_renderer, 3) \
 	F(get_num_render_drivers, 0) \
+	F(get_render_draw_blend_mode, 1) \
 	F(render_clear, 1) \
 	F(render_copy, 4) \
 	F(render_present, 1) \
