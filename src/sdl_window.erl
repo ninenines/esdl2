@@ -19,6 +19,7 @@
 -export([get_brightness/1]).
 -export([get_display_index/1]).
 -export([get_flags/1]).
+-export([is_input_grabbed/1]).
 
 create(Title, X, Y, W, H, Flags) ->
 	esdl2:create_window(Title, X, Y, W, H, Flags),
@@ -41,4 +42,8 @@ get_display_index(Window) ->
 
 get_flags(Window) ->
 	esdl2:get_window_flags(Window),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+is_input_grabbed(Window) ->
+	esdl2:get_window_grab(Window),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.

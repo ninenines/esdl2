@@ -169,3 +169,23 @@ NIF_FUNCTION(get_window_flags)
 	return nif_thread_call(env, thread_get_window_flags, 1,
 		NIF_RES_GET(Window, window_res));
 }
+
+// get_window_grab
+
+NIF_CALL_HANDLER(thread_get_window_grab)
+{
+	if (SDL_GetWindowGrab(args[0]))
+		return atom_true;
+
+	return atom_false;
+}
+
+NIF_FUNCTION(get_window_grab)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_get_window_grab, 1,
+		NIF_RES_GET(Window, window_res));
+}

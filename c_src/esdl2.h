@@ -164,6 +164,7 @@
 	F(get_window_brightness, 1) \
 	F(get_window_display_index, 1) \
 	F(get_window_flags, 1) \
+	F(get_window_grab, 1) \
 
 // Generated declarations for the NIF.
 
