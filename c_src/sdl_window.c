@@ -455,3 +455,33 @@ NIF_FUNCTION(set_window_bordered)
 	return nif_thread_cast(env, thread_set_window_bordered, 2,
 		NIF_RES_GET(Window, window_res), b);
 }
+
+// set_window_brightness
+
+NIF_CALL_HANDLER(thread_set_window_brightness)
+{
+	int ret = SDL_SetWindowBrightness(args[0], *((double*)args[1]));
+
+	enif_free(args[1]);
+
+	if (ret != 0)
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(set_window_brightness)
+{
+	void* window_res;
+	double f;
+	double *fp;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+	BADARG_IF(!enif_get_double(env, argv[1], &f));
+
+	fp = (double*)enif_alloc(sizeof(double));
+	*fp = f;
+
+	return nif_thread_call(env, thread_set_window_brightness, 2,
+		NIF_RES_GET(Window, window_res), fp);
+}

@@ -32,6 +32,7 @@
 -export([raise/1]).
 -export([restore/1]).
 -export([set_bordered/2]).
+-export([set_brightness/2]).
 
 create(Title, X, Y, W, H, Flags) ->
 	esdl2:create_window(Title, X, Y, W, H, Flags),
@@ -101,3 +102,7 @@ restore(Window) ->
 
 set_bordered(Window, Bordered) ->
 	esdl2:set_window_bordered(Window, Bordered).
+
+set_brightness(Window, Brightness) ->
+	esdl2:set_window_brightness(Window, Brightness),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
