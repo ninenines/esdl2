@@ -189,3 +189,20 @@ NIF_FUNCTION(get_window_grab)
 	return nif_thread_call(env, thread_get_window_grab, 1,
 		NIF_RES_GET(Window, window_res));
 }
+
+// get_window_id
+
+NIF_CALL_HANDLER(thread_get_window_id)
+{
+	return enif_make_uint(env, SDL_GetWindowID(args[0]));
+}
+
+NIF_FUNCTION(get_window_id)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_get_window_id, 1,
+		NIF_RES_GET(Window, window_res));
+}

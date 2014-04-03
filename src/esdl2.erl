@@ -77,6 +77,7 @@
 -export([get_window_display_index/1]).
 -export([get_window_flags/1]).
 -export([get_window_grab/1]).
+-export([get_window_id/1]).
 
 %% @todo We probably want to accept an env variable or somthing for the location.
 -on_load(on_load/0).
@@ -236,4 +237,7 @@ get_window_flags(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 get_window_grab(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_window_id(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
