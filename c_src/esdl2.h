@@ -173,6 +173,7 @@
 	F(get_window_title, 1) \
 	F(hide_window, 1) \
 	F(maximize_window, 1) \
+	F(minimize_window, 1) \
 
 // Generated declarations for the NIF.
 

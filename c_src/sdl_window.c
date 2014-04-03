@@ -377,3 +377,20 @@ NIF_FUNCTION(maximize_window)
 	return nif_thread_cast(env, thread_maximize_window, 1,
 		NIF_RES_GET(Window, window_res));
 }
+
+// minimize_window
+
+NIF_CAST_HANDLER(thread_minimize_window)
+{
+	SDL_MinimizeWindow(args[0]);
+}
+
+NIF_FUNCTION(minimize_window)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_cast(env, thread_minimize_window, 1,
+		NIF_RES_GET(Window, window_res));
+}
