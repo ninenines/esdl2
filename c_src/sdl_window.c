@@ -343,3 +343,20 @@ NIF_FUNCTION(get_window_title)
 	return nif_thread_call(env, thread_get_window_title, 1,
 		NIF_RES_GET(Window, window_res));
 }
+
+// hide_window
+
+NIF_CAST_HANDLER(thread_hide_window)
+{
+	SDL_HideWindow(args[0]);
+}
+
+NIF_FUNCTION(hide_window)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_cast(env, thread_hide_window, 1,
+		NIF_RES_GET(Window, window_res));
+}

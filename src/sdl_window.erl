@@ -26,6 +26,7 @@
 -export([get_pos/1]).
 -export([get_size/1]).
 -export([get_title/1]).
+-export([hide/1]).
 
 create(Title, X, Y, W, H, Flags) ->
 	esdl2:create_window(Title, X, Y, W, H, Flags),
@@ -77,3 +78,6 @@ get_size(Window) ->
 get_title(Window) ->
 	esdl2:get_window_title(Window),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+hide(Window) ->
+	esdl2:hide_window(Window).
