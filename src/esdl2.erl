@@ -88,6 +88,7 @@
 -export([minimize_window/1]).
 -export([raise_window/1]).
 -export([restore_window/1]).
+-export([set_window_bordered/2]).
 
 %% @todo We probably want to accept an env variable or somthing for the location.
 -on_load(on_load/0).
@@ -280,4 +281,7 @@ raise_window(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 restore_window(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+set_window_bordered(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).

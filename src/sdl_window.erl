@@ -31,6 +31,7 @@
 -export([minimize/1]).
 -export([raise/1]).
 -export([restore/1]).
+-export([set_bordered/2]).
 
 create(Title, X, Y, W, H, Flags) ->
 	esdl2:create_window(Title, X, Y, W, H, Flags),
@@ -97,3 +98,6 @@ raise(Window) ->
 
 restore(Window) ->
 	esdl2:restore_window(Window).
+
+set_bordered(Window, Bordered) ->
+	esdl2:set_window_bordered(Window, Bordered).

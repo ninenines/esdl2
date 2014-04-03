@@ -176,6 +176,7 @@
 	F(minimize_window, 1) \
 	F(raise_window, 1) \
 	F(restore_window, 1) \
+	F(set_window_bordered, 2) \
 
 // Generated declarations for the NIF.
 
