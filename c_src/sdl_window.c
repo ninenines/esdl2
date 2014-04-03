@@ -644,3 +644,20 @@ NIF_FUNCTION(set_window_title)
 	return nif_thread_cast(env, thread_set_window_title, 2,
 		NIF_RES_GET(Window, window_res), title);
 }
+
+// show_window
+
+NIF_CAST_HANDLER(thread_show_window)
+{
+	SDL_ShowWindow(args[0]);
+}
+
+NIF_FUNCTION(show_window)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_cast(env, thread_show_window, 1,
+		NIF_RES_GET(Window, window_res));
+}

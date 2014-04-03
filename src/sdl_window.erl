@@ -41,6 +41,7 @@
 -export([set_pos/3]).
 -export([set_size/3]).
 -export([set_title/2]).
+-export([show/1]).
 
 create(Title, X, Y, W, H, Flags) ->
 	esdl2:create_window(Title, X, Y, W, H, Flags),
@@ -140,3 +141,6 @@ set_size(Window, W, H) ->
 
 set_title(Window, Title) ->
 	esdl2:set_window_title(Window, Title).
+
+show(Window) ->
+	esdl2:show_window(Window).
