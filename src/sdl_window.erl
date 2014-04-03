@@ -21,6 +21,7 @@
 -export([get_flags/1]).
 -export([is_input_grabbed/1]).
 -export([get_id/1]).
+-export([get_max_size/1]).
 
 create(Title, X, Y, W, H, Flags) ->
 	esdl2:create_window(Title, X, Y, W, H, Flags),
@@ -51,4 +52,8 @@ is_input_grabbed(Window) ->
 
 get_id(Window) ->
 	esdl2:get_window_id(Window),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+get_max_size(Window) ->
+	esdl2:get_window_maximum_size(Window),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
