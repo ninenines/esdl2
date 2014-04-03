@@ -149,7 +149,8 @@
 	F(get_version, 0) \
 	F(get_revision, 0) \
 	/* sdl_window */ \
-	F(create_window, 6)
+	F(create_window, 6) \
+	F(create_window_and_renderer, 3) \
 
 // Generated declarations for the NIF.
 

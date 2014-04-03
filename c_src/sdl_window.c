@@ -75,3 +75,37 @@ NIF_FUNCTION(create_window)
 	return nif_thread_call(env, thread_create_window, 6,
 		title, x, y, w, h, flags);
 }
+
+// create_window_and_renderer
+
+NIF_CALL_HANDLER(thread_create_window_and_renderer)
+{
+	SDL_Window* window;
+	SDL_Renderer* renderer;
+	ERL_NIF_TERM wterm, rterm;
+
+	if (0 != SDL_CreateWindowAndRenderer((long)args[0], (long)args[1], (long)args[2], &window, &renderer))
+		return sdl_error_tuple(env);
+
+	NIF_RES_TO_TERM(Window, window, wterm);
+	NIF_RES_TO_TERM(Renderer, renderer, rterm);
+
+	return enif_make_tuple3(env,
+		atom_ok,
+		wterm,
+		rterm
+	);
+}
+
+NIF_FUNCTION(create_window_and_renderer)
+{
+	int w, h;
+	Uint32 flags = 0;
+
+	BADARG_IF(!enif_get_int(env, argv[0], &w));
+	BADARG_IF(!enif_get_int(env, argv[1], &h));
+	BADARG_IF(!list_to_window_flags(env, argv[2], &flags));
+
+	return nif_thread_call(env, thread_create_window_and_renderer, 3,
+		w, h, flags);
+}
