@@ -278,3 +278,27 @@ NIF_FUNCTION(get_window_minimum_size)
 	return nif_thread_call(env, thread_get_window_minimum_size, 1,
 		NIF_RES_GET(Window, window_res));
 }
+
+// get_window_position
+
+NIF_CALL_HANDLER(thread_get_window_position)
+{
+	int x, y;
+
+	SDL_GetWindowPosition(args[0], &x, &y);
+
+	return enif_make_tuple2(env,
+		enif_make_int(env, x),
+		enif_make_int(env, y)
+	);
+}
+
+NIF_FUNCTION(get_window_position)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_get_window_position, 1,
+		NIF_RES_GET(Window, window_res));
+}

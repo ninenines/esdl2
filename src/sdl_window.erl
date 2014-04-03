@@ -23,6 +23,7 @@
 -export([get_id/1]).
 -export([get_max_size/1]).
 -export([get_min_size/1]).
+-export([get_pos/1]).
 
 create(Title, X, Y, W, H, Flags) ->
 	esdl2:create_window(Title, X, Y, W, H, Flags),
@@ -61,4 +62,8 @@ get_max_size(Window) ->
 
 get_min_size(Window) ->
 	esdl2:get_window_minimum_size(Window),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+get_pos(Window) ->
+	esdl2:get_window_position(Window),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
