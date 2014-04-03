@@ -507,3 +507,22 @@ NIF_FUNCTION(set_window_fullscreen)
 	return nif_thread_call(env, thread_set_window_fullscreen, 2,
 		NIF_RES_GET(Window, window_res), flags);
 }
+
+// set_window_grab
+
+NIF_CAST_HANDLER(thread_set_window_grab)
+{
+	SDL_SetWindowGrab(args[0], (long)args[1]);
+}
+
+NIF_FUNCTION(set_window_grab)
+{
+	void* window_res;
+	SDL_bool b;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+	BADARG_IF(!atom_to_bool(env, argv[1], &b));
+
+	return nif_thread_cast(env, thread_set_window_grab, 2,
+		NIF_RES_GET(Window, window_res), b);
+}
