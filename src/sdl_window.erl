@@ -18,6 +18,7 @@
 -export([create_window_and_renderer/3]).
 -export([get_brightness/1]).
 -export([get_display_index/1]).
+-export([get_flags/1]).
 
 create(Title, X, Y, W, H, Flags) ->
 	esdl2:create_window(Title, X, Y, W, H, Flags),
@@ -37,3 +38,7 @@ get_display_index(Window) ->
 		{ok, Index} = Ret,
 		Index
 	end.
+
+get_flags(Window) ->
+	esdl2:get_window_flags(Window),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.

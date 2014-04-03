@@ -20,6 +20,8 @@
 // List of atoms used by this NIF.
 
 #define NIF_ATOMS(A) \
+	A(allow_high_dpi) \
+	A(borderless) \
 	A(button) \
 	A(caps) \
 	A(charged) \
@@ -33,8 +35,13 @@
 	A(false) \
 	A(focus_gained) \
 	A(focus_lost) \
+	A(foreign) \
+	A(fullscreen) \
+	A(fullscreen_desktop) \
 	A(h) \
 	A(hidden) \
+	A(input_focus) \
+	A(input_grabbed) \
 	A(key_down) \
 	A(key_up) \
 	A(leave) \
@@ -50,6 +57,7 @@
 	A(mod) \
 	A(mode) \
 	A(mouse_down) \
+	A(mouse_focus) \
 	A(mouse_motion) \
 	A(mouse_up) \
 	A(mouse_wheel) \
@@ -57,8 +65,10 @@
 	A(no_battery) \
 	A(num) \
 	A(on_battery) \
+	A(opengl) \
 	A(quit) \
 	A(repeat) \
+	A(resizable) \
 	A(resized) \
 	A(restored) \
 	A(right) \
@@ -153,6 +163,7 @@
 	F(create_window_and_renderer, 3) \
 	F(get_window_brightness, 1) \
 	F(get_window_display_index, 1) \
+	F(get_window_flags, 1) \
 
 // Generated declarations for the NIF.
 

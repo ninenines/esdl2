@@ -36,6 +36,7 @@ void dtor_Window(ErlNifEnv* env, void* obj)
 	F(allow_high_dpi, SDL_WINDOW_ALLOW_HIGHDPI)
 
 NIF_LIST_TO_FLAGS_FUNCTION(list_to_window_flags, Uint32, WINDOW_FLAGS)
+NIF_FLAGS_TO_LIST_FUNCTION(window_flags_to_list, Uint32, WINDOW_FLAGS)
 
 // create_window
 
@@ -149,5 +150,22 @@ NIF_FUNCTION(get_window_display_index)
 	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
 
 	return nif_thread_call(env, thread_get_window_display_index, 1,
+		NIF_RES_GET(Window, window_res));
+}
+
+// get_window_flags
+
+NIF_CALL_HANDLER(thread_get_window_flags)
+{
+	return window_flags_to_list(env, SDL_GetWindowFlags(args[0]));
+}
+
+NIF_FUNCTION(get_window_flags)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_get_window_flags, 1,
 		NIF_RES_GET(Window, window_res));
 }
