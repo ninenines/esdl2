@@ -35,6 +35,7 @@
 -export([set_brightness/2]).
 -export([set_fullscreen/2]).
 -export([grab_input/2]).
+-export([set_icon/2]).
 
 create(Title, X, Y, W, H, Flags) ->
 	esdl2:create_window(Title, X, Y, W, H, Flags),
@@ -115,3 +116,7 @@ set_fullscreen(Window, Flag) ->
 
 grab_input(Window, Grab) ->
 	esdl2:set_window_grab(Window, Grab).
+
+set_icon(Window, Surface) ->
+	esdl2:set_window_icon(Window, Surface),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.

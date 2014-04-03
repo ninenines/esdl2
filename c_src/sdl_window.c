@@ -518,3 +518,28 @@ NIF_FUNCTION(set_window_grab)
 	return nif_thread_cast(env, thread_set_window_grab, 2,
 		NIF_RES_GET(Window, window_res), b);
 }
+
+// set_window_icon
+//
+// We use a call here because we need the surface to exist until this call
+// succeeds. If we didn't, a race condition might happen where the surface
+// is GC before it is used in the main thread.
+
+NIF_CALL_HANDLER(thread_set_window_icon)
+{
+	SDL_SetWindowIcon(args[0], args[1]);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(set_window_icon)
+{
+	void* window_res;
+	void* surface_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+	BADARG_IF(!enif_get_resource(env, argv[1], res_Surface, &surface_res));
+
+	return nif_thread_call(env, thread_set_window_icon, 2,
+		NIF_RES_GET(Window, window_res), NIF_RES_GET(Surface, surface_res));
+}
