@@ -163,6 +163,34 @@ NIF_FUNCTION(get_render_draw_color)
 		NIF_RES_GET(Renderer, renderer_res));
 }
 
+// get_render_output_size
+
+NIF_CALL_HANDLER(thread_get_render_output_size)
+{
+	int w, h;
+
+	if (SDL_GetRendererOutputSize(args[0], &w, &h))
+		return sdl_error_tuple(env);
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		enif_make_tuple2(env,
+			enif_make_int(env, w),
+			enif_make_int(env, h)
+		)
+	);
+}
+
+NIF_FUNCTION(get_render_output_size)
+{
+	void* renderer_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+
+	return nif_thread_call(env, thread_get_render_output_size, 1,
+		NIF_RES_GET(Renderer, renderer_res));
+}
+
 // render_clear
 
 NIF_CALL_HANDLER(thread_render_clear)

@@ -57,6 +57,7 @@
 -export([get_num_render_drivers/0]).
 -export([get_render_draw_blend_mode/1]).
 -export([get_render_draw_color/1]).
+-export([get_render_output_size/1]).
 -export([render_clear/1]).
 -export([render_copy/4]).
 -export([render_present/1]).
@@ -217,6 +218,9 @@ get_render_draw_blend_mode(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 get_render_draw_color(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_render_output_size(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 render_clear(_) ->

@@ -152,6 +152,7 @@
 	F(get_num_render_drivers, 0) \
 	F(get_render_draw_blend_mode, 1) \
 	F(get_render_draw_color, 1) \
+	F(get_render_output_size, 1) \
 	F(render_clear, 1) \
 	F(render_copy, 4) \
 	F(render_present, 1) \
