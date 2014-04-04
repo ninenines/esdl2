@@ -68,21 +68,16 @@
 
 // Function generators.
 
-#define NIF_ATOM_TO_FLAG(a, f) if (!strcmp(buf, #a)) *flags |= f; else
+#define NIF_ATOM_TO_FLAG(a, f) if (enif_is_identical(atom_ ## a, head)) *flags |= f; else
 #define NIF_LIST_TO_FLAGS_FUNCTION(f, type, flags_list) \
 	int f(ErlNifEnv* env, ERL_NIF_TERM list, type* flags) \
 	{ \
-		int i; \
-		char buf[MAX_ATOM_LENGTH]; \
 		ERL_NIF_TERM head; \
 		\
 		if (!enif_is_list(env, list)) \
 			return 0; \
 		\
 		while (enif_get_list_cell(env, list, &head, &list)) { \
-			if (!enif_get_atom(env, head, buf, MAX_ATOM_LENGTH, ERL_NIF_LATIN1)) \
-				return 0; \
-		\
 			flags_list(NIF_ATOM_TO_FLAG) /* else */ return 0; \
 		} \
 		\
@@ -98,15 +93,10 @@
 		return list; \
 	}
 
-#define NIF_ATOM_TO_ENUM(a, e) if (!strcmp(buf, #a)) { *val = e; return 1; }
+#define NIF_ATOM_TO_ENUM(a, e) if (enif_is_identical(atom_ ## a, atom)) { *val = e; return 1; }
 #define NIF_ATOM_TO_ENUM_FUNCTION(f, type, enum_list) \
-	int f(ErlNifEnv* env, ERL_NIF_TERM a, type* val) \
+	int f(ErlNifEnv* env, ERL_NIF_TERM atom, type* val) \
 	{ \
-		char buf[MAX_ATOM_LENGTH]; \
-		\
-		if (!enif_get_atom(env, a, buf, MAX_ATOM_LENGTH, ERL_NIF_LATIN1)) \
-			return 0; \
-		\
 		enum_list(NIF_ATOM_TO_ENUM) \
 		\
 		return 0; \

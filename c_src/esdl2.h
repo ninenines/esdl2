@@ -20,12 +20,15 @@
 // List of atoms used by this NIF.
 
 #define NIF_ATOMS(A) \
+	A(accelerated) \
 	A(add) \
 	A(allow_high_dpi) \
+	A(audio) \
 	A(blend) \
 	A(borderless) \
 	A(button) \
 	A(caps) \
+	A(centered) \
 	A(charged) \
 	A(charging) \
 	A(close) \
@@ -33,6 +36,8 @@
 	A(enter) \
 	A(error) \
 	A(event) \
+	A(events) \
+	A(everything) \
 	A(exposed) \
 	A(false) \
 	A(focus_gained) \
@@ -40,11 +45,14 @@
 	A(foreign) \
 	A(fullscreen) \
 	A(fullscreen_desktop) \
+	A(game_controller) \
 	A(h) \
+	A(haptic) \
 	A(hidden) \
 	A(horizontal) \
 	A(input_focus) \
 	A(input_grabbed) \
+	A(joystick) \
 	A(key_down) \
 	A(key_up) \
 	A(leave) \
@@ -66,10 +74,12 @@
 	A(mouse_wheel) \
 	A(moved) \
 	A(no_battery) \
+	A(no_parachute) \
 	A(none) \
 	A(num) \
 	A(on_battery) \
 	A(opengl) \
+	A(present_vsync) \
 	A(quit) \
 	A(repeat) \
 	A(resizable) \
@@ -83,19 +93,24 @@
 	A(scancode) \
 	A(shown) \
 	A(size_changed) \
+	A(software) \
 	A(state) \
 	A(sym) \
+	A(target_texture) \
 	A(touch) \
 	A(true) \
+	A(timer) \
 	A(timestamp) \
 	A(type) \
 	A(undefined) \
 	A(unknown) \
 	A(vertical) \
+	A(video) \
 	A(w) \
 	A(which) \
 	A(window) \
 	A(window_id) \
+	A(windowed) \
 	A(x) \
 	A(x1) \
 	A(x2) \
