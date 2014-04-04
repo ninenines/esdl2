@@ -53,7 +53,11 @@ NIF_FUNCTION(set_clipboard_text)
 
 	BADARG_IF(!enif_get_list_length(env, argv[0], &len));
 	text = (char*)enif_alloc(len + 1);
-	BADARG_IF(!enif_get_string(env, argv[0], text, len + 1, ERL_NIF_LATIN1));
+
+	if (!enif_get_string(env, argv[0], text, len + 1, ERL_NIF_LATIN1)) {
+		enif_free(text);
+		return enif_make_badarg(env);
+	}
 
 	ret = SDL_SetClipboardText(text);
 

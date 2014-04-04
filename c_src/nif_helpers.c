@@ -152,6 +152,8 @@ void* nif_main_thread(void* obj)
 	while (nif_thread_receive(st, &msg))
 		nif_thread_handle(env, st, msg);
 
+	enif_free_env(env);
+
 	return NULL;
 }
 

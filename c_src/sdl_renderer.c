@@ -254,33 +254,36 @@ NIF_FUNCTION(render_copy)
 {
 	void* renderer_res;
 	void* texture_res;
-	SDL_Rect *srcPtr, *dstPtr;
+	SDL_Rect *srcPtr = NULL, *dstPtr = NULL;
 
 	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
 	BADARG_IF(!enif_get_resource(env, argv[1], res_Texture, &texture_res));
 
-	if (enif_is_identical(argv[2], atom_undefined))
-		srcPtr = NULL;
-	else {
+	if (!enif_is_identical(argv[2], atom_undefined)) {
 		BADARG_IF(!enif_is_map(env, argv[2]));
 
 		srcPtr = (SDL_Rect*)enif_alloc(sizeof(SDL_Rect));
 		if (!map_to_rect(env, argv[2], srcPtr))
-			return enif_make_badarg(env);
+			goto render_copy_badarg;
 	}
 
-	if (enif_is_identical(argv[3], atom_undefined))
-		dstPtr = NULL;
-	else {
-		BADARG_IF(!enif_is_map(env, argv[3]));
+	if (!enif_is_identical(argv[3], atom_undefined)) {
+		if (!enif_is_map(env, argv[3]))
+			goto render_copy_badarg;
 
 		dstPtr = (SDL_Rect*)enif_alloc(sizeof(SDL_Rect));
 		if (!map_to_rect(env, argv[3], dstPtr))
-			return enif_make_badarg(env);
+			goto render_copy_badarg;
 	}
 
 	return nif_thread_call(env, thread_render_copy, 4,
 		NIF_RES_GET(Renderer, renderer_res), NIF_RES_GET(Texture, texture_res), srcPtr, dstPtr);
+
+render_copy_badarg:
+	enif_free(srcPtr);
+	enif_free(dstPtr);
+
+	return enif_make_badarg(env);
 }
 
 // render_copy_ex
