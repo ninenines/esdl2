@@ -362,6 +362,31 @@ render_copy_ex_badarg:
 	return enif_make_badarg(env);
 }
 
+// render_draw_line
+
+NIF_CALL_HANDLER(thread_render_draw_line)
+{
+	if (SDL_RenderDrawLine(args[0], (long)args[1], (long)args[2], (long)args[3], (long)args[4]))
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(render_draw_line)
+{
+	void* renderer_res;
+	int x1, y1, x2, y2;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+	BADARG_IF(!enif_get_int(env, argv[1], &x1));
+	BADARG_IF(!enif_get_int(env, argv[2], &y1));
+	BADARG_IF(!enif_get_int(env, argv[3], &x2));
+	BADARG_IF(!enif_get_int(env, argv[4], &y2));
+
+	return nif_thread_call(env, thread_render_draw_line, 5,
+		NIF_RES_GET(Renderer, renderer_res), x1, y1, x2, y2);
+}
+
 // render_present
 
 NIF_CAST_HANDLER(thread_render_present)
