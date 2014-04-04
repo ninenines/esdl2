@@ -17,6 +17,7 @@
 -export([create/3]).
 -export([count_drivers/0]).
 -export([get_draw_blend_mode/1]).
+-export([get_draw_color/1]).
 -export([clear/1]).
 -export([copy/2]).
 -export([copy/4]).
@@ -34,6 +35,13 @@ count_drivers() ->
 
 get_draw_blend_mode(Renderer) ->
 	esdl2:get_render_draw_blend_mode(Renderer),
+	receive {'_nif_thread_ret_', Ret} ->
+		{ok, Mode} = Ret,
+		Mode
+	end.
+
+get_draw_color(Renderer) ->
+	esdl2:get_render_draw_color(Renderer),
 	receive {'_nif_thread_ret_', Ret} ->
 		{ok, Mode} = Ret,
 		Mode
