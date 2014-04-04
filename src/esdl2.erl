@@ -62,6 +62,7 @@
 -export([render_copy/4]).
 -export([render_copy_ex/7]).
 -export([render_draw_line/5]).
+-export([render_draw_lines/2]).
 -export([render_present/1]).
 -export([render_set_logical_size/3]).
 -export([set_render_draw_color/5]).
@@ -235,6 +236,9 @@ render_copy_ex(_, _, _, _, _, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 render_draw_line(_, _, _, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+render_draw_lines(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 render_present(_) ->
