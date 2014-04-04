@@ -22,6 +22,7 @@
 -export([clear/1]).
 -export([copy/2]).
 -export([copy/4]).
+-export([copy/7]).
 -export([present/1]).
 -export([set_draw_color/5]).
 -export([set_logical_size/3]).
@@ -65,6 +66,10 @@ copy(Renderer, Texture) ->
 
 copy(Renderer, Texture, SrcRect, DstRect) ->
 	esdl2:render_copy(Renderer, Texture, SrcRect, DstRect),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+copy(Renderer, Texture, SrcRect, DstRect, Angle, CenterPoint, FlipFlags) ->
+	esdl2:render_copy_ex(Renderer, Texture, SrcRect, DstRect, Angle, CenterPoint, FlipFlags),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 present(Renderer) ->

@@ -35,6 +35,30 @@ NIF_LIST_TO_FLAGS_FUNCTION(list_to_renderer_flags, Uint32, RENDERER_FLAGS)
 
 NIF_ENUM_TO_ATOM_FUNCTION(blend_mode_to_atom, SDL_BlendMode, BLEND_MODE_ENUM)
 
+#define FLIP_FLAGS(F) \
+	F(none, SDL_FLIP_NONE) \
+	F(horizontal, SDL_FLIP_HORIZONTAL) \
+	F(vertical, SDL_FLIP_VERTICAL)
+
+NIF_LIST_TO_FLAGS_FUNCTION(list_to_flip_flags, SDL_RendererFlip, FLIP_FLAGS)
+
+int map_to_point(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Point* point)
+{
+	ERL_NIF_TERM x, y;
+
+	if (!enif_get_map_value(env, map, atom_x, &x))
+		return 0;
+	if (!enif_get_map_value(env, map, atom_y, &y))
+		return 0;
+
+	if (!enif_get_int(env, x, &point->x))
+		return 0;
+	if (!enif_get_int(env, y, &point->y))
+		return 0;
+
+	return 1;
+}
+
 int map_to_rect(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Rect* rect)
 {
 	ERL_NIF_TERM x, y, w, h;
@@ -257,6 +281,82 @@ NIF_FUNCTION(render_copy)
 
 	return nif_thread_call(env, thread_render_copy, 4,
 		NIF_RES_GET(Renderer, renderer_res), NIF_RES_GET(Texture, texture_res), srcPtr, dstPtr);
+}
+
+// render_copy_ex
+
+NIF_CALL_HANDLER(thread_render_copy_ex)
+{
+	int ret = SDL_RenderCopyEx(args[0], args[1], args[2], args[3],
+		*((double*)args[4]), args[5], (long)args[6]);
+
+	enif_free(args[2]);
+	enif_free(args[3]);
+	enif_free(args[4]);
+	enif_free(args[5]);
+
+	if (ret)
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(render_copy_ex)
+{
+	void* renderer_res;
+	void* texture_res;
+	SDL_Rect *srcPtr = NULL, *dstPtr = NULL;
+	double *anglePtr = NULL;
+	SDL_Point* centerPtr = NULL;
+	SDL_RendererFlip flip;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+	BADARG_IF(!enif_get_resource(env, argv[1], res_Texture, &texture_res));
+
+	if (!enif_is_identical(argv[2], atom_undefined)) {
+		BADARG_IF(!enif_is_map(env, argv[2]));
+
+		srcPtr = (SDL_Rect*)enif_alloc(sizeof(SDL_Rect));
+		if (!map_to_rect(env, argv[2], srcPtr))
+			goto render_copy_ex_badarg;
+	}
+
+	if (!enif_is_identical(argv[3], atom_undefined)) {
+		if (!enif_is_map(env, argv[3]))
+			goto render_copy_ex_badarg;
+
+		dstPtr = (SDL_Rect*)enif_alloc(sizeof(SDL_Rect));
+		if (!map_to_rect(env, argv[3], dstPtr))
+			goto render_copy_ex_badarg;
+	}
+
+	anglePtr = (double*)enif_alloc(sizeof(double));
+	if (!enif_get_double(env, argv[4], anglePtr))
+		goto render_copy_ex_badarg;
+
+	if (!enif_is_identical(argv[5], atom_undefined)) {
+		if (!enif_is_map(env, argv[5]))
+			goto render_copy_ex_badarg;
+
+		centerPtr = (SDL_Point*)enif_alloc(sizeof(SDL_Point));
+		if (!map_to_point(env, argv[5], centerPtr))
+			goto render_copy_ex_badarg;
+	}
+
+	if (!list_to_flip_flags(env, argv[6], &flip))
+		goto render_copy_ex_badarg;
+
+	return nif_thread_call(env, thread_render_copy_ex, 7,
+		NIF_RES_GET(Renderer, renderer_res), NIF_RES_GET(Texture, texture_res), srcPtr, dstPtr,
+		anglePtr, centerPtr, flip);
+
+render_copy_ex_badarg:
+	enif_free(srcPtr);
+	enif_free(dstPtr);
+	enif_free(anglePtr);
+	enif_free(centerPtr);
+
+	return enif_make_badarg(env);
 }
 
 // render_present

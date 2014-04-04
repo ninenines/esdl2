@@ -42,6 +42,7 @@
 	A(fullscreen_desktop) \
 	A(h) \
 	A(hidden) \
+	A(horizontal) \
 	A(input_focus) \
 	A(input_grabbed) \
 	A(key_down) \
@@ -90,6 +91,7 @@
 	A(type) \
 	A(undefined) \
 	A(unknown) \
+	A(vertical) \
 	A(w) \
 	A(which) \
 	A(window) \
@@ -155,6 +157,7 @@
 	F(get_render_output_size, 1) \
 	F(render_clear, 1) \
 	F(render_copy, 4) \
+	F(render_copy_ex, 7) \
 	F(render_present, 1) \
 	F(render_set_logical_size, 3) \
 	F(set_render_draw_color, 5) \
