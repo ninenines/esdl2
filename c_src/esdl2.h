@@ -178,6 +178,7 @@
 	F(render_draw_point, 3) \
 	F(render_draw_points, 2) \
 	F(render_draw_rect, 5) \
+	F(render_draw_rects, 2) \
 	F(render_present, 1) \
 	F(render_set_logical_size, 3) \
 	F(set_render_draw_color, 5) \

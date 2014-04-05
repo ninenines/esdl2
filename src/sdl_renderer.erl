@@ -31,6 +31,7 @@
 -export([draw_points/2]).
 -export([draw_rect/2]).
 -export([draw_rect/5]).
+-export([draw_rects/2]).
 -export([present/1]).
 -export([set_draw_color/5]).
 -export([set_logical_size/3]).
@@ -107,6 +108,10 @@ draw_rect(Renderer, #{x:=X, y:=Y, w:=W, h:=H}) ->
 
 draw_rect(Renderer, X, Y, W, H) ->
 	esdl2:render_draw_rect(Renderer, X, Y, W, H),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+draw_rects(Renderer, Rects) ->
+	esdl2:render_draw_rects(Renderer, Rects),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 present(Renderer) ->
