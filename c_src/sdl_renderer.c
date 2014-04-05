@@ -590,6 +590,48 @@ NIF_FUNCTION(render_fill_rect)
 		NIF_RES_GET(Renderer, renderer_res), x, y, w, h);
 }
 
+// render_fill_rects
+
+NIF_CALL_HANDLER(thread_render_fill_rects)
+{
+	int ret;
+
+	ret = SDL_RenderFillRects(args[0], args[1], (long)args[2]);
+
+	enif_free(args[1]);
+
+	if (ret)
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(render_fill_rects)
+{
+	void* renderer_res;
+	unsigned int len;
+	SDL_Rect* rects;
+	ERL_NIF_TERM list, head;
+	int i = 0;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+	BADARG_IF(!enif_get_list_length(env, argv[1], &len));
+	BADARG_IF(len < 2);
+
+	rects = (SDL_Rect*)enif_alloc(len * sizeof(SDL_Rect));
+
+	list = argv[1];
+	while (enif_get_list_cell(env, list, &head, &list)) {
+		if (!map_to_rect(env, head, &(rects[i++]))) {
+			enif_free(rects);
+			return enif_make_badarg(env);
+		}
+	}
+
+	return nif_thread_call(env, thread_render_fill_rects, 3,
+		NIF_RES_GET(Renderer, renderer_res), rects, len);
+}
+
 // render_present
 
 NIF_CAST_HANDLER(thread_render_present)
