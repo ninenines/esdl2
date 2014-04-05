@@ -452,6 +452,48 @@ NIF_FUNCTION(render_draw_point)
 		NIF_RES_GET(Renderer, renderer_res), x, y);
 }
 
+// render_draw_points
+
+NIF_CALL_HANDLER(thread_render_draw_points)
+{
+	int ret;
+
+	ret = SDL_RenderDrawPoints(args[0], args[1], (long)args[2]);
+
+	enif_free(args[1]);
+
+	if (ret)
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(render_draw_points)
+{
+	void* renderer_res;
+	unsigned int len;
+	SDL_Point* points;
+	ERL_NIF_TERM list, head;
+	int i = 0;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+	BADARG_IF(!enif_get_list_length(env, argv[1], &len));
+	BADARG_IF(len < 2);
+
+	points = (SDL_Point*)enif_alloc(len * sizeof(SDL_Point));
+
+	list = argv[1];
+	while (enif_get_list_cell(env, list, &head, &list)) {
+		if (!map_to_point(env, head, &(points[i++]))) {
+			enif_free(points);
+			return enif_make_badarg(env);
+		}
+	}
+
+	return nif_thread_call(env, thread_render_draw_points, 3,
+		NIF_RES_GET(Renderer, renderer_res), points, len);
+}
+
 // render_present
 
 NIF_CAST_HANDLER(thread_render_present)
