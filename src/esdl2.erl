@@ -67,6 +67,7 @@
 -export([render_draw_points/2]).
 -export([render_draw_rect/5]).
 -export([render_draw_rects/2]).
+-export([render_fill_rect/5]).
 -export([render_present/1]).
 -export([render_set_logical_size/3]).
 -export([set_render_draw_color/5]).
@@ -255,6 +256,9 @@ render_draw_rect(_, _, _, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 render_draw_rects(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+render_fill_rect(_, _, _, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 render_present(_) ->
