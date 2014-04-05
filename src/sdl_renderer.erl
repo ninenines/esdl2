@@ -26,6 +26,8 @@
 -export([draw_line/3]).
 -export([draw_line/5]).
 -export([draw_lines/2]).
+-export([draw_point/2]).
+-export([draw_point/3]).
 -export([present/1]).
 -export([set_draw_color/5]).
 -export([set_logical_size/3]).
@@ -84,6 +86,13 @@ draw_line(Renderer, X1, Y1, X2, Y2) ->
 
 draw_lines(Renderer, Points) ->
 	esdl2:render_draw_lines(Renderer, Points),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+draw_point(Renderer, #{x:=X, y:=Y}) ->
+	draw_point(Renderer, X, Y).
+
+draw_point(Renderer, X, Y) ->
+	esdl2:render_draw_point(Renderer, X, Y),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 present(Renderer) ->

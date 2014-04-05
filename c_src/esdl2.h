@@ -175,6 +175,7 @@
 	F(render_copy_ex, 7) \
 	F(render_draw_line, 5) \
 	F(render_draw_lines, 2) \
+	F(render_draw_point, 3) \
 	F(render_present, 1) \
 	F(render_set_logical_size, 3) \
 	F(set_render_draw_color, 5) \
