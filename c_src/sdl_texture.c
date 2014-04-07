@@ -99,3 +99,32 @@ NIF_FUNCTION(get_texture_blend_mode)
 	return nif_thread_call(env, thread_get_texture_blend_mode, 1,
 		NIF_RES_GET(Texture, texture_res));
 }
+
+// get_texture_color_mod
+
+NIF_CALL_HANDLER(thread_get_texture_color_mod)
+{
+	Uint8 r, g, b;
+
+	if (SDL_GetTextureColorMod(args[0], &r, &g, &b))
+		return sdl_error_tuple(env);
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		enif_make_tuple3(env,
+			enif_make_uint(env, r),
+			enif_make_uint(env, g),
+			enif_make_uint(env, b)
+		)
+	);
+}
+
+NIF_FUNCTION(get_texture_color_mod)
+{
+	void* texture_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Texture, &texture_res));
+
+	return nif_thread_call(env, thread_get_texture_color_mod, 1,
+		NIF_RES_GET(Texture, texture_res));
+}

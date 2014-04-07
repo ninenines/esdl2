@@ -89,6 +89,7 @@
 -export([create_texture_from_surface/2]).
 -export([get_texture_alpha_mod/1]).
 -export([get_texture_blend_mode/1]).
+-export([get_texture_color_mod/1]).
 
 %% sdl_version
 -export([get_version/0]).
@@ -326,6 +327,9 @@ get_texture_alpha_mod(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 get_texture_blend_mode(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_texture_color_mod(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_version
