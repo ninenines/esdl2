@@ -38,6 +38,7 @@
 -export([get_clip_rect/1]).
 -export([get_logical_size/1]).
 -export([get_scale/1]).
+-export([get_viewport/1]).
 -export([present/1]).
 -export([set_draw_color/5]).
 -export([set_logical_size/3]).
@@ -141,6 +142,10 @@ get_logical_size(Renderer) ->
 
 get_scale(Renderer) ->
 	esdl2:render_get_scale(Renderer),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+get_viewport(Renderer) ->
+	esdl2:render_get_viewport(Renderer),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 present(Renderer) ->
