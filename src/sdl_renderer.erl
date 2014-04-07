@@ -41,6 +41,8 @@
 -export([get_viewport/1]).
 -export([present/1]).
 -export([set_draw_color/5]).
+-export([set_clip_rect/2]).
+-export([set_clip_rect/5]).
 -export([set_logical_size/3]).
 
 create(Window, Index, Flags) ->
@@ -153,6 +155,14 @@ present(Renderer) ->
 
 set_draw_color(Renderer, R, G, B, A) ->
 	esdl2:set_render_draw_color(Renderer, R, G, B, A),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+set_clip_rect(Renderer, #{x:=X, y:=Y, w:=W, h:=H}) ->
+	esdl2:render_set_clip_rect(Renderer, X, Y, W, H),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+set_clip_rect(Renderer, X, Y, W, H) ->
+	esdl2:render_set_clip_rect(Renderer, X, Y, W, H),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 set_logical_size(Renderer, W, H) ->
