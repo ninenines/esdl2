@@ -33,6 +33,7 @@ NIF_LIST_TO_FLAGS_FUNCTION(list_to_renderer_flags, Uint32, RENDERER_FLAGS)
 	E(add, SDL_BLENDMODE_ADD) \
 	E(mod, SDL_BLENDMODE_MOD)
 
+NIF_ATOM_TO_ENUM_FUNCTION(atom_to_blend_mode, SDL_BlendMode, BLEND_MODE_ENUM)
 NIF_ENUM_TO_ATOM_FUNCTION(blend_mode_to_atom, SDL_BlendMode, BLEND_MODE_ENUM)
 
 #define FLIP_FLAGS(F) \
@@ -893,6 +894,28 @@ NIF_FUNCTION(render_target_supported)
 
 	return nif_thread_call(env, thread_render_target_supported, 1,
 		NIF_RES_GET(Renderer, renderer_res));
+}
+
+// set_render_draw_blend_mode
+
+NIF_CALL_HANDLER(thread_set_render_draw_blend_mode)
+{
+	if (SDL_SetRenderDrawBlendMode(args[0], (long)args[1]))
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(set_render_draw_blend_mode)
+{
+	void* renderer_res;
+	SDL_BlendMode mode;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+	BADARG_IF(!atom_to_blend_mode(env, argv[1], &mode));
+
+	return nif_thread_call(env, thread_set_render_draw_blend_mode, 2,
+		NIF_RES_GET(Renderer, renderer_res), mode);
 }
 
 // set_render_draw_color

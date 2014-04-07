@@ -43,6 +43,7 @@
 -export([present/1]).
 -export([set_clip_rect/2]).
 -export([set_clip_rect/5]).
+-export([set_draw_blend_mode/2]).
 -export([set_draw_color/5]).
 -export([set_logical_size/3]).
 -export([set_scale/3]).
@@ -166,6 +167,10 @@ set_clip_rect(Renderer, #{x:=X, y:=Y, w:=W, h:=H}) ->
 
 set_clip_rect(Renderer, X, Y, W, H) ->
 	esdl2:render_set_clip_rect(Renderer, X, Y, W, H),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+set_draw_blend_mode(Renderer, BlendMode) ->
+	esdl2:set_render_draw_blend_mode(Renderer, BlendMode),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 set_draw_color(Renderer, R, G, B, A) ->
