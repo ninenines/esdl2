@@ -35,6 +35,7 @@
 -export([fill_rect/2]).
 -export([fill_rect/5]).
 -export([fill_rects/2]).
+-export([get_clip_rect/1]).
 -export([present/1]).
 -export([set_draw_color/5]).
 -export([set_logical_size/3]).
@@ -126,6 +127,10 @@ fill_rect(Renderer, X, Y, W, H) ->
 
 fill_rects(Renderer, Rects) ->
 	esdl2:render_fill_rects(Renderer, Rects),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+get_clip_rect(Renderer) ->
+	esdl2:render_get_clip_rect(Renderer),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 present(Renderer) ->

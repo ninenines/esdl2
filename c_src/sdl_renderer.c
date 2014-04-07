@@ -632,6 +632,35 @@ NIF_FUNCTION(render_fill_rects)
 		NIF_RES_GET(Renderer, renderer_res), rects, len);
 }
 
+// render_get_clip_rect
+
+NIF_CALL_HANDLER(thread_render_get_clip_rect)
+{
+	SDL_Rect rect;
+	ERL_NIF_TERM map;
+
+	SDL_RenderGetClipRect(args[0], &rect);
+
+	map = enif_make_new_map(env);
+
+	enif_make_map_put(env, map, atom_x, enif_make_int(env, rect.x), &map);
+	enif_make_map_put(env, map, atom_y, enif_make_int(env, rect.y), &map);
+	enif_make_map_put(env, map, atom_w, enif_make_int(env, rect.w), &map);
+	enif_make_map_put(env, map, atom_h, enif_make_int(env, rect.h), &map);
+
+	return map;
+}
+
+NIF_FUNCTION(render_get_clip_rect)
+{
+	void* renderer_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+
+	return nif_thread_call(env, thread_render_get_clip_rect, 1,
+		NIF_RES_GET(Renderer, renderer_res));
+}
+
 // render_present
 
 NIF_CAST_HANDLER(thread_render_present)
