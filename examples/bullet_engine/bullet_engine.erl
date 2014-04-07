@@ -48,7 +48,7 @@ init_scene() ->
 		{var, w, 31},
 		{var, x, 0},
 		{loop, 30, [
-			{loop, 18, [
+			{loop, 12, [
 				{fire, [
 					{set, speed, 2 bsl 16},
 					{set, dir, x}
