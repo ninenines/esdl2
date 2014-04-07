@@ -686,6 +686,31 @@ NIF_FUNCTION(render_get_logical_size)
 		NIF_RES_GET(Renderer, renderer_res));
 }
 
+// render_get_scale
+
+NIF_CALL_HANDLER(thread_render_get_scale)
+{
+	SDL_Rect rect;
+	float scaleX, scaleY;
+
+	SDL_RenderGetScale(args[0], &scaleX, &scaleY);
+
+	return enif_make_tuple2(env,
+		enif_make_double(env, scaleX),
+		enif_make_double(env, scaleY)
+	);
+}
+
+NIF_FUNCTION(render_get_scale)
+{
+	void* renderer_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+
+	return nif_thread_call(env, thread_render_get_scale, 1,
+		NIF_RES_GET(Renderer, renderer_res));
+}
+
 // render_present
 
 NIF_CAST_HANDLER(thread_render_present)
