@@ -182,6 +182,7 @@
 	F(render_fill_rect, 5) \
 	F(render_fill_rects, 2) \
 	F(render_get_clip_rect, 1) \
+	F(render_get_logical_size, 1) \
 	F(render_present, 1) \
 	F(render_set_logical_size, 3) \
 	F(set_render_draw_color, 5) \
