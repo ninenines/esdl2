@@ -128,3 +128,25 @@ NIF_FUNCTION(get_texture_color_mod)
 	return nif_thread_call(env, thread_get_texture_color_mod, 1,
 		NIF_RES_GET(Texture, texture_res));
 }
+
+// set_texture_alpha_mod
+
+NIF_CALL_HANDLER(thread_set_texture_alpha_mod)
+{
+	if (SDL_SetTextureAlphaMod(args[0], (long)args[1]))
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(set_texture_alpha_mod)
+{
+	void* texture_res;
+	int alpha;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Texture, &texture_res));
+	BADARG_IF(!enif_get_int(env, argv[1], &alpha));
+
+	return nif_thread_call(env, thread_set_texture_alpha_mod, 2,
+		NIF_RES_GET(Texture, texture_res), alpha);
+}
