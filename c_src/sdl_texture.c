@@ -49,3 +49,28 @@ NIF_FUNCTION(create_texture_from_surface)
 	return nif_thread_call(env, thread_create_texture_from_surface, 2,
 		NIF_RES_GET(Renderer, renderer_res), NIF_RES_GET(Surface, surface_res));
 }
+
+// get_texture_alpha_mod
+
+NIF_CALL_HANDLER(thread_get_texture_alpha_mod)
+{
+	Uint8 alpha;
+
+	if (SDL_GetTextureAlphaMod(args[0], &alpha))
+		return sdl_error_tuple(env);
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		enif_make_uint(env, alpha)
+	);
+}
+
+NIF_FUNCTION(get_texture_alpha_mod)
+{
+	void* texture_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Texture, &texture_res));
+
+	return nif_thread_call(env, thread_get_texture_alpha_mod, 1,
+		NIF_RES_GET(Texture, texture_res));
+}
