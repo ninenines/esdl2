@@ -848,6 +848,33 @@ NIF_FUNCTION(render_set_scale)
 		NIF_RES_GET(Renderer, renderer_res), scaleXPtr, scaleYPtr);
 }
 
+// render_set_viewport
+
+NIF_CALL_HANDLER(thread_render_set_viewport)
+{
+	SDL_Rect rect = {(long)args[1], (long)args[2], (long)args[3], (long)args[4]};
+
+	if (SDL_RenderSetViewport(args[0], &rect))
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(render_set_viewport)
+{
+	void* renderer_res;
+	int x, y, w, h;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+	BADARG_IF(!enif_get_int(env, argv[1], &x));
+	BADARG_IF(!enif_get_int(env, argv[2], &y));
+	BADARG_IF(!enif_get_int(env, argv[3], &w));
+	BADARG_IF(!enif_get_int(env, argv[4], &h));
+
+	return nif_thread_call(env, thread_render_set_viewport, 5,
+		NIF_RES_GET(Renderer, renderer_res), x, y, w, h);
+}
+
 // set_render_draw_color
 
 NIF_CALL_HANDLER(thread_set_render_draw_color)

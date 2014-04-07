@@ -45,6 +45,8 @@
 -export([set_draw_color/5]).
 -export([set_logical_size/3]).
 -export([set_scale/3]).
+-export([set_viewport/2]).
+-export([set_viewport/5]).
 
 clear(Renderer) ->
 	esdl2:render_clear(Renderer),
@@ -155,8 +157,7 @@ present(Renderer) ->
 	esdl2:render_present(Renderer).
 
 set_clip_rect(Renderer, #{x:=X, y:=Y, w:=W, h:=H}) ->
-	esdl2:render_set_clip_rect(Renderer, X, Y, W, H),
-	receive {'_nif_thread_ret_', Ret} -> Ret end.
+	set_clip_rect(Renderer, X, Y, W, H).
 
 set_clip_rect(Renderer, X, Y, W, H) ->
 	esdl2:render_set_clip_rect(Renderer, X, Y, W, H),
@@ -172,4 +173,11 @@ set_logical_size(Renderer, W, H) ->
 
 set_scale(Renderer, ScaleX, ScaleY) ->
 	esdl2:render_set_scale(Renderer, ScaleX, ScaleY),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+set_viewport(Renderer, #{x:=X, y:=Y, w:=W, h:=H}) ->
+	set_viewport(Renderer, X, Y, W, H).
+
+set_viewport(Renderer, X, Y, W, H) ->
+	esdl2:render_set_viewport(Renderer, X, Y, W, H),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
