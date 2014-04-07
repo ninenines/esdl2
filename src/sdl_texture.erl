@@ -21,6 +21,7 @@
 -export([get_color_mod/1]).
 -export([set_alpha_mod/2]).
 -export([set_blend_mode/2]).
+-export([set_color_mod/4]).
 
 create_from_file(Renderer, Filename) ->
 	{ok, Surface} = sdl_surface:load(Filename),
@@ -57,4 +58,8 @@ set_alpha_mod(Texture, Alpha) ->
 
 set_blend_mode(Texture, BlendMode) ->
 	esdl2:set_texture_blend_mode(Texture, BlendMode),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+set_color_mod(Texture, R, G, B) ->
+	esdl2:set_texture_color_mod(Texture, R, G, B),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
