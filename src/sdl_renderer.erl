@@ -14,15 +14,12 @@
 
 -module(sdl_renderer).
 
--export([create/3]).
--export([count_drivers/0]).
--export([get_draw_blend_mode/1]).
--export([get_draw_color/1]).
--export([get_output_size/1]).
 -export([clear/1]).
 -export([copy/2]).
 -export([copy/4]).
 -export([copy/7]).
+-export([count_drivers/0]).
+-export([create/3]).
 -export([draw_line/3]).
 -export([draw_line/5]).
 -export([draw_lines/2]).
@@ -36,43 +33,17 @@
 -export([fill_rect/5]).
 -export([fill_rects/2]).
 -export([get_clip_rect/1]).
+-export([get_draw_blend_mode/1]).
+-export([get_draw_color/1]).
 -export([get_logical_size/1]).
+-export([get_output_size/1]).
 -export([get_scale/1]).
 -export([get_viewport/1]).
 -export([present/1]).
--export([set_draw_color/5]).
 -export([set_clip_rect/2]).
 -export([set_clip_rect/5]).
+-export([set_draw_color/5]).
 -export([set_logical_size/3]).
-
-create(Window, Index, Flags) ->
-	esdl2:create_renderer(Window, Index, Flags),
-	receive {'_nif_thread_ret_', Ret} -> Ret end.
-
-count_drivers() ->
-	{ok, Count} = esdl2:get_num_render_drivers(),
-	Count.
-
-get_draw_blend_mode(Renderer) ->
-	esdl2:get_render_draw_blend_mode(Renderer),
-	receive {'_nif_thread_ret_', Ret} ->
-		{ok, Mode} = Ret,
-		Mode
-	end.
-
-get_draw_color(Renderer) ->
-	esdl2:get_render_draw_color(Renderer),
-	receive {'_nif_thread_ret_', Ret} ->
-		{ok, Mode} = Ret,
-		Mode
-	end.
-
-get_output_size(Renderer) ->
-	esdl2:get_render_output_size(Renderer),
-	receive {'_nif_thread_ret_', Ret} ->
-		{ok, Mode} = Ret,
-		Mode
-	end.
 
 clear(Renderer) ->
 	esdl2:render_clear(Renderer),
@@ -88,6 +59,14 @@ copy(Renderer, Texture, SrcRect, DstRect) ->
 
 copy(Renderer, Texture, SrcRect, DstRect, Angle, CenterPoint, FlipFlags) ->
 	esdl2:render_copy_ex(Renderer, Texture, SrcRect, DstRect, Angle, CenterPoint, FlipFlags),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+count_drivers() ->
+	{ok, Count} = esdl2:get_num_render_drivers(),
+	Count.
+
+create(Window, Index, Flags) ->
+	esdl2:create_renderer(Window, Index, Flags),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 draw_line(Renderer, #{x:=X1, y:=Y1}, #{x:=X2, y:=Y2}) ->
@@ -138,9 +117,30 @@ get_clip_rect(Renderer) ->
 	esdl2:render_get_clip_rect(Renderer),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
+get_draw_blend_mode(Renderer) ->
+	esdl2:get_render_draw_blend_mode(Renderer),
+	receive {'_nif_thread_ret_', Ret} ->
+		{ok, Mode} = Ret,
+		Mode
+	end.
+
+get_draw_color(Renderer) ->
+	esdl2:get_render_draw_color(Renderer),
+	receive {'_nif_thread_ret_', Ret} ->
+		{ok, Mode} = Ret,
+		Mode
+	end.
+
 get_logical_size(Renderer) ->
 	esdl2:render_get_logical_size(Renderer),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+get_output_size(Renderer) ->
+	esdl2:get_render_output_size(Renderer),
+	receive {'_nif_thread_ret_', Ret} ->
+		{ok, Mode} = Ret,
+		Mode
+	end.
 
 get_scale(Renderer) ->
 	esdl2:render_get_scale(Renderer),
@@ -153,16 +153,16 @@ get_viewport(Renderer) ->
 present(Renderer) ->
 	esdl2:render_present(Renderer).
 
-set_draw_color(Renderer, R, G, B, A) ->
-	esdl2:set_render_draw_color(Renderer, R, G, B, A),
-	receive {'_nif_thread_ret_', Ret} -> Ret end.
-
 set_clip_rect(Renderer, #{x:=X, y:=Y, w:=W, h:=H}) ->
 	esdl2:render_set_clip_rect(Renderer, X, Y, W, H),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 set_clip_rect(Renderer, X, Y, W, H) ->
 	esdl2:render_set_clip_rect(Renderer, X, Y, W, H),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+set_draw_color(Renderer, R, G, B, A) ->
+	esdl2:set_render_draw_color(Renderer, R, G, B, A),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 set_logical_size(Renderer, W, H) ->
