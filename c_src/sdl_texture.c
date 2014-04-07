@@ -74,3 +74,28 @@ NIF_FUNCTION(get_texture_alpha_mod)
 	return nif_thread_call(env, thread_get_texture_alpha_mod, 1,
 		NIF_RES_GET(Texture, texture_res));
 }
+
+// get_texture_blend_mode
+
+NIF_CALL_HANDLER(thread_get_texture_blend_mode)
+{
+	SDL_BlendMode mode;
+
+	if (SDL_GetTextureBlendMode(args[0], &mode))
+		return sdl_error_tuple(env);
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		blend_mode_to_atom(mode)
+	);
+}
+
+NIF_FUNCTION(get_texture_blend_mode)
+{
+	void* texture_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Texture, &texture_res));
+
+	return nif_thread_call(env, thread_get_texture_blend_mode, 1,
+		NIF_RES_GET(Texture, texture_res));
+}

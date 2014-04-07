@@ -17,6 +17,7 @@
 -export([create_from_file/2]).
 -export([create_from_surface/2]).
 -export([get_alpha_mod/1]).
+-export([get_blend_mode/1]).
 
 create_from_file(Renderer, Filename) ->
 	{ok, Surface} = sdl_surface:load(Filename),
@@ -28,6 +29,13 @@ create_from_surface(Renderer, Surface) ->
 
 get_alpha_mod(Texture) ->
 	esdl2:get_texture_alpha_mod(Texture),
+	receive {'_nif_thread_ret_', Ret} ->
+		{ok, Alpha} = Ret,
+		Alpha
+	end.
+
+get_blend_mode(Texture) ->
+	esdl2:get_texture_blend_mode(Texture),
 	receive {'_nif_thread_ret_', Ret} ->
 		{ok, Alpha} = Ret,
 		Alpha
