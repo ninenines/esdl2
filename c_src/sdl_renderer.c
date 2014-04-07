@@ -807,6 +807,47 @@ NIF_FUNCTION(render_set_logical_size)
 		NIF_RES_GET(Renderer, renderer_res), w, h);
 }
 
+// render_set_scale
+
+NIF_CALL_HANDLER(thread_render_set_scale)
+{
+	int ret;
+
+	ret = SDL_RenderSetScale(args[0], *((double*)args[1]), *((double*)args[2]));
+
+	enif_free(args[1]);
+	enif_free(args[2]);
+
+	if (ret)
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(render_set_scale)
+{
+	void* renderer_res;
+	double *scaleXPtr, *scaleYPtr;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+
+	scaleXPtr = (double*)enif_alloc(sizeof(double));
+	if (!enif_get_double(env, argv[1], scaleXPtr)) {
+		enif_free(scaleXPtr);
+		return enif_make_badarg(env);
+	}
+
+	scaleYPtr = (double*)enif_alloc(sizeof(double));
+	if (!enif_get_double(env, argv[2], scaleYPtr)) {
+		enif_free(scaleXPtr);
+		enif_free(scaleYPtr);
+		return enif_make_badarg(env);
+	}
+
+	return nif_thread_call(env, thread_render_set_scale, 3,
+		NIF_RES_GET(Renderer, renderer_res), scaleXPtr, scaleYPtr);
+}
+
 // set_render_draw_color
 
 NIF_CALL_HANDLER(thread_set_render_draw_color)

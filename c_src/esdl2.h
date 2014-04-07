@@ -188,6 +188,7 @@
 	F(render_present, 1) \
 	F(render_set_clip_rect, 5) \
 	F(render_set_logical_size, 3) \
+	F(render_set_scale, 3) \
 	F(set_render_draw_color, 5) \
 	/* sdl_surface */ \
 	F(img_load, 1) \

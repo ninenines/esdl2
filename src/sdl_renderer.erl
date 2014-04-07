@@ -44,6 +44,7 @@
 -export([set_clip_rect/5]).
 -export([set_draw_color/5]).
 -export([set_logical_size/3]).
+-export([set_scale/3]).
 
 clear(Renderer) ->
 	esdl2:render_clear(Renderer),
@@ -167,4 +168,8 @@ set_draw_color(Renderer, R, G, B, A) ->
 
 set_logical_size(Renderer, W, H) ->
 	esdl2:render_set_logical_size(Renderer, W, H),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+set_scale(Renderer, ScaleX, ScaleY) ->
+	esdl2:render_set_scale(Renderer, ScaleX, ScaleY),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
