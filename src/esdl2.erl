@@ -78,6 +78,7 @@
 -export([render_set_logical_size/3]).
 -export([render_set_scale/3]).
 -export([render_set_viewport/5]).
+-export([render_target_supported/1]).
 -export([set_render_draw_color/5]).
 
 %% sdl_surface
@@ -297,6 +298,9 @@ render_set_scale(_, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 render_set_viewport(_, _, _, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+render_target_supported(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 set_render_draw_color(_, _, _, _, _) ->

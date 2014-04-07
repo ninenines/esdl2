@@ -875,6 +875,26 @@ NIF_FUNCTION(render_set_viewport)
 		NIF_RES_GET(Renderer, renderer_res), x, y, w, h);
 }
 
+// get_window_grab
+
+NIF_CALL_HANDLER(thread_render_target_supported)
+{
+	if (SDL_RenderTargetSupported(args[0]))
+		return atom_true;
+
+	return atom_false;
+}
+
+NIF_FUNCTION(render_target_supported)
+{
+	void* renderer_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+
+	return nif_thread_call(env, thread_render_target_supported, 1,
+		NIF_RES_GET(Renderer, renderer_res));
+}
+
 // set_render_draw_color
 
 NIF_CALL_HANDLER(thread_set_render_draw_color)

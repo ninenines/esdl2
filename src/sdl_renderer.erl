@@ -39,6 +39,7 @@
 -export([get_output_size/1]).
 -export([get_scale/1]).
 -export([get_viewport/1]).
+-export([is_target_supported/1]).
 -export([present/1]).
 -export([set_clip_rect/2]).
 -export([set_clip_rect/5]).
@@ -151,6 +152,10 @@ get_scale(Renderer) ->
 
 get_viewport(Renderer) ->
 	esdl2:render_get_viewport(Renderer),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+is_target_supported(Renderer) ->
+	esdl2:render_target_supported(Renderer),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 present(Renderer) ->
