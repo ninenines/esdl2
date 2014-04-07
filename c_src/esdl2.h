@@ -201,6 +201,7 @@
 	F(get_texture_blend_mode, 1) \
 	F(get_texture_color_mod, 1) \
 	F(set_texture_alpha_mod, 2) \
+	F(set_texture_blend_mode, 2) \
 	/* sdl_version */ \
 	F(get_version, 0) \
 	F(get_revision, 0) \
