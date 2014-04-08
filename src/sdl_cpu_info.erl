@@ -28,41 +28,54 @@
 -export([has_sse41/0]).
 -export([has_sse42/0]).
 
+-spec get_cpu_cache_line_size() -> non_neg_integer().
 get_cpu_cache_line_size() ->
 	esdl2:get_cpu_cache_line_size().
 
+-spec get_cpu_count() -> non_neg_integer().
 get_cpu_count() ->
 	esdl2:get_cpu_count().
 
+-spec get_system_ram() -> non_neg_integer().
 get_system_ram() ->
 	esdl2:get_system_ram().
 
+-spec has_3dnow() -> boolean().
 has_3dnow() ->
 	esdl2:has_3dnow().
 
+-spec has_avx() -> boolean().
 has_avx() ->
 	esdl2:has_avx().
 
+-spec has_altivec() -> boolean().
 has_altivec() ->
 	esdl2:has_altivec().
 
+-spec has_mmx() -> boolean().
 has_mmx() ->
 	esdl2:has_mmx().
 
+-spec has_rdtsc() -> boolean().
 has_rdtsc() ->
 	esdl2:has_rdtsc().
 
+-spec has_sse() -> boolean().
 has_sse() ->
 	esdl2:has_sse().
 
+-spec has_sse2() -> boolean().
 has_sse2() ->
 	esdl2:has_sse2().
 
+-spec has_sse3() -> boolean().
 has_sse3() ->
 	esdl2:has_sse3().
 
+-spec has_sse41() -> boolean().
 has_sse41() ->
 	esdl2:has_sse41().
 
+-spec has_sse42() -> boolean().
 has_sse42() ->
 	esdl2:has_sse42().
