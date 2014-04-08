@@ -22,16 +22,26 @@
 -export([stop_subsystems/1]).
 -export([is_started/1]).
 
+-type error() :: {error, string()}.
+-export_type([error/0]).
+
+-type subsystem() :: timer | audio | video | joystick | haptic
+	| game_controller | events | everything | no_parachute.
+
+-spec start() -> ok | error().
 start() ->
 	start([]).
 
+-spec start([subsystem()]) -> ok | error().
 start(Subsystems) ->
 	esdl2:init(Subsystems),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
+-spec stop() -> ok.
 stop() ->
 	esdl2:quit().
 
+-spec stop_on_exit() -> ok.
 stop_on_exit() ->
 	Self = self(),
 	spawn_link(fun() ->
@@ -42,13 +52,16 @@ stop_on_exit() ->
 	end),
 	ok.
 
+-spec start_subsystems([subsystem()]) -> ok | error().
 start_subsystems(Subsystems) ->
 	esdl2:init_subsystem(Subsystems),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
+-spec stop_subsystems([subsystem()]) -> ok.
 stop_subsystems(Subsystems) ->
 	esdl2:quit_subsystem(Subsystems).
 
+-spec is_started(subsystem()) -> boolean().
 is_started(Subsystem) ->
 	esdl2:was_init([Subsystem]),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
