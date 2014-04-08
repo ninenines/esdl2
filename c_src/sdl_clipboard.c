@@ -30,7 +30,10 @@ NIF_FUNCTION(get_clipboard_text)
 
 	SDL_free(text);
 
-	return term;
+	return enif_make_tuple2(env,
+		atom_ok,
+		term
+	);
 }
 
 // has_clipboard_text

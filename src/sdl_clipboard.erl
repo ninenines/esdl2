@@ -18,11 +18,14 @@
 -export([has_text/0]).
 -export([set_text/1]).
 
+-spec get_text() -> {ok, string()} | sdl:error().
 get_text() ->
 	esdl2:get_clipboard_text().
 
+-spec has_text() -> boolean().
 has_text() ->
 	esdl2:has_clipboard_text().
 
+-spec set_text(string()) -> ok | sdl:error().
 set_text(Text) ->
 	esdl2:set_clipboard_text(Text).
