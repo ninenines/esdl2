@@ -23,10 +23,11 @@
 -export([is_started/1]).
 
 start() ->
-	esdl2:init([]).
+	start([]).
 
 start(Subsystems) ->
-	esdl2:init(Subsystems).
+	esdl2:init(Subsystems),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 stop() ->
 	esdl2:quit().
@@ -42,10 +43,12 @@ stop_on_exit() ->
 	ok.
 
 start_subsystems(Subsystems) ->
-	esdl2:init_subsystem(Subsystems).
+	esdl2:init_subsystem(Subsystems),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 stop_subsystems(Subsystems) ->
 	esdl2:quit_subsystem(Subsystems).
 
 is_started(Subsystem) ->
-	esdl2:was_init([Subsystem]).
+	esdl2:was_init([Subsystem]),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.

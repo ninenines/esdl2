@@ -27,16 +27,33 @@
 
 NIF_LIST_TO_FLAGS_FUNCTION(list_to_init_flags, Uint32, INIT_FLAGS)
 
+// init
+
+NIF_CALL_HANDLER(thread_init)
+{
+	if (SDL_Init((long)args[0]))
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
 NIF_FUNCTION(init)
 {
 	Uint32 flags = 0;
 
 	BADARG_IF(!list_to_init_flags(env, argv[0], &flags));
 
-	if (SDL_Init(flags) == 0)
-		return atom_ok;
+	return nif_thread_call(env, thread_init, 1, flags);
+}
 
-	return sdl_error_tuple(env);
+// init_subsystem
+
+NIF_CALL_HANDLER(thread_init_subsystem)
+{
+	if (SDL_InitSubSystem((long)args[0]))
+		return sdl_error_tuple(env);
+
+	return atom_ok;
 }
 
 NIF_FUNCTION(init_subsystem)
@@ -45,17 +62,26 @@ NIF_FUNCTION(init_subsystem)
 
 	BADARG_IF(!list_to_init_flags(env, argv[0], &flags));
 
-	if (SDL_InitSubSystem(flags) == 0)
-		return atom_ok;
+	return nif_thread_call(env, thread_init_subsystem, 1, flags);
+}
 
-	return sdl_error_tuple(env);
+// quit
+
+NIF_CAST_HANDLER(thread_quit)
+{
+	SDL_Quit();
 }
 
 NIF_FUNCTION(quit)
 {
-	SDL_Quit();
+	return nif_thread_cast(env, thread_quit, 0);;
+}
 
-	return atom_ok;
+// quit_subsystem
+
+NIF_CAST_HANDLER(thread_quit_subsystem)
+{
+	SDL_QuitSubSystem((long)args[0]);
 }
 
 NIF_FUNCTION(quit_subsystem)
@@ -64,19 +90,32 @@ NIF_FUNCTION(quit_subsystem)
 
 	BADARG_IF(!list_to_init_flags(env, argv[0], &flags));
 
-	SDL_QuitSubSystem(flags);
+	return nif_thread_cast(env, thread_quit_subsystem, 1, flags);
+}
 
-	return atom_ok;
+// set_main_ready
+
+NIF_CAST_HANDLER(thread_set_main_ready)
+{
+	SDL_SetMainReady();
 }
 
 NIF_FUNCTION(set_main_ready)
 {
-	SDL_SetMainReady();
-
-	return atom_ok;
+	return nif_thread_cast(env, thread_set_main_ready, 0);;
 }
 
+// was_init
 // @todo Implement the case where we want to receive a list of everything init.
+
+NIF_CALL_HANDLER(thread_was_init)
+{
+	if (SDL_WasInit((long)args[0]))
+		return atom_true;
+
+	return atom_false;
+}
+
 NIF_FUNCTION(was_init)
 {
 	unsigned int length;
@@ -86,8 +125,5 @@ NIF_FUNCTION(was_init)
 	BADARG_IF(length == 0);
 	BADARG_IF(!list_to_init_flags(env, argv[0], &flags));
 
-	if (SDL_WasInit(flags))
-		return atom_true;
-
-	return atom_false;
+	return nif_thread_call(env, thread_was_init, 1, flags);
 }
