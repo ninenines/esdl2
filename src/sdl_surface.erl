@@ -17,4 +17,5 @@
 -export([load/1]).
 
 load(Filename) ->
-	esdl2:img_load(Filename).
+	esdl2:img_load(Filename),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.

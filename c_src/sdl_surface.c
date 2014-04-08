@@ -20,15 +20,17 @@ void dtor_Surface(ErlNifEnv* env, void* obj)
 	SDL_FreeSurface(NIF_RES_GET(Surface, obj));
 }
 
-NIF_FUNCTION(img_load)
+// img_load
+
+NIF_CALL_HANDLER(thread_img_load)
 {
-	char filename[FILENAME_MAX];
 	SDL_Surface* surface;
 	ERL_NIF_TERM term;
 
-	BADARG_IF(!enif_get_string(env, argv[0], filename, FILENAME_MAX, ERL_NIF_LATIN1));
+	surface = IMG_Load(args[0]);
 
-	surface = IMG_Load(filename);
+	enif_free(args[0]);
+
 	if (!surface)
 		return sdl_error_tuple(env);
 
@@ -38,4 +40,20 @@ NIF_FUNCTION(img_load)
 		atom_ok,
 		term
 	);
+}
+
+NIF_FUNCTION(img_load)
+{
+	unsigned int len;
+	char *filename;
+
+	BADARG_IF(!enif_get_list_length(env, argv[0], &len));
+	filename = (char*)enif_alloc(len + 1);
+
+	if (!enif_get_string(env, argv[0], filename, len + 1, ERL_NIF_LATIN1)) {
+		enif_free(filename);
+		return enif_make_badarg(env);
+	}
+
+	return nif_thread_call(env, thread_img_load, 1, filename);
 }
