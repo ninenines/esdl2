@@ -141,7 +141,8 @@ NIF_CALL_HANDLER(thread_poll_event)
 				: enif_make_uint(env, event.button.button),
 			&map);
 		// We don't pass the state as this information is redundant with the type.
-		// @todo SDL 2.0.2 clicks
+		enif_make_map_put(env, map, atom_clicks,
+			enif_make_uint(env, event.button.clicks), &map);
 		enif_make_map_put(env, map, atom_x,
 			enif_make_int(env, event.button.x), &map);
 		enif_make_map_put(env, map, atom_y,

@@ -31,6 +31,7 @@
 	A(centered) \
 	A(charged) \
 	A(charging) \
+	A(clicks) \
 	A(close) \
 	A(data) \
 	A(enter) \

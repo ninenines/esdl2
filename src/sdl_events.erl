@@ -32,7 +32,7 @@
 -type mouse_button() :: left | middle | right | x1 | x2 | non_neg_integer().
 -type mouse_button_event() :: #{type=>mouse_down | mouse_up, timestamp=>non_neg_integer(),
 	window_id=>non_neg_integer(), which=>touch | non_neg_integer(),
-	button=>mouse_button(), x=>integer(), y=>integer()}.
+	button=>mouse_button(), clicks=>non_neg_integer(), x=>integer(), y=>integer()}.
 
 -type mouse_motion_event() :: #{type=>mouse_motion, timestamp=>non_neg_integer(),
 	window_id=>non_neg_integer(), which=>touch | non_neg_integer(),
