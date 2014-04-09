@@ -16,5 +16,8 @@
 
 -export([get_info/0]).
 
+-type power_state() :: unknown | on_battery | no_battery | charging | charged.
+
+-spec get_info() -> {power_state(), integer(), integer()}.
 get_info() ->
 	esdl2:get_power_info().
