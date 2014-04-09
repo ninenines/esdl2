@@ -53,8 +53,8 @@
 -opaque renderer() :: any().
 -export_type([renderer/0]).
 
--type renderer_flags() :: software | accelerated | present_vsync | target_texture.
--export_type([renderer_flags/0]).
+-type renderer_flag() :: software | accelerated | present_vsync | target_texture.
+-export_type([renderer_flag/0]).
 
 -type point() :: #{x=>integer(), y=>integer()}.
 -type rect() :: #{x=>integer(), y=>integer(), w=>integer(), h=>integer()}.
@@ -90,7 +90,7 @@ count_drivers() ->
 	{ok, Count} = esdl2:get_num_render_drivers(),
 	Count.
 
--spec create(sdl_window:window(), integer(), renderer_flags())
+-spec create(sdl_window:window(), integer(), [renderer_flag()])
 	-> {ok, renderer()} | sdl:error().
 create(Window, Index, Flags) ->
 	esdl2:create_renderer(Window, Index, Flags),
