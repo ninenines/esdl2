@@ -17,8 +17,10 @@
 -export([get_version/0]).
 -export([get_revision/0]).
 
+-spec get_version() -> {byte(), byte(), byte()}.
 get_version() ->
 	esdl2:get_version().
 
+-spec get_revision() -> string().
 get_revision() ->
 	esdl2:get_revision().
