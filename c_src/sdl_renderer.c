@@ -938,8 +938,6 @@ NIF_FUNCTION(set_render_draw_color)
 	BADARG_IF(!enif_get_int(env, argv[2], &g));
 	BADARG_IF(!enif_get_int(env, argv[3], &b));
 	BADARG_IF(!enif_get_int(env, argv[4], &a));
-	BADARG_IF(r < 0 || r > 255 || g < 0 || g > 255
-		|| b < 0 || b > 255 || a < 0 || a > 255);
 
 	return nif_thread_call(env, thread_set_render_draw_color, 5,
 		NIF_RES_GET(Renderer, renderer_res), r, g, b, a);
