@@ -50,7 +50,7 @@
 -export([set_viewport/2]).
 -export([set_viewport/5]).
 
--opaque renderer() :: any().
+-opaque renderer() :: <<>>.
 -export_type([renderer/0]).
 
 -type renderer_flag() :: software | accelerated | present_vsync | target_texture.

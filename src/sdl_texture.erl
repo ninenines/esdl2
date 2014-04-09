@@ -23,7 +23,7 @@
 -export([set_blend_mode/2]).
 -export([set_color_mod/4]).
 
--opaque texture() :: any().
+-opaque texture() :: <<>>.
 -export_type([texture/0]).
 
 -spec create_from_file(sdl_renderer:renderer(), string()) -> {ok, texture()} | sdl:error().

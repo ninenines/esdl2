@@ -16,7 +16,7 @@
 
 -export([load/1]).
 
--opaque surface() :: any().
+-opaque surface() :: <<>>.
 -export_type([surface/0]).
 
 -spec load(string()) -> {ok, surface()} | sdl:error().

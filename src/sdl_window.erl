@@ -43,7 +43,7 @@
 -export([set_title/2]).
 -export([show/1]).
 
--opaque window() :: any().
+-opaque window() :: <<>>.
 -export_type([window/0]).
 
 -type window_pos() :: centered | undefined | integer().
