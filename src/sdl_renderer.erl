@@ -60,6 +60,7 @@
 -type rect() :: #{x=>integer(), y=>integer(), w=>integer(), h=>integer()}.
 
 -type blend_mode() :: none | blend | add | mod.
+-export_type([blend_mode/0]).
 
 -spec clear(renderer()) -> ok | sdl:error().
 clear(Renderer) ->
