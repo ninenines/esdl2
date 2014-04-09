@@ -30,7 +30,7 @@ NIF_FUNCTION(get_base_path)
 
 	SDL_free(path);
 
-	return term;
+	return enif_make_tuple2(env, atom_ok, term);
 }
 
 // get_pref_path
@@ -53,5 +53,5 @@ NIF_FUNCTION(get_pref_path)
 
 	SDL_free(path);
 
-	return term;
+	return enif_make_tuple2(env, atom_ok, term);
 }

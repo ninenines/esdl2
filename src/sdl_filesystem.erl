@@ -17,8 +17,10 @@
 -export([get_base_path/0]).
 -export([get_pref_path/2]).
 
+-spec get_base_path() -> {ok, string()} | sdl:error().
 get_base_path() ->
 	esdl2:get_base_path().
 
+-spec get_pref_path(string(), string()) -> {ok, string()} | sdl:error().
 get_pref_path(Org, App) ->
 	esdl2:get_pref_path(Org, App).
