@@ -16,6 +16,10 @@
 
 -export([load/1]).
 
+-opaque surface() :: any().
+-export_type([surface/0]).
+
+-spec load(string()) -> {ok, surface()} | sdl:error().
 load(Filename) ->
 	esdl2:img_load(Filename),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
