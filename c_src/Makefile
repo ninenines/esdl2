@@ -20,7 +20,8 @@ SDL2_LIBS = $(filter-out $(SDL2_LIBS_FILTER_OUT),$(shell sdl2-config --static-li
 
 all: env.mk
 	mkdir -p $(PRIV_DIR)
-	gcc *.c -fPIC -shared -o $(PRIV_DIR)/esdl2.so -I $(ERTS_INCLUDE_DIR) \
+	gcc -undefined dynamic_lookup *.c -fPIC -shared \
+		-o $(PRIV_DIR)/esdl2.so -I $(ERTS_INCLUDE_DIR) \
 		`sdl2-config --cflags` $(SDL2_LIBS) -lSDL2_image
 
 env.mk:
