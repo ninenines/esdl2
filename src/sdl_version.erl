@@ -16,6 +16,7 @@
 
 -export([get_version/0]).
 -export([get_revision/0]).
+-export([assert_erlang_version/0]).
 
 -spec get_version() -> {byte(), byte(), byte()}.
 get_version() ->
@@ -24,3 +25,8 @@ get_version() ->
 -spec get_revision() -> string().
 get_revision() ->
 	esdl2:get_revision().
+
+-spec assert_erlang_version() -> true.
+assert_erlang_version() ->
+	V = list_to_integer(string:substr(erlang:system_info(otp_release),2,2)),
+	true = V >= 17.

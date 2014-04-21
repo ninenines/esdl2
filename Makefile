@@ -13,20 +13,37 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 all:
+	make ebin
+	make bullet
+
+ebin:
 	rm -rf ebin/
 	mkdir -p ebin/
 	erlc -o ebin/ src/*.erl
 	cd c_src && make
+
+bullet: ebin
 	erlc -o examples/bullet_engine examples/bullet_engine/*.erl
 	cd examples/bullet_engine && ./start.sh
 
-hello:
+hello:  ebin
 	erlc -o examples/hello_sdl examples/hello_sdl/*.erl
 	cd examples/hello_sdl && ./start.sh
+
+dot:    ebin
+	erlc -o examples/dot examples/dot/*.erl
+	cd examples/dot && ./start.sh
+
+rose:   ebin
+	erlc -o examples/rose examples/rose/*.erl
+	cd examples/rose && ./start.sh
 
 clean:
 	@rm -f *.swp
 	@rm -f c_src/env.mk
+	@rm -f priv/esdl2.so
 	@rm -rf ebin/
+	@rm -f examples/*/*.dump
 	@rm -f examples/*/*.beam
+	@rm -f .DS_Store
 	@echo clean
