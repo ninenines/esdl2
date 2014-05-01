@@ -53,15 +53,19 @@
 	void dtor_ ## r(ErlNifEnv*, void*); \
 	typedef struct { \
 		NIF_RES_TYPE(r)* v; \
+		void* dep; \
 	} obj_ ## r;
 #define NIF_RES_INIT(r) \
 	res_ ## r = enif_open_resource_type(env, NULL, TO_STRING(NIF_RES_TYPE(r)), dtor_ ## r, ERL_NIF_RT_CREATE, NULL); \
 	if (!res_ ## r) return -1;
 
 #define NIF_RES_GET(r, obj) (((obj_ ## r*)obj)->v)
-#define NIF_RES_TO_TERM(r, val, term) { \
+#define NIF_RES_DEP(r, obj) (((obj_ ## r*)obj)->dep)
+#define NIF_RES_TO_TERM(r, val, term) NIF_RES_TO_TERM_WITH_DEP(r, val, term, NULL)
+#define NIF_RES_TO_TERM_WITH_DEP(r, val, term, dep_res) { \
 	obj_ ## r* res = enif_alloc_resource(res_ ## r, sizeof(obj_ ## r)); \
 	res->v = val; \
+	res->dep = dep_res; \
 	term = enif_make_resource(env, res); \
 	enif_release_resource(res); \
 }

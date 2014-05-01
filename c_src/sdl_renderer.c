@@ -17,6 +17,7 @@
 void dtor_Renderer(ErlNifEnv* env, void* obj)
 {
 	SDL_DestroyRenderer(NIF_RES_GET(Renderer, obj));
+	enif_release_resource(NIF_RES_DEP(Renderer, obj));
 }
 
 #define RENDERER_FLAGS(F) \
@@ -92,11 +93,12 @@ NIF_CALL_HANDLER(thread_create_renderer)
 	SDL_Renderer* renderer;
 	ERL_NIF_TERM term;
 
-	renderer = SDL_CreateRenderer(args[0], (long)args[1], (long)args[2]);
+	renderer = SDL_CreateRenderer(NIF_RES_GET(Window, args[0]), (long)args[1], (long)args[2]);
 	if (!renderer)
 		return sdl_error_tuple(env);
 
-	NIF_RES_TO_TERM(Renderer, renderer, term);
+	enif_keep_resource(args[0]);
+	NIF_RES_TO_TERM_WITH_DEP(Renderer, renderer, term, args[0]);
 
 	return enif_make_tuple2(env,
 		atom_ok,
@@ -115,7 +117,7 @@ NIF_FUNCTION(create_renderer)
 	BADARG_IF(!list_to_renderer_flags(env, argv[2], &flags));
 
 	return nif_thread_call(env, thread_create_renderer, 3,
-		NIF_RES_GET(Window, window_res), index, flags);
+		window_res, index, flags);
 }
 
 // get_num_render_drivers
