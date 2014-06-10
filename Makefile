@@ -12,10 +12,16 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-all:
-	rm -rf ebin/
-	mkdir -p ebin/
-	erlc -o ebin/ src/*.erl
-	cd c_src && make
+PROJECT = esdl2
+
+# SDL 2.0.3 has this option enabled that causes problems with NIF functions.
+SDL2_LIBS_FILTER_OUT = -Wl,--no-undefined
+SDL2_LIBS = $(filter-out $(SDL2_LIBS_FILTER_OUT),$(shell sdl2-config --static-libs))
+
+C_SRC_OPTS = $(shell sdl2-config --cflags) $(SDL2_LIBS) -lSDL2_image
+
+include erlang.mk
+
+bullet_engine:: all
 	erlc -o examples/bullet_engine examples/bullet_engine/*.erl
 	cd examples/bullet_engine && ./start.sh
