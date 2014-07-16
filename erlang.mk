@@ -252,7 +252,8 @@ ifeq ($(wildcard $(C_SRC_DIR)/Makefile),)
 
 app:: $(C_SRC_ENV)
 	@mkdir -p priv/
-	$(c_src_verbose) gcc $(C_SRC_DIR)/*.c -fPIC -shared -o $(C_SRC_OUTPUT) \
+	$(c_src_verbose) gcc -undefined dynamic_lookup \
+		$(C_SRC_DIR)/*.c -fPIC -shared -o $(C_SRC_OUTPUT) \
 		-I $(ERTS_INCLUDE_DIR) $(C_SRC_OPTS)
 
 $(C_SRC_ENV):
