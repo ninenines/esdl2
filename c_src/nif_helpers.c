@@ -16,8 +16,8 @@
 #include <sys/queue.h>
 #include <stdarg.h>
 
-extern atom_ok;
-extern atom__nif_thread_ret_;
+extern int atom_ok;
+extern int atom__nif_thread_ret_;
 
 typedef struct nif_thread_message {
 	TAILQ_ENTRY(nif_thread_message) next_entry;
