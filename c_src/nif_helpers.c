@@ -168,7 +168,7 @@ void* nif_create_main_thread(char* name)
 	st->mailbox = (nif_thread_mailbox*)enif_alloc(sizeof(nif_thread_mailbox));
 	TAILQ_INIT(st->mailbox);
 
-#ifdef __DARWIN__
+#if defined(__APPLE__) && defined(__MACH__)
 	// On OSX, SDL2 must run in the main thread, otherwise some operations
 	// will not work properly. For example, input events would not be received.
 	erl_drv_steal_main_thread(name, &(st->tid), nif_main_thread, st, NULL);
