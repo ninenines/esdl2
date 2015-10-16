@@ -1,5 +1,5 @@
-*.swp
 c_src/env.mk
+c_src/*.o
 ebin
 examples/*/*.beam
 priv
