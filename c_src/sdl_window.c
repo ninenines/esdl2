@@ -13,6 +13,7 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "esdl2.h"
+#include "nif_headers.h" 
 
 void dtor_Window(ErlNifEnv* env, void* obj)
 {

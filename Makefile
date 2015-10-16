@@ -22,6 +22,18 @@ CFLAGS += $(shell sdl2-config --cflags)
 # @todo -undefined dynamic_lookup on OSX?
 LDLIBS += $(SDL2_LIBS) -lSDL2_image
 
+ifeq ($(OS),Windows_NT)
+	CC_OPTS = ""
+else
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Darwin)
+		CC_OPTS = -undefined dynamic_lookup
+    	endif
+endif
+
+
+C_SRC_OPTS = $(shell sdl2-config --cflags) $(SDL2_LIBS) -lSDL2_image  $(CC_OPTS)
+
 include erlang.mk
 
 bullet_engine:: all
