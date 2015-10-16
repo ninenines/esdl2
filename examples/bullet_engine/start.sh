@@ -1,2 +1,2 @@
 #!/bin/sh
-erl +stbt db -pa ../../ebin -eval "bullet_engine:run()."
+erl -smp enable +stbt db -pa ../../ebin -eval "bullet_engine:run()."

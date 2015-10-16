@@ -1,2 +1,2 @@
 #!/bin/sh
-erl +stbt db -pa ../../ebin -eval "hello_sdl:run()."
+erl -smp enable +stbt db -pa ../../ebin -eval "hello_sdl:run()."
