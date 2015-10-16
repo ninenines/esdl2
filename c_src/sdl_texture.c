@@ -14,6 +14,9 @@
 
 #include "esdl2.h"
 
+NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_blend_mode, SDL_BlendMode)
+NIF_ENUM_TO_ATOM_FUNCTION_DECL(blend_mode_to_atom, SDL_BlendMode)
+
 void dtor_Texture(ErlNifEnv* env, void* obj)
 {
 	SDL_DestroyTexture(NIF_RES_GET(Texture, obj));

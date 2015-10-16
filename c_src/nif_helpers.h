@@ -105,6 +105,7 @@
 		\
 		return 0; \
 	}
+#define NIF_ATOM_TO_ENUM_FUNCTION_DECL(f, type) int f(ErlNifEnv*, ERL_NIF_TERM, type*);
 
 #define NIF_ENUM_TO_ATOM(a, e) if (id == e) return atom_ ## a;
 #define NIF_ENUM_TO_ATOM_FUNCTION(f, type, enum_list) \
@@ -113,6 +114,7 @@
 		enum_list(NIF_ENUM_TO_ATOM) \
 		return atom_undefined; \
 	}
+#define NIF_ENUM_TO_ATOM_FUNCTION_DECL(f, type) ERL_NIF_TERM f(type);
 
 // Threaded NIFs.
 

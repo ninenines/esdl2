@@ -14,6 +14,8 @@
 
 #include "esdl2.h"
 
+NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_bool, SDL_bool)
+
 void dtor_Window(ErlNifEnv* env, void* obj)
 {
 	SDL_DestroyWindow(NIF_RES_GET(Window, obj));
