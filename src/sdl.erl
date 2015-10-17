@@ -26,7 +26,7 @@
 -export_type([error/0]).
 
 -type subsystem() :: timer | audio | video | joystick | haptic
-	| game_controller | events | everything | no_parachute.
+	| game_controller | events | everything.
 
 -spec start() -> ok | error().
 start() ->

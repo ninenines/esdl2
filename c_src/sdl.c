@@ -22,8 +22,7 @@
 	F(haptic, SDL_INIT_HAPTIC) \
 	F(game_controller, SDL_INIT_GAMECONTROLLER) \
 	F(events, SDL_INIT_EVENTS) \
-	F(everything, SDL_INIT_EVERYTHING) \
-	F(no_parachute, SDL_INIT_NOPARACHUTE)
+	F(everything, SDL_INIT_EVERYTHING)
 
 NIF_LIST_TO_FLAGS_FUNCTION(list_to_init_flags, Uint32, INIT_FLAGS)
 

@@ -75,7 +75,6 @@
 	A(mouse_wheel) \
 	A(moved) \
 	A(no_battery) \
-	A(no_parachute) \
 	A(none) \
 	A(num) \
 	A(on_battery) \
