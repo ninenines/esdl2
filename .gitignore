@@ -1,5 +1,6 @@
 c_src/env.mk
 c_src/*.o
 ebin
+esdl2.d
 examples/*/*.beam
 priv
