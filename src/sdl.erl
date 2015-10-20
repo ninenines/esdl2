@@ -21,6 +21,7 @@
 -export([start_subsystems/1]).
 -export([stop_subsystems/1]).
 -export([is_started/1]).
+-export([which_subsystems/0]).
 
 -type error() :: {error, string()}.
 -export_type([error/0]).
@@ -64,4 +65,9 @@ stop_subsystems(Subsystems) ->
 -spec is_started(subsystem()) -> boolean().
 is_started(Subsystem) ->
 	esdl2:was_init([Subsystem]),
+	receive {'_nif_thread_ret_', Ret} -> Ret =:= [Subsystem] end.
+
+-spec which_subsystems() -> [subsystem()].
+which_subsystems() ->
+	esdl2:was_init([]),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.

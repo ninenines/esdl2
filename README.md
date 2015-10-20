@@ -22,9 +22,6 @@ The following ideas need to be investigated:
 
 The following tasks remain to be done:
 
-* http://hg.libsdl.org/SDL/file/default/include/SDL.h
-  * We need a function which_subsystems() which lists started subsystems.
-
 * http://hg.libsdl.org/SDL/file/default/include/SDL_hints.h
   * We need to implement everything.
 
