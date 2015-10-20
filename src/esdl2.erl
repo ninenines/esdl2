@@ -49,6 +49,10 @@
 -export([get_base_path/0]).
 -export([get_pref_path/2]).
 
+%% sdl_gl
+-export([gl_create_context/1]).
+-export([gl_swap_window/1]).
+
 %% sdl_power
 -export([get_power_info/0]).
 
@@ -223,6 +227,14 @@ get_base_path() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 get_pref_path(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+%% sdl_gl
+
+gl_create_context(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+gl_swap_window(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_power

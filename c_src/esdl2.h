@@ -123,6 +123,7 @@
 
 #define NIF_RES_TYPE(r) SDL_ ## r
 #define NIF_RESOURCES(R) \
+	R(GLContext) \
 	R(Renderer) \
 	R(Surface) \
 	R(Texture) \
@@ -162,6 +163,9 @@
 	/* sdl_filesystem */ \
 	F(get_base_path, 0) \
 	F(get_pref_path, 2) \
+	/* sdl_gl */ \
+	F(gl_create_context, 1) \
+	F(gl_swap_window, 1) \
 	/* sdl_power */ \
 	F(get_power_info, 0) \
 	/* sdl_renderer */ \
