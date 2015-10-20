@@ -18,6 +18,8 @@
 NIF_ATOMS(NIF_ATOM_DECL)
 NIF_RESOURCES(NIF_RES_DECL)
 
+static int loads = 0;
+
 int load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
 {
 	NIF_ATOMS(NIF_ATOM_INIT)
@@ -25,16 +27,30 @@ int load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
 
 	*priv_data = nif_create_main_thread("esdl2");
 
+	loads++;
+
+	return 0;
+}
+
+int upgrade(ErlNifEnv* env, void** priv_data, void** old_priv_data, ERL_NIF_TERM load_info)
+{
+	*priv_data = *old_priv_data;
+
+	loads++;
+
 	return 0;
 }
 
 void unload(ErlNifEnv* env, void* priv_data)
 {
-	nif_destroy_main_thread(priv_data);
+	if (loads == 1)
+		nif_destroy_main_thread(priv_data);
+
+	loads--;
 }
 
 static ErlNifFunc nif_funcs[] = {
 	NIF_FUNCTIONS(NIF_FUNCTION_ARRAY)
 };
 
-ERL_NIF_INIT(esdl2, nif_funcs, load, NULL, NULL, unload)
+ERL_NIF_INIT(esdl2, nif_funcs, load, NULL, upgrade, unload)

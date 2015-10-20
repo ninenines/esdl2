@@ -121,6 +121,7 @@
 typedef void* nif_thread_arg;
 
 void* nif_create_main_thread(char*);
+void nif_destroy_main_thread(void*);
 ERL_NIF_TERM nif_thread_cast(ErlNifEnv*, void (*f)(nif_thread_arg*), int a, ...);
 ERL_NIF_TERM nif_thread_call(ErlNifEnv*, ERL_NIF_TERM (*f)(ErlNifEnv*, nif_thread_arg*), int a, ...);
 
