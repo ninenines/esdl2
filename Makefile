@@ -13,6 +13,8 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 PROJECT = esdl2
+PROJECT_DESCRIPTION = SDL2 Erlang NIF.
+PROJECT_VERSION = 0.1.0
 
 # SDL 2.0.3 has this option enabled that causes problems with NIF functions.
 SDL2_LIBS_FILTER_OUT = -Wl,--no-undefined
