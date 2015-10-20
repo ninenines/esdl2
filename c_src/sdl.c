@@ -73,7 +73,7 @@ NIF_CAST_HANDLER(thread_quit)
 
 NIF_FUNCTION(quit)
 {
-	return nif_thread_cast(env, thread_quit, 0);;
+	return nif_thread_cast(env, thread_quit, 0);
 }
 
 // quit_subsystem
@@ -101,7 +101,7 @@ NIF_CAST_HANDLER(thread_set_main_ready)
 
 NIF_FUNCTION(set_main_ready)
 {
-	return nif_thread_cast(env, thread_set_main_ready, 0);;
+	return nif_thread_cast(env, thread_set_main_ready, 0);
 }
 
 // was_init
