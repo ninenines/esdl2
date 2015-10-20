@@ -166,6 +166,10 @@
 	/* sdl_gl */ \
 	F(gl_create_context, 1) \
 	F(gl_swap_window, 1) \
+	/* sdl_keyboard */ \
+	F(is_text_input_active, 0) \
+	F(start_text_input, 0) \
+	F(stop_text_input, 0) \
 	/* sdl_power */ \
 	F(get_power_info, 0) \
 	/* sdl_renderer */ \

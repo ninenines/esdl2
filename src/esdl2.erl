@@ -53,6 +53,11 @@
 -export([gl_create_context/1]).
 -export([gl_swap_window/1]).
 
+%% sdl_keyboard
+-export([is_text_input_active/0]).
+-export([start_text_input/0]).
+-export([stop_text_input/0]).
+
 %% sdl_power
 -export([get_power_info/0]).
 
@@ -235,6 +240,17 @@ gl_create_context(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 gl_swap_window(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+%% sdl_keyboard
+
+is_text_input_active() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+start_text_input() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+stop_text_input() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_power

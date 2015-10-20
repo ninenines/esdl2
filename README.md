@@ -198,7 +198,20 @@ The following tasks remain to be done:
 	* SDL_RegisterEvents()
 
 * http://hg.libsdl.org/SDL/file/default/include/SDL_keyboard.h
-  * We need to implement everything.
+  * We need to implement the following functions:
+  	* SDL_GetKeyboardFocus()
+	* SDL_GetKeyboardState()
+	* SDL_GetModState()
+	* SDL_SetModState()
+	* SDL_GetKeyFromScancode()
+	* SDL_GetScancodeFromKey()
+	* SDL_GetScancodeName()
+	* SDL_GetScancodeFromName()
+	* SDL_GetKeyName()
+	* SDL_GetKeyFromName()
+	* SDL_SetTextInputRect()
+	* SDL_HasScreenKeyboardSupport()
+	* SDL_IsScreenKeyboardShown()
 
 * http://hg.libsdl.org/SDL/file/default/include/SDL_keycode.h
   * We probably should make it easy to identify keycodes and scancodes.
