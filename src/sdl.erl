@@ -33,10 +33,25 @@
 start() ->
 	start([]).
 
--spec start([subsystem()]) -> ok | error().
+-spec start([subsystem()]) -> ok | {application_start_error, term()} | error().
 start(Subsystems) ->
-	esdl2:init(Subsystems),
-	receive {'_nif_thread_ret_', Ret} -> Ret end.
+	case ensure_started() of
+		ok ->
+			esdl2:init(Subsystems),
+			receive {'_nif_thread_ret_', Ret} -> Ret end;
+		Error ->
+			Error
+	end.
+
+ensure_started() ->
+	case application:start(esdl2) of
+		ok ->
+			ok;
+		{error, {already_started, esdl2}} ->
+			ok;
+		{error, Reason} ->
+			{application_start_error, Reason}
+	end.
 
 -spec stop() -> ok.
 stop() ->

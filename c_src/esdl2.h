@@ -27,6 +27,7 @@
 	A(blend) \
 	A(borderless) \
 	A(button) \
+	A(callback) \
 	A(caps) \
 	A(centered) \
 	A(charged) \
@@ -133,6 +134,8 @@
 
 #define NIF_FUNCTION_NAME(f) esdl2_ ## f
 #define NIF_FUNCTIONS(F) \
+	/* internal */ \
+	F(register_callback_process, 0) \
 	/* sdl */ \
 	F(init, 1) \
 	F(init_subsystem, 1) \
@@ -166,6 +169,8 @@
 	/* sdl_gl */ \
 	F(gl_create_context, 1) \
 	F(gl_swap_window, 1) \
+	/* sdl_hints */ \
+	F(add_hint_callback, 3) \
 	/* sdl_keyboard */ \
 	F(is_text_input_active, 0) \
 	F(start_text_input, 0) \
@@ -253,6 +258,8 @@ NIF_RESOURCES(NIF_RES_H_DECL)
 NIF_FUNCTIONS(NIF_FUNCTION_H_DECL)
 
 // --
+
+ErlNifPid* get_callback_process();
 
 #define sdl_error_tuple(env) \
 	enif_make_tuple2(env, \

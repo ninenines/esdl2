@@ -14,6 +14,9 @@
 
 -module(esdl2).
 
+%% internal
+-export([register_callback_process/0]).
+
 %% sdl
 -export([init/1]).
 -export([init_subsystem/1]).
@@ -52,6 +55,9 @@
 %% sdl_gl
 -export([gl_create_context/1]).
 -export([gl_swap_window/1]).
+
+%% sdl_hints
+-export([add_hint_callback/3]).
 
 %% sdl_keyboard
 -export([is_text_input_active/0]).
@@ -137,6 +143,8 @@
 -export([set_window_title/2]).
 -export([show_window/1]).
 
+%% internal
+
 %% @todo We probably want to accept an env variable or somthing for the location.
 -on_load(on_load/0).
 on_load() ->
@@ -148,6 +156,9 @@ on_load() ->
 			Path
 	end,
 	erlang:load_nif(filename:join(PrivDir, atom_to_list(?MODULE)), 0).
+
+register_callback_process() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl
 
@@ -240,6 +251,11 @@ gl_create_context(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 gl_swap_window(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+%% sdl_hints
+
+add_hint_callback(_, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_keyboard
