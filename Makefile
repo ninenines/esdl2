@@ -26,6 +26,10 @@ LDLIBS += $(SDL2_LIBS) -lSDL2_image
 
 include erlang.mk
 
+ifeq ($(PLATFORM),msys2)
+	CFLAGS += -I"$(C_SRC_DIR)/compat/"
+endif
+
 bullet_engine:: all
 	erlc -o examples/bullet_engine examples/bullet_engine/*.erl
 	cd examples/bullet_engine && ./start.sh
