@@ -17,9 +17,13 @@
 NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_blend_mode, SDL_BlendMode)
 NIF_ENUM_TO_ATOM_FUNCTION_DECL(blend_mode_to_atom, SDL_BlendMode)
 
+NIF_CAST_HANDLER(thread_destroy_texture)
+{
+	SDL_DestroyTexture(NIF_RES_GET(Texture, args[0]));
+}
 void dtor_Texture(ErlNifEnv* env, void* obj)
 {
-	SDL_DestroyTexture(NIF_RES_GET(Texture, obj));
+	nif_thread_cast(env,thread_destroy_texture,1,obj);
 }
 
 // create_texture_from_surface

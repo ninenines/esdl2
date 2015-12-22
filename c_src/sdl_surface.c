@@ -15,9 +15,13 @@
 #include "esdl2.h"
 #include "SDL_image.h"
 
+NIF_CAST_HANDLER(thread_destroy_surface)
+{
+	SDL_FreeSurface(NIF_RES_GET(Surface, args[0]));
+}
 void dtor_Surface(ErlNifEnv* env, void* obj)
 {
-	SDL_FreeSurface(NIF_RES_GET(Surface, obj));
+	nif_thread_cast(env,thread_destroy_surface,1,obj);
 }
 
 // img_load
