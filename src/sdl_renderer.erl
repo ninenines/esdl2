@@ -20,6 +20,7 @@
 -export([copy/7]).
 -export([count_drivers/0]).
 -export([create/3]).
+-export([draw_circle/4]).
 -export([draw_line/3]).
 -export([draw_line/5]).
 -export([draw_lines/2]).
@@ -95,6 +96,33 @@ count_drivers() ->
 create(Window, Index, Flags) ->
 	esdl2:create_renderer(Window, Index, Flags),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec draw_circle(renderer(), integer(), integer(), integer()) -> ok | sdl:error().
+draw_circle(Renderer, X, Y, Radius) ->
+	Points = midpoint_circle(X, Radius, Y, 0, 0),
+	draw_points(Renderer, Points).
+
+-spec midpoint_circle(integer(), integer(), integer(), integer(), integer()) -> list().
+midpoint_circle(X0, X, Y0, Y, Err) when X >= Y ->
+	Points = [#{x => X0 + X, y => Y0 + Y}, #{x => X0 + Y, y => Y0 + X}, #{x => X0 - Y, y => Y0 + X},
+		  #{x => X0 - X, y => Y0 + Y}, #{x => X0 - X, y => Y0 - Y}, #{x => X0 - Y, y => Y0 - X},
+		  #{x => X0 + Y, y => Y0 - X}, #{x => X0 + X, y => Y0 - Y}],
+	New_Y = Y + 1,
+	Tmp_Err = Err + 1 + (2 * New_Y),
+	Midpoint_Values = determine_midpoint_values(X, Tmp_Err),
+	Points ++ midpoint_circle(X0, maps:get(x, Midpoint_Values), Y0, New_Y, maps:get(err, Midpoint_Values));
+
+midpoint_circle(_, _, _, _, _) ->
+	[].
+
+-spec determine_midpoint_values(integer(), integer()) -> map().
+determine_midpoint_values(X, Err) when 2 * (Err - X) + 1 > 0 ->
+	New_X = X - 1,
+	New_Err = Err + 1 - (2 * New_X),
+	#{x => New_X, err => New_Err};
+
+determine_midpoint_values(X, Err) ->
+	#{x => X, err => Err}.
 
 -spec draw_line(renderer(), point(), point()) -> ok | sdl:error().
 draw_line(Renderer, #{x:=X1, y:=Y1}, #{x:=X2, y:=Y2}) ->
