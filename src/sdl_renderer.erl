@@ -20,6 +20,7 @@
 -export([copy/7]).
 -export([count_drivers/0]).
 -export([create/3]).
+-export([draw_circle/2]).
 -export([draw_circle/4]).
 -export([draw_line/3]).
 -export([draw_line/5]).
@@ -30,6 +31,7 @@
 -export([draw_rect/2]).
 -export([draw_rect/5]).
 -export([draw_rects/2]).
+-export([fill_circle/2]).
 -export([fill_circle/4]).
 -export([fill_rect/2]).
 -export([fill_rect/5]).
@@ -58,6 +60,7 @@
 -type renderer_flag() :: software | accelerated | present_vsync | target_texture.
 -export_type([renderer_flag/0]).
 
+-type circle() :: #{x=>integer(), y=>integer(), r=>integer()}.
 -type point() :: #{x=>integer(), y=>integer()}.
 -type rect() :: #{x=>integer(), y=>integer(), w=>integer(), h=>integer()}.
 
@@ -97,6 +100,10 @@ count_drivers() ->
 create(Window, Index, Flags) ->
 	esdl2:create_renderer(Window, Index, Flags),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec draw_circle(renderer(), circle()) -> ok | sdl:error().
+draw_circle(Renderer, #{x:=X, y:=Y, r:=Radius}) ->
+	draw_circle(Renderer, X, Y, Radius).
 
 -spec draw_circle(renderer(), integer(), integer(), integer()) -> ok | sdl:error().
 draw_circle(Renderer, X, Y, Radius) ->
@@ -166,6 +173,10 @@ draw_rect(Renderer, X, Y, W, H) ->
 draw_rects(Renderer, Rects) ->
 	esdl2:render_draw_rects(Renderer, Rects),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec fill_circle(renderer(), circle()) -> ok | sdl:error().
+fill_circle(Renderer, #{x:=X, y:=Y, r:=Radius}) ->
+	fill_circle(Renderer, X, Y, Radius).
 
 -spec fill_circle(renderer(), integer(), integer(), integer()) -> ok | sdl:error().
 fill_circle(Renderer, X, Y, Radius) ->
