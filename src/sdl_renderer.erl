@@ -30,6 +30,7 @@
 -export([draw_rect/2]).
 -export([draw_rect/5]).
 -export([draw_rects/2]).
+-export([fill_circle/4]).
 -export([fill_rect/2]).
 -export([fill_rect/5]).
 -export([fill_rects/2]).
@@ -104,9 +105,9 @@ draw_circle(Renderer, X, Y, Radius) ->
 
 -spec midpoint_circle(integer(), integer(), integer(), integer(), integer()) -> list().
 midpoint_circle(X0, X, Y0, Y, Err) when X >= Y ->
-	Points = [#{x => X0 + X, y => Y0 + Y}, #{x => X0 + Y, y => Y0 + X}, #{x => X0 - Y, y => Y0 + X},
-		  #{x => X0 - X, y => Y0 + Y}, #{x => X0 - X, y => Y0 - Y}, #{x => X0 - Y, y => Y0 - X},
-		  #{x => X0 + Y, y => Y0 - X}, #{x => X0 + X, y => Y0 - Y}],
+	Points = [#{x => X0 + X, y => Y0 + Y}, #{x => X0 - X, y => Y0 + Y}, #{x => X0 + Y, y => Y0 + X},
+		  #{x => X0 - Y, y => Y0 + X}, #{x => X0 - X, y => Y0 - Y}, #{x => X0 + X, y => Y0 - Y},
+		  #{x => X0 - Y, y => Y0 - X}, #{x => X0 + Y, y => Y0 - X}],
 	New_Y = Y + 1,
 	Tmp_Err = Err + 1 + (2 * New_Y),
 	Midpoint_Values = determine_midpoint_values(X, Tmp_Err),
@@ -165,6 +166,19 @@ draw_rect(Renderer, X, Y, W, H) ->
 draw_rects(Renderer, Rects) ->
 	esdl2:render_draw_rects(Renderer, Rects),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec fill_circle(renderer(), integer(), integer(), integer()) -> ok | sdl:error().
+fill_circle(Renderer, X, Y, Radius) ->
+	Points = midpoint_circle(X, Radius, Y, 0, 0),
+	fill_circle_draw_lines(Renderer, Points).
+
+-spec fill_circle_draw_lines(renderer(), [point()]) -> ok | sdl:error().
+fill_circle_draw_lines(Renderer, [P1, P2 | T]) ->
+	draw_line(Renderer, P1, P2),
+	fill_circle_draw_lines(Renderer, T);
+
+fill_circle_draw_lines(_, []) ->
+	ok.
 
 -spec fill_rect(renderer(), rect()) -> ok | sdl:error().
 fill_rect(Renderer, #{x:=X, y:=Y, w:=W, h:=H}) ->
