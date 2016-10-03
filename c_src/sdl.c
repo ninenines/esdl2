@@ -13,6 +13,7 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "esdl2.h"
+#include "SDL_ttf.h"
 
 #define BASE_INIT_FLAGS(F) \
 	F(timer, SDL_INIT_TIMER) \
@@ -34,6 +35,10 @@ NIF_FLAGS_TO_LIST_FUNCTION(init_flags_to_list, Uint32, BASE_INIT_FLAGS)
 
 NIF_CALL_HANDLER(thread_init)
 {
+	// Initialize SDL_ttf
+	if (TTF_Init() == -1)
+		return sdl_error_tuple(env);
+
 	if (SDL_Init((long)args[0]))
 		return sdl_error_tuple(env);
 

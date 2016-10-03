@@ -7,11 +7,14 @@ Status
 ------
 
 Week-end project. Work in progress.
-
-The following limitations apply:
-
+ 
+ Building
+ --------
+ 
  *  Erlang 17.0+ is required
- *  SDL 2.0.3+ is required
+ *  SDL 2.0.3+ is required (`http://www.libsdl.org/download-2.0.php`)
+ *  SDL\_image is required (`https://www.libsdl.org/projects/SDL_image/`)
+ *  SDL\_ttf is required (`https://www.libsdl.org/projects/SDL_ttf/`)
  *  No support for UTF-8 strings, only Latin-1
 
 The following ideas need to be investigated:

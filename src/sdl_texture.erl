@@ -16,6 +16,7 @@
 
 -export([create_from_file/2]).
 -export([create_from_surface/2]).
+-export([create_from_text/4]).
 -export([get_alpha_mod/1]).
 -export([get_blend_mode/1]).
 -export([get_color_mod/1]).
@@ -35,6 +36,11 @@ create_from_file(Renderer, Filename) ->
 create_from_surface(Renderer, Surface) ->
 	esdl2:create_texture_from_surface(Renderer, Surface),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec create_from_text(sdl_renderer:renderer(), string(), string(), integer()) -> {ok, texture()} | sdl:error().
+create_from_text(Renderer, Font, Message, Size) ->
+	{ok, Surface} = sdl_surface:from_text(Font, Message, Size),
+	create_from_surface(Renderer, Surface).
 
 -spec get_alpha_mod(texture()) -> byte().
 get_alpha_mod(Texture) ->

@@ -14,10 +14,16 @@
 
 -module(sdl_surface).
 
+-export([from_text/3]).
 -export([load/1]).
 
 -opaque surface() :: <<>>.
 -export_type([surface/0]).
+
+-spec from_text(string(), string(), integer()) -> {ok, surface()} | sdl:error().
+from_text(Font, Message, Size) ->
+	esdl2:from_text(Font, Message, Size),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 -spec load(string()) -> {ok, surface()} | sdl:error().
 load(Filename) ->

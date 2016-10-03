@@ -99,6 +99,7 @@
 
 %% sdl_surface
 -export([img_load/1]).
+-export([from_text/3]).
 
 %% sdl_texture
 -export([create_texture_from_surface/2]).
@@ -363,6 +364,9 @@ set_render_draw_color(_, _, _, _, _) ->
 %% sdl_surface
 
 img_load(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+from_text(_, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_texture

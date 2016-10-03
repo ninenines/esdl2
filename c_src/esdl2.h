@@ -208,6 +208,7 @@
 	F(set_render_draw_color, 5) \
 	/* sdl_surface */ \
 	F(img_load, 1) \
+	F(from_text, 3) \
 	/* sdl_texture */ \
 	F(create_texture_from_surface, 2) \
 	F(get_texture_alpha_mod, 1) \
