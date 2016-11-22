@@ -67,6 +67,11 @@ The following tasks remain to be done:
 	* SDL_GetGrabbedWindow()
 	* SDL_SetWindowGammaRamp()
 	* SDL_GetWindowGammaRamp()
+	* SDL_SetWindowModalFor()
+	* SDL_SetWindowInputFocus()
+	* SDL_SetWindowOpacity()
+	* SDL_GetWindowOpacity()
+	* SDL_SetWindowResizable()
   * There is an SDL_WINDOW_MOUSE_CAPTURE window flag we need to implement.
   * There are two window pos flags, related to multi monitors, that we don't support:
     * SDL_WINDOWPOS_UNDEFINED_DISPLAY(X)
@@ -124,6 +129,7 @@ The following tasks remain to be done:
 	* SDL_GetRenderTarget()
 	* SDL_RenderIsClipEnabled()
 	* SDL_RenderReadPixels()
+	* SDL_RenderSetIntegerScale()
   * We do not support OpenGL at all yet:
     * SDL_GL_BindTexture()
 	* SDL_GL_UnbindTexture()
@@ -176,6 +182,9 @@ The following tasks remain to be done:
 	* SDL_AUDIODEVICEREMOVED (SDL_AudioDeviceEvent)
 	* SDL_RENDER_TARGETS_RESET
 	* SDL_RENDER_DEVICE_RESET
+	* SDL_WINDOWEVENT_HIT_TEST
+	* SDL_WINDOWEVENT_TAKE_FOCUS
+	* SDL_KEYMAPCHANGED
 	* User defined events, from SDL_USEREVENT to SDL_LASTEVENT (SDL_UserEvent)
   * We currently do not handle the SDL_MouseMotionEvent.state value
   * We currently do not handle the SDL_MouseWheelEvent.direction value (SDL >= 2.0.4, unreleased yet)
@@ -260,6 +269,7 @@ The following tasks remain to be done:
 
 * http://hg.libsdl.org/SDL/file/default/include/SDL_cpuinfo.h
   * The function SDL_HasAVX2() needs to be implemented. (SDL >= 2.0.4, unreleased yet)
+  * SDL_HasNEON()
 
 * http://hg.libsdl.org/SDL/file/default/include/SDL_endian.h
   * We need to implement everything.
