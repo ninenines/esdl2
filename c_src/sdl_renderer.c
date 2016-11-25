@@ -314,7 +314,7 @@ NIF_FUNCTION(render_copy_ex)
 	SDL_Rect *srcPtr = NULL, *dstPtr = NULL;
 	double *anglePtr = NULL;
 	SDL_Point* centerPtr = NULL;
-	SDL_RendererFlip flip;
+	SDL_RendererFlip flip = 0;
 
 	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
 	BADARG_IF(!enif_get_resource(env, argv[1], res_Texture, &texture_res));
