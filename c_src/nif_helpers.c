@@ -185,10 +185,14 @@ void nif_destroy_main_thread(void* void_st)
 	nif_thread_message* msg = nif_thread_message_alloc(NULL, NULL, NULL);
 
 	nif_thread_send(st, msg);
-	enif_thread_join(st->tid, NULL);
+	#if defined(__APPLE__) && defined(__MACH__)
+   		erl_drv_stolen_main_thread_join(st->tid, NULL);
+  	#else
+		enif_thread_join(st->tid, NULL);
+  	#endif
 
-	enif_cond_destroy(st->cond);
 	enif_mutex_destroy(st->lock);
+	enif_cond_destroy(st->cond);
 	enif_free(st->mailbox);
 	enif_free(st);
 }
