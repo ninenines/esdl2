@@ -14,10 +14,14 @@
 
 #include "esdl2.h"
 
+NIF_CAST_HANDLER(thread_destroy_renderer)
+{
+ 	SDL_DestroyRenderer(NIF_RES_GET(Renderer, args[0]));
+        enif_release_resource(NIF_RES_DEP(Renderer, args[0]));
+}
 void dtor_Renderer(ErlNifEnv* env, void* obj)
 {
-	SDL_DestroyRenderer(NIF_RES_GET(Renderer, obj));
-	enif_release_resource(NIF_RES_DEP(Renderer, obj));
+	nif_thread_cast(env,thread_destroy_renderer,1,obj);
 }
 
 #define RENDERER_FLAGS(F) \

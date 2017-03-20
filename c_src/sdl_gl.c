@@ -14,10 +14,16 @@
 
 #include "esdl2.h"
 
+
+NIF_CAST_HANDLER(thread_destroy_GLContext)
+{
+	SDL_GL_DeleteContext(NIF_RES_GET(GLContext, args[0]));
+        enif_release_resource(NIF_RES_DEP(GLContext, args[0]));
+}
+
 void dtor_GLContext(ErlNifEnv* env, void* obj)
 {
-	SDL_GL_DeleteContext(NIF_RES_GET(GLContext, obj));
-	enif_release_resource(NIF_RES_DEP(GLContext, obj));
+	nif_thread_cast(env,thread_destroy_GLContext,1,obj);
 }
 
 // gl_create_context

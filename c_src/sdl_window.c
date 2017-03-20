@@ -16,9 +16,13 @@
 
 NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_bool, SDL_bool)
 
+NIF_CAST_HANDLER(thread_destroy_window)
+{
+	SDL_DestroyWindow(NIF_RES_GET(Window, args[0]));
+}
 void dtor_Window(ErlNifEnv* env, void* obj)
 {
-	SDL_DestroyWindow(NIF_RES_GET(Window, obj));
+	nif_thread_cast(env,thread_destroy_window,1,obj);
 }
 
 #define WINDOW_FLAGS(F) \
