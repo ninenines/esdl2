@@ -1,4 +1,5 @@
 .erlang.mk
+.esdl2.plt
 c_src/env.mk
 c_src/*.o
 ebin

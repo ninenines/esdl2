@@ -30,6 +30,15 @@ ifeq ($(PLATFORM),msys2)
 	CFLAGS += -I"$(C_SRC_DIR)/compat/"
 endif
 
+check:: cppcheck scan-build
+
+cppcheck:
+	cppcheck -f --quiet --error-exitcode=2 --enable=all --inconclusive --std=posix -I/usr/include/SDL2 c_src/
+
+scan-build:
+	make clean
+	scan-build make
+
 bullet_engine:: all
 	erlc -o examples/bullet_engine examples/bullet_engine/*.erl
 	cd examples/bullet_engine && ./start.sh
