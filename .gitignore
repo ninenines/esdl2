@@ -1,3 +1,4 @@
+.erlang.mk
 c_src/env.mk
 c_src/*.o
 ebin
