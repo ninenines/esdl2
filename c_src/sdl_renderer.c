@@ -668,7 +668,6 @@ NIF_FUNCTION(render_get_clip_rect)
 
 NIF_CALL_HANDLER(thread_render_get_logical_size)
 {
-	SDL_Rect rect;
 	int w, h;
 
 	SDL_RenderGetLogicalSize(args[0], &w, &h);
@@ -693,7 +692,6 @@ NIF_FUNCTION(render_get_logical_size)
 
 NIF_CALL_HANDLER(thread_render_get_scale)
 {
-	SDL_Rect rect;
 	float scaleX, scaleY;
 
 	SDL_RenderGetScale(args[0], &scaleX, &scaleY);
