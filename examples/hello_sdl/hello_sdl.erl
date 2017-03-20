@@ -4,7 +4,7 @@
 -export([run/0]).
 
 run() ->
-	spawn_opt(fun init/0, [{scheduler, 0}]).
+	spawn(fun init/0).
 
 init() ->
 	ok = sdl:start([video]),
