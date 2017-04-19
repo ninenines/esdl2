@@ -163,8 +163,8 @@ void* nif_create_main_thread(char* name)
 {
 	nif_thread_state* st = (nif_thread_state*)enif_alloc(sizeof(nif_thread_state));
 
-	st->lock = enif_mutex_create("esdl2_lock");
-	st->cond = enif_cond_create("esdl2_cond");
+	st->lock = enif_mutex_create("nif_thread_mailbox_lock");
+	st->cond = enif_cond_create("nif_thread_mailbox_cond");
 	st->mailbox = (nif_thread_mailbox*)enif_alloc(sizeof(nif_thread_mailbox));
 	TAILQ_INIT(st->mailbox);
 

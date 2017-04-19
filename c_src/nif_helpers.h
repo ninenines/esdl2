@@ -120,10 +120,18 @@
 
 typedef void* nif_thread_arg;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void* nif_create_main_thread(char*);
 void nif_destroy_main_thread(void*);
 ERL_NIF_TERM nif_thread_cast(ErlNifEnv*, void (*f)(nif_thread_arg*), int a, ...);
 ERL_NIF_TERM nif_thread_call(ErlNifEnv*, ERL_NIF_TERM (*f)(ErlNifEnv*, nif_thread_arg*), int a, ...);
+
+#ifdef __cplusplus
+}
+#endif
 
 #define NIF_CAST_HANDLER(f) static void f(nif_thread_arg* args)
 #define NIF_CALL_HANDLER(f) static ERL_NIF_TERM f(ErlNifEnv* env, nif_thread_arg* args)
