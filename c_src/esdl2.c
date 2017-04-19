@@ -20,7 +20,7 @@ NIF_RESOURCES(NIF_RES_DECL)
 
 static int loads = 0;
 
-int load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
+static int load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
 {
 	NIF_ATOMS(NIF_ATOM_INIT)
 	NIF_RESOURCES(NIF_RES_INIT)
@@ -32,7 +32,7 @@ int load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
 	return 0;
 }
 
-int upgrade(ErlNifEnv* env, void** priv_data, void** old_priv_data, ERL_NIF_TERM load_info)
+static int upgrade(ErlNifEnv* env, void** priv_data, void** old_priv_data, ERL_NIF_TERM load_info)
 {
 	*priv_data = *old_priv_data;
 
@@ -41,7 +41,7 @@ int upgrade(ErlNifEnv* env, void** priv_data, void** old_priv_data, ERL_NIF_TERM
 	return 0;
 }
 
-void unload(ErlNifEnv* env, void* priv_data)
+static void unload(ErlNifEnv* env, void* priv_data)
 {
 	if (loads == 1)
 		nif_destroy_main_thread(priv_data);

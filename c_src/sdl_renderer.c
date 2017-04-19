@@ -26,7 +26,7 @@ void dtor_Renderer(ErlNifEnv* env, void* obj)
 	F(present_vsync, SDL_RENDERER_PRESENTVSYNC) \
 	F(target_texture, SDL_RENDERER_TARGETTEXTURE)
 
-NIF_LIST_TO_FLAGS_FUNCTION(list_to_renderer_flags, Uint32, RENDERER_FLAGS)
+static NIF_LIST_TO_FLAGS_FUNCTION(list_to_renderer_flags, Uint32, RENDERER_FLAGS)
 
 #define BLEND_MODE_ENUM(E) \
 	E(none, SDL_BLENDMODE_NONE) \
@@ -42,9 +42,9 @@ NIF_ENUM_TO_ATOM_FUNCTION(blend_mode_to_atom, SDL_BlendMode, BLEND_MODE_ENUM)
 	F(horizontal, SDL_FLIP_HORIZONTAL) \
 	F(vertical, SDL_FLIP_VERTICAL)
 
-NIF_LIST_TO_FLAGS_FUNCTION(list_to_flip_flags, SDL_RendererFlip, FLIP_FLAGS)
+static NIF_LIST_TO_FLAGS_FUNCTION(list_to_flip_flags, SDL_RendererFlip, FLIP_FLAGS)
 
-int map_to_point(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Point* point)
+static int map_to_point(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Point* point)
 {
 	ERL_NIF_TERM x, y;
 
@@ -61,7 +61,7 @@ int map_to_point(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Point* point)
 	return 1;
 }
 
-int map_to_rect(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Rect* rect)
+static int map_to_rect(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Rect* rect)
 {
 	ERL_NIF_TERM x, y, w, h;
 

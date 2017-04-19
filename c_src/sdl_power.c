@@ -21,7 +21,7 @@
 	E(charging, SDL_POWERSTATE_CHARGING) \
 	E(charged, SDL_POWERSTATE_CHARGED)
 
-NIF_ENUM_TO_ATOM_FUNCTION(power_state_to_atom, SDL_PowerState, POWER_STATE_ENUM)
+static NIF_ENUM_TO_ATOM_FUNCTION(power_state_to_atom, SDL_PowerState, POWER_STATE_ENUM)
 
 // get_power_info
 

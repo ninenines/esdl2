@@ -14,8 +14,6 @@
 
 #include "esdl2.h"
 
-NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_bool, SDL_bool)
-
 void dtor_Window(ErlNifEnv* env, void* obj)
 {
 	SDL_DestroyWindow(NIF_RES_GET(Window, obj));
@@ -37,21 +35,21 @@ void dtor_Window(ErlNifEnv* env, void* obj)
 	F(foreign, SDL_WINDOW_FOREIGN) \
 	F(allow_high_dpi, SDL_WINDOW_ALLOW_HIGHDPI)
 
-NIF_LIST_TO_FLAGS_FUNCTION(list_to_window_flags, Uint32, WINDOW_FLAGS)
-NIF_FLAGS_TO_LIST_FUNCTION(window_flags_to_list, Uint32, WINDOW_FLAGS)
+static NIF_LIST_TO_FLAGS_FUNCTION(list_to_window_flags, Uint32, WINDOW_FLAGS)
+static NIF_FLAGS_TO_LIST_FUNCTION(window_flags_to_list, Uint32, WINDOW_FLAGS)
 
 #define WINDOW_POS_ENUM(E) \
 	E(centered, SDL_WINDOWPOS_CENTERED) \
 	E(undefined, SDL_WINDOWPOS_UNDEFINED)
 
-NIF_ATOM_TO_ENUM_FUNCTION(atom_to_window_pos, int, WINDOW_POS_ENUM)
+static NIF_ATOM_TO_ENUM_FUNCTION(atom_to_window_pos, int, WINDOW_POS_ENUM)
 
 #define WINDOW_FULLSCREEN_ENUM(E) \
 	E(fullscreen, SDL_WINDOW_FULLSCREEN) \
 	E(fullscreen_desktop, SDL_WINDOW_FULLSCREEN_DESKTOP) \
 	E(windowed, 0)
 
-NIF_ATOM_TO_ENUM_FUNCTION(atom_to_window_fullscreen, Uint32, WINDOW_FULLSCREEN_ENUM)
+static NIF_ATOM_TO_ENUM_FUNCTION(atom_to_window_fullscreen, Uint32, WINDOW_FULLSCREEN_ENUM)
 
 // create_window
 

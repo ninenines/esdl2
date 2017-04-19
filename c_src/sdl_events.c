@@ -24,7 +24,7 @@
 	E(mouse_wheel, SDL_MOUSEWHEEL) \
 	E(quit, SDL_QUIT)
 
-NIF_ENUM_TO_ATOM_FUNCTION(event_type_to_atom, Uint32, EVENT_TYPE_ENUM)
+static NIF_ENUM_TO_ATOM_FUNCTION(event_type_to_atom, Uint32, EVENT_TYPE_ENUM)
 
 #define WINDOW_EVENT_ENUM(E) \
 	E(shown, SDL_WINDOWEVENT_SHOWN) \
@@ -42,7 +42,7 @@ NIF_ENUM_TO_ATOM_FUNCTION(event_type_to_atom, Uint32, EVENT_TYPE_ENUM)
 	E(focus_lost, SDL_WINDOWEVENT_FOCUS_LOST) \
 	E(close, SDL_WINDOWEVENT_CLOSE)
 
-NIF_ENUM_TO_ATOM_FUNCTION(window_event_to_atom, Uint8, WINDOW_EVENT_ENUM)
+static NIF_ENUM_TO_ATOM_FUNCTION(window_event_to_atom, Uint8, WINDOW_EVENT_ENUM)
 
 #define KEYMOD_FLAGS(F) \
 	F(left_shift, KMOD_LSHIFT) \
@@ -57,7 +57,7 @@ NIF_ENUM_TO_ATOM_FUNCTION(window_event_to_atom, Uint8, WINDOW_EVENT_ENUM)
 	F(caps, KMOD_CAPS) \
 	F(mode, KMOD_MODE)
 
-NIF_FLAGS_TO_LIST_FUNCTION(keymod_flags_to_list, Uint16, KEYMOD_FLAGS)
+static NIF_FLAGS_TO_LIST_FUNCTION(keymod_flags_to_list, Uint16, KEYMOD_FLAGS)
 
 #define BUTTON_ENUM(E) \
 	E(left, SDL_BUTTON_LEFT) \
@@ -66,7 +66,7 @@ NIF_FLAGS_TO_LIST_FUNCTION(keymod_flags_to_list, Uint16, KEYMOD_FLAGS)
 	E(x1, SDL_BUTTON_X1) \
 	E(x2, SDL_BUTTON_X2)
 
-NIF_ENUM_TO_ATOM_FUNCTION(button_to_atom, Uint8, BUTTON_ENUM)
+static NIF_ENUM_TO_ATOM_FUNCTION(button_to_atom, Uint8, BUTTON_ENUM)
 
 // poll_event
 

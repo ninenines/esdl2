@@ -38,7 +38,7 @@ typedef struct {
 
 // Message.
 
-nif_thread_message* nif_thread_message_alloc(void* f, nif_thread_arg* args, ErlNifPid* pid)
+static nif_thread_message* nif_thread_message_alloc(void* f, nif_thread_arg* args, ErlNifPid* pid)
 {
 	nif_thread_message* msg = (nif_thread_message*)enif_alloc(sizeof(nif_thread_message));
 
@@ -49,7 +49,7 @@ nif_thread_message* nif_thread_message_alloc(void* f, nif_thread_arg* args, ErlN
 	return msg;
 }
 
-void nif_thread_message_free(nif_thread_message* msg)
+static void nif_thread_message_free(nif_thread_message* msg)
 {
 	enif_free(msg->from_pid);
 	enif_free(msg->args);
@@ -58,7 +58,7 @@ void nif_thread_message_free(nif_thread_message* msg)
 
 // Calls and casts.
 
-ERL_NIF_TERM nif_thread_send(nif_thread_state* st, nif_thread_message* msg)
+static ERL_NIF_TERM nif_thread_send(nif_thread_state* st, nif_thread_message* msg)
 {
 	enif_mutex_lock(st->lock);
 
@@ -107,7 +107,7 @@ ERL_NIF_TERM nif_thread_call(ErlNifEnv* env, ERL_NIF_TERM (*f)(ErlNifEnv*, nif_t
 
 // Main thread loop.
 
-int nif_thread_receive(nif_thread_state* st, nif_thread_message** msg)
+static int nif_thread_receive(nif_thread_state* st, nif_thread_message** msg)
 {
 	enif_mutex_lock(st->lock);
 
@@ -125,7 +125,7 @@ int nif_thread_receive(nif_thread_state* st, nif_thread_message** msg)
 	return 1;
 }
 
-void nif_thread_handle(ErlNifEnv* env, nif_thread_state* st, nif_thread_message* msg)
+static void nif_thread_handle(ErlNifEnv* env, nif_thread_state* st, nif_thread_message* msg)
 {
 	if (msg->from_pid == NULL) {
 		void (*cast)(nif_thread_arg*) = msg->function;
@@ -143,7 +143,7 @@ void nif_thread_handle(ErlNifEnv* env, nif_thread_state* st, nif_thread_message*
 	nif_thread_message_free(msg);
 }
 
-void* nif_main_thread(void* obj)
+static void* nif_main_thread(void* obj)
 {
 	ErlNifEnv* env = enif_alloc_env();
 	nif_thread_state* st = (nif_thread_state*)obj;

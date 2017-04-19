@@ -257,9 +257,15 @@ NIF_ATOMS(NIF_ATOM_H_DECL)
 NIF_RESOURCES(NIF_RES_H_DECL)
 NIF_FUNCTIONS(NIF_FUNCTION_H_DECL)
 
+// Utility functions used across different files.
+
+NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_bool, SDL_bool)
+NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_blend_mode, SDL_BlendMode)
+NIF_ENUM_TO_ATOM_FUNCTION_DECL(blend_mode_to_atom, SDL_BlendMode)
+
 // --
 
-ErlNifPid* get_callback_process();
+ErlNifPid* get_callback_process(void);
 
 #define sdl_error_tuple(env) \
 	enif_make_tuple2(env, \

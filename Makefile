@@ -20,11 +20,11 @@ PROJECT_VERSION = 0.1.0
 SDL2_LIBS_FILTER_OUT = -Wl,--no-undefined
 SDL2_LIBS = $(filter-out $(SDL2_LIBS_FILTER_OUT),$(shell sdl2-config --static-libs))
 
+include erlang.mk
+
 CFLAGS += $(shell sdl2-config --cflags)
 # @todo -undefined dynamic_lookup on OSX?
 LDLIBS += $(SDL2_LIBS) -lSDL2_image
-
-include erlang.mk
 
 ifeq ($(PLATFORM),msys2)
 	CFLAGS += -I"$(C_SRC_DIR)/compat/"

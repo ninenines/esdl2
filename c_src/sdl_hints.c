@@ -21,7 +21,7 @@ typedef struct esdl2_callback {
 	char* function;
 } esdl2_callback;
 
-void esdl2_hint_callback(void* userdata, const char* name, const char* oldValue, const char* newValue)
+static void esdl2_hint_callback(void* userdata, const char* name, const char* oldValue, const char* newValue)
 {
 	ErlNifEnv* env = enif_alloc_env();
 	esdl2_callback* callback = (esdl2_callback*)userdata;

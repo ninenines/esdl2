@@ -27,8 +27,8 @@
 	BASE_INIT_FLAGS(F) \
 	F(everything, SDL_INIT_EVERYTHING)
 
-NIF_LIST_TO_FLAGS_FUNCTION(list_to_init_flags, Uint32, INIT_FLAGS)
-NIF_FLAGS_TO_LIST_FUNCTION(init_flags_to_list, Uint32, BASE_INIT_FLAGS)
+static NIF_LIST_TO_FLAGS_FUNCTION(list_to_init_flags, Uint32, INIT_FLAGS)
+static NIF_FLAGS_TO_LIST_FUNCTION(init_flags_to_list, Uint32, BASE_INIT_FLAGS)
 
 // init
 

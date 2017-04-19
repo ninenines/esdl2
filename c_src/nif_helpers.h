@@ -125,7 +125,7 @@ void nif_destroy_main_thread(void*);
 ERL_NIF_TERM nif_thread_cast(ErlNifEnv*, void (*f)(nif_thread_arg*), int a, ...);
 ERL_NIF_TERM nif_thread_call(ErlNifEnv*, ERL_NIF_TERM (*f)(ErlNifEnv*, nif_thread_arg*), int a, ...);
 
-#define NIF_CAST_HANDLER(f) void f(nif_thread_arg* args)
-#define NIF_CALL_HANDLER(f) ERL_NIF_TERM f(ErlNifEnv* env, nif_thread_arg* args)
+#define NIF_CAST_HANDLER(f) static void f(nif_thread_arg* args)
+#define NIF_CALL_HANDLER(f) static ERL_NIF_TERM f(ErlNifEnv* env, nif_thread_arg* args)
 
 #endif
