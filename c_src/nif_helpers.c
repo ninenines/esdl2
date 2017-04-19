@@ -169,8 +169,9 @@ void* nif_create_main_thread(char* name)
 	TAILQ_INIT(st->mailbox);
 
 #if defined(__APPLE__) && defined(__MACH__)
-	// On OSX, SDL2 must run in the main thread, otherwise some operations
-	// will not work properly. For example, input events would not be received.
+	// On OSX we identify ourselves as the main thread to ensure that
+	// we are compatible with libraries that require it. For example
+	// this is necessary with SDL2 in order to receive input events.
 	erl_drv_steal_main_thread(name, &(st->tid), nif_main_thread, st, NULL);
 #else
 	enif_thread_create(name, &(st->tid), nif_main_thread, st, NULL);
