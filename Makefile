@@ -16,6 +16,10 @@ PROJECT = esdl2
 PROJECT_DESCRIPTION = SDL2 Erlang NIF.
 PROJECT_VERSION = 0.1.0
 
+BUILD_DEPS = nif_helpers
+dep_nif_helpers = git https://github.com/ninenines/nif_helpers master
+DEP_PLUGINS = nif_helpers
+
 # SDL 2.0.3 has this option enabled that causes problems with NIF functions.
 SDL2_LIBS_FILTER_OUT = -Wl,--no-undefined
 SDL2_LIBS = $(filter-out $(SDL2_LIBS_FILTER_OUT),$(shell sdl2-config --static-libs))
@@ -25,10 +29,6 @@ include erlang.mk
 CFLAGS += $(shell sdl2-config --cflags)
 # @todo -undefined dynamic_lookup on OSX?
 LDLIBS += $(SDL2_LIBS) -lSDL2_image
-
-ifeq ($(PLATFORM),msys2)
-	CFLAGS += -I"$(C_SRC_DIR)/compat/"
-endif
 
 check:: cppcheck scan-build
 
