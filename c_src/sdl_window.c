@@ -14,9 +14,13 @@
 
 #include "esdl2.h"
 
+// @todo These operations should probably occur in the thread.
 void dtor_Window(ErlNifEnv* env, void* obj)
 {
-	SDL_DestroyWindow(NIF_RES_GET(Window, obj));
+	SDL_Window* window = NIF_RES_GET(Window, obj);
+
+	SDL_DestroyWindow(window);
+	esdl2_windows_remove(window);
 }
 
 #define WINDOW_FLAGS(F) \
@@ -33,7 +37,8 @@ void dtor_Window(ErlNifEnv* env, void* obj)
 	F(input_focus, SDL_WINDOW_INPUT_FOCUS) \
 	F(mouse_focus, SDL_WINDOW_MOUSE_FOCUS) \
 	F(foreign, SDL_WINDOW_FOREIGN) \
-	F(allow_high_dpi, SDL_WINDOW_ALLOW_HIGHDPI)
+	F(allow_high_dpi, SDL_WINDOW_ALLOW_HIGHDPI) \
+	F(mouse_capture, SDL_WINDOW_MOUSE_CAPTURE)
 
 static NIF_LIST_TO_FLAGS_FUNCTION(list_to_window_flags, Uint32, WINDOW_FLAGS)
 static NIF_FLAGS_TO_LIST_FUNCTION(window_flags_to_list, Uint32, WINDOW_FLAGS)
@@ -56,6 +61,7 @@ static NIF_ATOM_TO_ENUM_FUNCTION(atom_to_window_fullscreen, Uint32, WINDOW_FULLS
 NIF_CALL_HANDLER(thread_create_window)
 {
 	SDL_Window* window;
+	obj_Window* res;
 	ERL_NIF_TERM term;
 
 	window = SDL_CreateWindow(args[0], (long)args[1], (long)args[2], (long)args[3], (long)args[4], (long)args[5]);
@@ -65,7 +71,9 @@ NIF_CALL_HANDLER(thread_create_window)
 	if (!window)
 		return sdl_error_tuple(env);
 
-	NIF_RES_TO_TERM(Window, window, term);
+	NIF_RES_TO_PTR_AND_TERM(Window, window, res, term);
+
+	esdl2_windows_insert(window, res);
 
 	return enif_make_tuple2(env,
 		atom_ok,

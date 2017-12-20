@@ -39,6 +39,10 @@ scan-build:
 	make clean
 	scan-build make
 
+hello_sdl:: all
+	erlc -o examples/hello_sdl examples/hello_sdl/*.erl
+	cd examples/hello_sdl && ./start.sh
+
 bullet_engine:: all
 	erlc -o examples/bullet_engine examples/bullet_engine/*.erl
 	cd examples/bullet_engine && ./start.sh

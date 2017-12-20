@@ -17,7 +17,7 @@
 void dtor_GLContext(ErlNifEnv* env, void* obj)
 {
 	SDL_GL_DeleteContext(NIF_RES_GET(GLContext, obj));
-	enif_release_resource(NIF_RES_DEP(GLContext, obj));
+// @todo	enif_release_resource(NIF_RES_DEP(GLContext, obj));
 }
 
 // gl_create_context
@@ -33,7 +33,8 @@ NIF_CALL_HANDLER(thread_gl_create_context)
 
 	enif_keep_resource(args[0]);
 
-	NIF_RES_TO_TERM_WITH_DEP(GLContext, context, term, args[0]);
+// @todo	NIF_RES_TO_TERM_WITH_DEP(GLContext, context, term, args[0]);
+	NIF_RES_TO_TERM(GLContext, context, term);
 
 	return enif_make_tuple2(env,
 		atom_ok,

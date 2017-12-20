@@ -23,6 +23,7 @@
 	A(accelerated) \
 	A(add) \
 	A(allow_high_dpi) \
+	A(arrow) \
 	A(audio) \
 	A(blend) \
 	A(borderless) \
@@ -34,6 +35,7 @@
 	A(charging) \
 	A(clicks) \
 	A(close) \
+	A(crosshair) \
 	A(data) \
 	A(enter) \
 	A(error) \
@@ -42,6 +44,7 @@
 	A(everything) \
 	A(exposed) \
 	A(false) \
+	A(flipped) \
 	A(focus_gained) \
 	A(focus_lost) \
 	A(foreign) \
@@ -49,9 +52,11 @@
 	A(fullscreen_desktop) \
 	A(game_controller) \
 	A(h) \
+	A(hand) \
 	A(haptic) \
 	A(hidden) \
 	A(horizontal) \
+	A(ibeam) \
 	A(input_focus) \
 	A(input_grabbed) \
 	A(joystick) \
@@ -69,14 +74,17 @@
 	A(minimized) \
 	A(mod) \
 	A(mode) \
+	A(mouse_capture) \
 	A(mouse_down) \
 	A(mouse_focus) \
 	A(mouse_motion) \
 	A(mouse_up) \
 	A(mouse_wheel) \
 	A(moved) \
+	A(no) \
 	A(no_battery) \
 	A(none) \
+	A(normal) \
 	A(num) \
 	A(on_battery) \
 	A(opengl) \
@@ -93,7 +101,12 @@
 	A(right_shift) \
 	A(scancode) \
 	A(shown) \
+	A(size_all) \
 	A(size_changed) \
+	A(size_nesw) \
+	A(size_ns) \
+	A(size_nwse) \
+	A(size_we) \
 	A(software) \
 	A(state) \
 	A(sym) \
@@ -108,6 +121,8 @@
 	A(vertical) \
 	A(video) \
 	A(w) \
+	A(wait) \
+	A(wait_arrow) \
 	A(which) \
 	A(window) \
 	A(window_id) \
@@ -175,6 +190,16 @@
 	F(is_text_input_active, 0) \
 	F(start_text_input, 0) \
 	F(stop_text_input, 0) \
+	/* sdl_mouse */ \
+	F(capture_mouse, 1) \
+	F(get_global_mouse_state, 0) \
+	F(get_mouse_focus, 0) \
+	F(get_mouse_state, 0) \
+	F(get_relative_mouse_mode, 0) \
+	F(get_relative_mouse_state, 0) \
+	F(set_relative_mouse_mode, 1) \
+	F(warp_mouse_global, 2) \
+	F(warp_mouse_in_window, 3) \
 	/* sdl_power */ \
 	F(get_power_info, 0) \
 	/* sdl_renderer */ \
@@ -264,6 +289,18 @@ NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_blend_mode, SDL_BlendMode)
 NIF_ENUM_TO_ATOM_FUNCTION_DECL(blend_mode_to_atom, SDL_BlendMode)
 
 // --
+
+void esdl2_windows_init(void);
+void esdl2_windows_insert(SDL_Window*, obj_Window*);
+ERL_NIF_TERM esdl2_windows_find(ErlNifEnv*, SDL_Window*);
+void esdl2_windows_remove(SDL_Window*);
+void esdl2_windows_free(void);
+
+void esdl2_renderers_init(void);
+void esdl2_renderers_insert(SDL_Renderer*, obj_Renderer*, obj_Window*);
+ERL_NIF_TERM esdl2_renderers_find(ErlNifEnv*, SDL_Renderer*);
+void esdl2_renderers_remove(SDL_Renderer*);
+void esdl2_renderers_free(void);
 
 ErlNifPid* get_callback_process(void);
 

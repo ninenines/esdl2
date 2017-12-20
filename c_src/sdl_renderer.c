@@ -16,8 +16,10 @@
 
 void dtor_Renderer(ErlNifEnv* env, void* obj)
 {
-	SDL_DestroyRenderer(NIF_RES_GET(Renderer, obj));
-	enif_release_resource(NIF_RES_DEP(Renderer, obj));
+	SDL_Renderer* renderer = NIF_RES_GET(Renderer, obj);
+
+	SDL_DestroyRenderer(renderer);
+	esdl2_renderers_remove(renderer);
 }
 
 #define RENDERER_FLAGS(F) \
@@ -91,14 +93,16 @@ static int map_to_rect(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Rect* rect)
 NIF_CALL_HANDLER(thread_create_renderer)
 {
 	SDL_Renderer* renderer;
+	obj_Renderer* res;
 	ERL_NIF_TERM term;
 
 	renderer = SDL_CreateRenderer(NIF_RES_GET(Window, args[0]), (long)args[1], (long)args[2]);
 	if (!renderer)
 		return sdl_error_tuple(env);
 
-	enif_keep_resource(args[0]);
-	NIF_RES_TO_TERM_WITH_DEP(Renderer, renderer, term, args[0]);
+	NIF_RES_TO_PTR_AND_TERM(Renderer, renderer, res, term);
+
+	esdl2_renderers_insert(renderer, res, args[0]);
 
 	return enif_make_tuple2(env,
 		atom_ok,

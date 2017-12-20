@@ -27,6 +27,8 @@ static int load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
 
 	*priv_data = nif_create_main_thread("esdl2");
 
+	esdl2_windows_init();
+
 	loads++;
 
 	return 0;
@@ -45,6 +47,8 @@ static void unload(ErlNifEnv* env, void* priv_data)
 {
 	if (loads == 1)
 		nif_destroy_main_thread(priv_data);
+
+	esdl2_windows_free();
 
 	loads--;
 }

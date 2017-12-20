@@ -64,6 +64,17 @@
 -export([start_text_input/0]).
 -export([stop_text_input/0]).
 
+%% sdl_mouse
+-export([capture_mouse/1]).
+-export([get_global_mouse_state/0]).
+-export([get_mouse_focus/0]).
+-export([get_mouse_state/0]).
+-export([get_relative_mouse_mode/0]).
+-export([get_relative_mouse_state/0]).
+-export([set_relative_mouse_mode/1]).
+-export([warp_mouse_global/2]).
+-export([warp_mouse_in_window/3]).
+
 %% sdl_power
 -export([get_power_info/0]).
 
@@ -267,6 +278,35 @@ start_text_input() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 stop_text_input() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+%% sdl_mouse
+
+capture_mouse(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_global_mouse_state() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_mouse_focus() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_mouse_state() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_relative_mouse_mode() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_relative_mouse_state() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+set_relative_mouse_mode(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+warp_mouse_global(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+warp_mouse_in_window(_, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_power
