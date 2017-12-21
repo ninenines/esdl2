@@ -45,6 +45,15 @@
 -export([has_sse41/0]).
 -export([has_sse42/0]).
 
+%% sdl_cursor
+-export([create_cursor/6]).
+-export([create_color_cursor/3]).
+-export([create_system_cursor/1]).
+-export([get_cursor/0]).
+-export([get_default_cursor/0]).
+-export([set_cursor/1]).
+-export([show_cursor/1]).
+
 %% sdl_events
 -export([poll_event/0]).
 
@@ -241,6 +250,29 @@ has_sse41() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 has_sse42() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+%% sdl_cursor
+
+create_cursor(_, _, _, _, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+create_color_cursor(_, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+create_system_cursor(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_cursor() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_default_cursor() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+set_cursor(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+show_cursor(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_events

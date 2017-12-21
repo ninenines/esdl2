@@ -40,9 +40,7 @@ void esdl2_windows_insert(SDL_Window* window, obj_Window* res)
 	LIST_INSERT_HEAD(&windows, item, entries);
 }
 
-struct esdl2_window* esdl2_windows_find_entry(SDL_Window* window);
-
-struct esdl2_window* esdl2_windows_find_entry(SDL_Window* window)
+static struct esdl2_window* esdl2_windows_find_entry(SDL_Window* window)
 {
 	struct esdl2_window* head;
 

@@ -139,6 +139,7 @@
 
 #define NIF_RES_TYPE(r) SDL_ ## r
 #define NIF_RESOURCES(R) \
+	R(Cursor) \
 	R(GLContext) \
 	R(Renderer) \
 	R(Surface) \
@@ -176,6 +177,14 @@
 	F(has_sse3, 0) \
 	F(has_sse41, 0) \
 	F(has_sse42, 0) \
+	/* sdl_cursor */ \
+	F(create_cursor, 6) \
+	F(create_color_cursor, 3) \
+	F(create_system_cursor, 1) \
+	F(get_cursor, 0) \
+	F(get_default_cursor, 0) \
+	F(set_cursor, 1) \
+	F(show_cursor, 1) \
 	/* sdl_events */ \
 	F(poll_event, 0) \
 	/* sdl_filesystem */ \
@@ -301,6 +310,12 @@ void esdl2_renderers_insert(SDL_Renderer*, obj_Renderer*, obj_Window*);
 ERL_NIF_TERM esdl2_renderers_find(ErlNifEnv*, SDL_Renderer*);
 void esdl2_renderers_remove(SDL_Renderer*);
 void esdl2_renderers_free(void);
+
+void esdl2_cursors_init(void);
+void esdl2_cursors_insert(SDL_Cursor*, obj_Cursor*);
+ERL_NIF_TERM esdl2_cursors_find(ErlNifEnv*, SDL_Cursor*);
+void esdl2_cursors_remove(SDL_Cursor*);
+void esdl2_cursors_free(void);
 
 ErlNifPid* get_callback_process(void);
 

@@ -15,42 +15,38 @@
 #include "esdl2.h"
 #include <sys/queue.h>
 
-struct esdl2_renderer {
-	LIST_ENTRY(esdl2_renderer) entries;
+struct esdl2_cursor {
+	LIST_ENTRY(esdl2_cursor) entries;
 
-	SDL_Renderer* renderer;
-	obj_Renderer* res;
-	obj_Window* window_res;
+	SDL_Cursor* cursor;
+	obj_Cursor* res;
 };
 
-static LIST_HEAD(esdl2_renderer_list, esdl2_renderer) renderers;
+static LIST_HEAD(esdl2_cursor_list, esdl2_cursor) cursors;
 
-void esdl2_renderers_init()
+void esdl2_cursors_init()
 {
-	LIST_INIT(&renderers);
+	LIST_INIT(&cursors);
 }
 
-void esdl2_renderers_insert(SDL_Renderer* renderer, obj_Renderer* res, obj_Window* window_res)
+void esdl2_cursors_insert(SDL_Cursor* cursor, obj_Cursor* res)
 {
-	struct esdl2_renderer* item;
+	struct esdl2_cursor* item;
 
-	item = malloc(sizeof(struct esdl2_renderer));
-	item->renderer = renderer;
+	item = malloc(sizeof(struct esdl2_cursor));
+	item->cursor = cursor;
 	item->res = res;
-	item->window_res = window_res;
 
-	enif_keep_resource(window_res);
-
-	LIST_INSERT_HEAD(&renderers, item, entries);
+	LIST_INSERT_HEAD(&cursors, item, entries);
 }
 
-static struct esdl2_renderer* esdl2_renderers_find_entry(SDL_Renderer* renderer)
+static struct esdl2_cursor* esdl2_cursors_find_entry(SDL_Cursor* cursor)
 {
-	struct esdl2_renderer* head;
+	struct esdl2_cursor* head;
 
-	head = LIST_FIRST(&renderers);
+	head = LIST_FIRST(&cursors);
 	while (head != NULL) {
-		if (head->renderer == renderer)
+		if (head->cursor == cursor)
 			return head;
 
 		head = LIST_NEXT(head, entries);
@@ -59,12 +55,12 @@ static struct esdl2_renderer* esdl2_renderers_find_entry(SDL_Renderer* renderer)
 	return NULL;
 }
 
-ERL_NIF_TERM esdl2_renderers_find(ErlNifEnv* env, SDL_Renderer* renderer)
+ERL_NIF_TERM esdl2_cursors_find(ErlNifEnv* env, SDL_Cursor* cursor)
 {
-	struct esdl2_renderer* entry;
+	struct esdl2_cursor* entry;
 	ERL_NIF_TERM term;
 
-	entry = esdl2_renderers_find_entry(renderer);
+	entry = esdl2_cursors_find_entry(cursor);
 
 	if (entry == NULL)
 		return atom_undefined;
@@ -74,25 +70,23 @@ ERL_NIF_TERM esdl2_renderers_find(ErlNifEnv* env, SDL_Renderer* renderer)
 	return term;
 }
 
-void esdl2_renderers_remove(SDL_Renderer* renderer)
+void esdl2_cursors_remove(SDL_Cursor* cursor)
 {
-	struct esdl2_renderer* entry;
+	struct esdl2_cursor* entry;
 
-	entry = esdl2_renderers_find_entry(renderer);
+	entry = esdl2_cursors_find_entry(cursor);
 
 	if (entry == NULL)
 		return;
 
-	enif_release_resource(entry->window_res);
-
 	LIST_REMOVE(entry, entries);
 }
 
-void esdl2_renderers_free()
+void esdl2_cursors_free()
 {
-	struct esdl2_renderer *head, *next;
+	struct esdl2_cursor *head, *next;
 
-	head = LIST_FIRST(&renderers);
+	head = LIST_FIRST(&cursors);
 	while (head != NULL) {
 		next = LIST_NEXT(head, entries);
 		free(head);

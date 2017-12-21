@@ -228,9 +228,6 @@ The following tasks remain to be done:
 * http://hg.libsdl.org/SDL/file/default/include/SDL_scancode.h
   * We probably should make it easy to identify keycodes and scancodes.
 
-* http://hg.libsdl.org/SDL/file/default/include/SDL_mouse.h
-  * We need to implement everything.
-
 * http://hg.libsdl.org/SDL/file/default/include/SDL_joystick.h
   * We need to implement everything.
 

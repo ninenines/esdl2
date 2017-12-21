@@ -880,7 +880,7 @@ NIF_FUNCTION(render_set_viewport)
 		NIF_RES_GET(Renderer, renderer_res), x, y, w, h);
 }
 
-// get_window_grab
+// render_target_supported
 
 NIF_CALL_HANDLER(thread_render_target_supported)
 {
