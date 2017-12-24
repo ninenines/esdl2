@@ -1,0 +1,197 @@
+= ESDL2
+
+SDL2 Erlang NIF.
+
+The following sections list the state of the implementation
+as of SDL 2.0.7. The implementation is cut into sections
+corresponding to the public headers.
+
+== Fully implemented
+
+* 'SDL.h'
+* 'SDL_mouse.h'
+* 'SDL_filesystem.h'
+* 'SDL_power.h'
+
+== Partially implemented
+
+* 'SDL_blendmode.h': `SDL_BlendMode` is currently located in `sdl_renderer`. Move it. Everything else is missing.
+* 'SDL_clipboard.h': We currently do not support UTF-8. We should probably switch to binaries as input/output to support it.
+* 'SDL_cpuinfo.h': `SDL_HasAVX2` and `SDL_HasNEON` must be implemented.
+* 'SDL_events.h': Most of it is missing.
+* 'SDL_hints.h': We only have a proof of concept callback system.
+* 'SDL_keyboard.h': Most of it is missing.
+* 'SDL_render.h': The following elements are missing:
+** `SDL_TextureAccess` enum
+** `SDL_TextureModulate` enum
+** `SDL_GetNumRenderDrivers`
+** `SDL_GetRenderDriverInfo`
+** `SDL_CreateWindowAndRenderer` is currently located in `sdl_window`. Move it?
+** `SDL_CreateSoftwareRenderer`
+** `SDL_GetRenderer`
+** `SDL_GetRendererInfo`
+** `SDL_CreateTexture`
+** `SDL_QueryTexture`
+** `SDL_UpdateTexture`
+** `SDL_UpdateYUVTexture`
+** `SDL_LockTexture`
+** `SDL_UnlockTexture`
+** `SDL_SetRenderTarget`
+** `SDL_GetRenderTarget`
+** `SDL_RenderSetIntegerScale`
+** `SDL_RenderGetIntegerScale`
+** `SDL_RenderIsClipEnabled`
+** `SDL_RenderReadPixels`
+** `SDL_GL_BindTexture`
+** `SDL_GL_UnbindTexture`
+* 'SDL_stdinc.h': SDL_bool is implemented in 'sdl_bool.c'. Do we need anything else?
+* 'SDL_surface.h': Only surface creation (via `IMG_Load`) and destruction is implemented. Might be better to move IMG_* functions in their own space.
+* 'SDL_version.h': `SDL_GetRevisionNumber` must be implemented. The macros may also be useful.
+* 'SDL_video.h': The following elements are missing:
+** `SDL_WindowFlags` values SDL_WINDOW_ALWAYS_ON_TOP, SDL_WINDOW_SKIP_TASKBAR, SDL_WINDOW_UTILITY, SDL_WINDOW_TOOLTIP, SDL_WINDOW_POPUP_MENU, SDL_WINDOW_VULKAN
+** `SDL_WINDOWPOS_*` values for different displays
+** Window events are in sdl_events instead of sdl_window; `SDL_WINDOWEVENT_TAKE_FOCUS` and `SDL_WINDOWEVENT_HIT_TEST` are also missing.
+** `SDL_GetNumVideoDrivers`
+** `SDL_GetVideoDriver`
+** `SDL_VideoInit`
+** `SDL_VideoQuit`
+** `SDL_GetCurrentVideoDriver`
+** `SDL_GetNumVideoDisplays`
+** `SDL_GetDisplayName`
+** `SDL_GetDisplayBounds`
+** `SDL_GetDisplayDPI`
+** `SDL_GetDisplayUsableBounds`
+** `SDL_GetNumDisplayModes`
+** `SDL_GetDisplayMode`
+** `SDL_GetDesktopDisplayMode`
+** `SDL_GetCurrentDisplayMode`
+** `SDL_GetClosestDisplayMode`
+** `SDL_GetWindowDisplayIndex`
+** `SDL_SetWindowDisplayMode`
+** `SDL_GetWindowDisplayMode`
+** `SDL_GetWindowPixelFormat`
+** `SDL_CreateWindowFrom`
+** `SDL_GetWindowFromID`
+** We currently do not support UTF-8. We should probably switch to binaries as input/output to support it for `SDL_SetWindowTitle` and `SDL_GetWindowTitle`
+** `SDL_SetWindowData`
+** `SDL_GetWindowData`
+** `SDL_GetWindowBordersSize`
+** `SDL_SetWindowResizable`
+** `SDL_GetWindowSurface`
+** `SDL_UpdateWindowSurface`
+** `SDL_UpdateWindowSurfaceRects`
+** `SDL_GetGrabbedWindow`
+** `SDL_SetWindowOpacity`
+** `SDL_GetWindowOpacity`
+** `SDL_SetWindowModalFor`
+** `SDL_SetWindowInputFocus`
+** `SDL_SetWindowGammaRamp`
+** `SDL_GetWindowGammaRamp`
+** `SDL_SetWindowHitTest` and the related callback `SDL_HitTestResult`
+** `SDL_IsScreenSaverEnabled`
+** `SDL_EnableScreenSaver`
+** `SDL_DisableScreenSaver`
+** `SDL_GL_LoadLibrary` (unclear if we need it)
+** `SDL_GL_GetProcAddress` (unclear if we need it)
+** `SDL_GL_UnloadLibrary` (unclear if we need it)
+** `SDL_GL_ExtensionSupported`
+** `SDL_GL_ResetAttributes`
+** `SDL_GL_SetAttribute`
+** `SDL_GL_GetAttribute`
+** `SDL_GL_MakeCurrent`
+** `SDL_GL_GetCurrentWindow`
+** `SDL_GL_GetCurrentContext`
+** `SDL_GL_GetDrawableSize`
+** `SDL_GL_SetSwapInterval`
+** `SDL_GL_GetSwapInterval`
+
+== To be implemented
+
+* 'SDL_audio.h'
+* 'SDL_error.h' (for completion)
+* 'SDL_gamecontroller.h'
+* 'SDL_gesture.h'
+* 'SDL_haptic.h'
+* 'SDL_joystick.h'
+* 'SDL_keycode.h'
+* 'SDL_messagebox.h'
+* 'SDL_pixels.h'
+* 'SDL_platform.h'
+* 'SDL_rect.h' (though we have a rect data type in sdl_renderer)
+* 'SDL_rwops.h' (unclear if we need it)
+* 'SDL_scancode.h'
+* 'SDL_shape.h'
+* 'SDL_system.h'
+* 'SDL_syswm.h'
+* 'SDL_timer.h' (unclear if we need it)
+* 'SDL_touch.h'
+* 'SDL_vulkan.h'
+
+For OpenGL we need to figure out whether we can call the functions from
+wxErlang. If we can, great! If not, find an automated way to provide
+access to OpenGL.
+
+SDL extensions also need to be investigated and implemented.
+
+== To be removed
+
+* `SDL_SetMainReady` which has no public interface, only the NIF function.
+
+== Don't implement
+
+These don't make a lot of sense for Erlang.
+
+* 'SDL_assert.h'
+* 'SDL_atomic.h'
+* 'SDL_bits.h'
+* 'SDL_endian.h'
+* 'SDL_loadso.h'
+* 'SDL_log.h'
+* 'SDL_main.h'
+* 'SDL_mutex.h'
+* 'SDL_quit.h' (only necessary when using `SDL_Main`?)
+* 'SDL_thread.h'
+
+== Nothing to implement
+
+These are either private headers, duplicated OpenGL/Vulkan
+headers or simply deprecated.
+
+* 'SDL_config.h'
+* 'SDL_config_android.h'
+* 'SDL_config_iphoneos.h'
+* 'SDL_config_macosx.h'
+* 'SDL_config_minimal.h'
+* 'SDL_config_pandora.h'
+* 'SDL_config_psp.h'
+* 'SDL_config_windows.h'
+* 'SDL_config_winrt.h'
+* 'SDL_config_wiz.h'
+* 'SDL_copying.h'
+* 'SDL_egl.h'
+* 'SDL_name.h'
+* 'SDL_opengl.h'
+* 'SDL_opengl_glext.h'
+* 'SDL_opengles.h'
+* 'SDL_opengles2.h'
+* 'SDL_opengles2_gl2.h'
+* 'SDL_opengles2_gl2ext.h'
+* 'SDL_opengles2_gl2platform.h'
+* 'SDL_opengles2_khrplatform.h'
+* 'SDL_revision.h'
+* 'SDL_test.h'
+* 'SDL_test_assert.h'
+* 'SDL_test_common.h'
+* 'SDL_test_compare.h'
+* 'SDL_test_crc32.h'
+* 'SDL_test_font.h'
+* 'SDL_test_fuzzer.h'
+* 'SDL_test_harness.h'
+* 'SDL_test_images.h'
+* 'SDL_test_log.h'
+* 'SDL_test_md5.h'
+* 'SDL_test_memory.h'
+* 'SDL_test_random.h'
+* 'SDL_types.h'
+* 'begin_code.h'
+* 'close_code.h'

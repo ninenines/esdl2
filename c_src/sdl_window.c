@@ -25,7 +25,6 @@ void dtor_Window(ErlNifEnv* env, void* obj)
 
 #define WINDOW_FLAGS(F) \
 	F(fullscreen, SDL_WINDOW_FULLSCREEN) \
-	F(fullscreen_desktop, SDL_WINDOW_FULLSCREEN_DESKTOP) \
 	F(opengl, SDL_WINDOW_OPENGL) \
 	F(shown, SDL_WINDOW_SHOWN) \
 	F(hidden, SDL_WINDOW_HIDDEN) \
@@ -36,6 +35,7 @@ void dtor_Window(ErlNifEnv* env, void* obj)
 	F(input_grabbed, SDL_WINDOW_INPUT_GRABBED) \
 	F(input_focus, SDL_WINDOW_INPUT_FOCUS) \
 	F(mouse_focus, SDL_WINDOW_MOUSE_FOCUS) \
+	F(fullscreen_desktop, SDL_WINDOW_FULLSCREEN_DESKTOP) \
 	F(foreign, SDL_WINDOW_FOREIGN) \
 	F(allow_high_dpi, SDL_WINDOW_ALLOW_HIGHDPI) \
 	F(mouse_capture, SDL_WINDOW_MOUSE_CAPTURE)
