@@ -37,6 +37,7 @@
 	A(close) \
 	A(crosshair) \
 	A(data) \
+	A(direction) \
 	A(enter) \
 	A(error) \
 	A(event) \
@@ -296,6 +297,7 @@ NIF_FUNCTIONS(NIF_FUNCTION_H_DECL)
 NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_bool, SDL_bool)
 NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_blend_mode, SDL_BlendMode)
 NIF_ENUM_TO_ATOM_FUNCTION_DECL(blend_mode_to_atom, SDL_BlendMode)
+NIF_ENUM_TO_ATOM_FUNCTION_DECL(mousewheel_direction_to_atom, Uint32)
 
 // --
 

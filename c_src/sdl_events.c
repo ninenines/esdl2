@@ -159,6 +159,8 @@ NIF_CALL_HANDLER(thread_poll_event)
 			enif_make_int(env, event.wheel.x), &map);
 		enif_make_map_put(env, map, atom_y,
 			enif_make_int(env, event.wheel.y), &map);
+		enif_make_map_put(env, map, atom_direction,
+			mousewheel_direction_to_atom(event.wheel.direction), &map);
 	}
 
 	// @todo SDL_TextEditingEvent

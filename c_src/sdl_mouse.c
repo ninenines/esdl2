@@ -18,7 +18,7 @@
 	E(normal, SDL_MOUSEWHEEL_NORMAL) \
 	E(flipped, SDL_MOUSEWHEEL_FLIPPED)
 
-static NIF_ATOM_TO_ENUM_FUNCTION(atom_to_mousewheel_direction, int, MOUSEWHEEL_DIRECTION_ENUM)
+NIF_ENUM_TO_ATOM_FUNCTION(mousewheel_direction_to_atom, Uint32, MOUSEWHEEL_DIRECTION_ENUM)
 
 static ERL_NIF_TERM get_mouse_state_common(ErlNifEnv* env, int x, int y, Uint32 state)
 {
