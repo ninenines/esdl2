@@ -59,9 +59,6 @@
 -type point() :: #{x=>integer(), y=>integer()}.
 -type rect() :: #{x=>integer(), y=>integer(), w=>integer(), h=>integer()}.
 
--type blend_mode() :: none | blend | add | mod.
--export_type([blend_mode/0]).
-
 -spec clear(renderer()) -> ok | sdl:error().
 clear(Renderer) ->
 	esdl2:render_clear(Renderer),
@@ -157,7 +154,7 @@ get_clip_rect(Renderer) ->
 	esdl2:render_get_clip_rect(Renderer),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec get_draw_blend_mode(renderer()) -> blend_mode().
+-spec get_draw_blend_mode(renderer()) -> sdl_blend_mode:blend_mode().
 get_draw_blend_mode(Renderer) ->
 	esdl2:get_render_draw_blend_mode(Renderer),
 	receive {'_nif_thread_ret_', Ret} ->
@@ -214,7 +211,7 @@ set_clip_rect(Renderer, X, Y, W, H) ->
 	esdl2:render_set_clip_rect(Renderer, X, Y, W, H),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec set_draw_blend_mode(renderer(), blend_mode()) -> ok | sdl:error().
+-spec set_draw_blend_mode(renderer(), sdl_blend_mode:blend_mode()) -> ok | sdl:error().
 set_draw_blend_mode(Renderer, BlendMode) ->
 	esdl2:set_render_draw_blend_mode(Renderer, BlendMode),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.

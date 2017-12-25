@@ -38,6 +38,8 @@
 	A(crosshair) \
 	A(data) \
 	A(direction) \
+	A(dst_alpha) \
+	A(dst_color) \
 	A(enter) \
 	A(error) \
 	A(event) \
@@ -60,6 +62,7 @@
 	A(ibeam) \
 	A(input_focus) \
 	A(input_grabbed) \
+	A(invalid) \
 	A(joystick) \
 	A(key_down) \
 	A(key_up) \
@@ -70,9 +73,15 @@
 	A(left_gui) \
 	A(left_shift) \
 	A(ok) \
+	A(one_minus_dst_alpha) \
+	A(one_minus_dst_color) \
+	A(one_minus_src_alpha) \
+	A(one_minus_src_color) \
 	A(maximized) \
+	A(maximum) \
 	A(middle) \
 	A(minimized) \
+	A(minimum) \
 	A(mod) \
 	A(mode) \
 	A(mouse_capture) \
@@ -88,6 +97,7 @@
 	A(normal) \
 	A(num) \
 	A(on_battery) \
+	A(one) \
 	A(opengl) \
 	A(present_vsync) \
 	A(quit) \
@@ -95,6 +105,7 @@
 	A(resizable) \
 	A(resized) \
 	A(restored) \
+	A(rev_substract) \
 	A(right) \
 	A(right_alt) \
 	A(right_ctrl) \
@@ -109,7 +120,10 @@
 	A(size_nwse) \
 	A(size_we) \
 	A(software) \
+	A(src_alpha) \
+	A(src_color) \
 	A(state) \
+	A(substract) \
 	A(sym) \
 	A(target_texture) \
 	A(touch) \
@@ -134,6 +148,7 @@
 	A(xrel) \
 	A(y) \
 	A(yrel) \
+	A(zero) \
 	A(_nif_thread_ret_)
 
 // List of resources used by this NIF.
@@ -160,6 +175,8 @@
 	F(quit_subsystem, 1) \
 	F(set_main_ready, 0) \
 	F(was_init, 1) \
+	/* sdl_blendmode */ \
+	F(compose_custom_blend_mode, 6) \
 	/* sdl_clipboard */ \
 	F(get_clipboard_text, 0) \
 	F(has_clipboard_text, 0) \

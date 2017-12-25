@@ -30,15 +30,6 @@ void dtor_Renderer(ErlNifEnv* env, void* obj)
 
 static NIF_LIST_TO_FLAGS_FUNCTION(list_to_renderer_flags, Uint32, RENDERER_FLAGS)
 
-#define BLEND_MODE_ENUM(E) \
-	E(none, SDL_BLENDMODE_NONE) \
-	E(blend, SDL_BLENDMODE_BLEND) \
-	E(add, SDL_BLENDMODE_ADD) \
-	E(mod, SDL_BLENDMODE_MOD)
-
-NIF_ATOM_TO_ENUM_FUNCTION(atom_to_blend_mode, SDL_BlendMode, BLEND_MODE_ENUM)
-NIF_ENUM_TO_ATOM_FUNCTION(blend_mode_to_atom, SDL_BlendMode, BLEND_MODE_ENUM)
-
 #define FLIP_FLAGS(F) \
 	F(none, SDL_FLIP_NONE) \
 	F(horizontal, SDL_FLIP_HORIZONTAL) \
