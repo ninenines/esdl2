@@ -186,9 +186,11 @@
 	F(get_cpu_count, 0) \
 	F(get_system_ram, 0) \
 	F(has_3dnow, 0) \
-	F(has_avx, 0) \
 	F(has_altivec, 0) \
+	F(has_avx, 0) \
+	F(has_avx2, 0) \
 	F(has_mmx, 0) \
+	F(has_neon, 0) \
 	F(has_rdtsc, 0) \
 	F(has_sse, 0) \
 	F(has_sse2, 0) \

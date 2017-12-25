@@ -38,9 +38,11 @@
 -export([get_cpu_count/0]).
 -export([get_system_ram/0]).
 -export([has_3dnow/0]).
--export([has_avx/0]).
 -export([has_altivec/0]).
+-export([has_avx/0]).
+-export([has_avx2/0]).
 -export([has_mmx/0]).
+-export([has_neon/0]).
 -export([has_rdtsc/0]).
 -export([has_sse/0]).
 -export([has_sse2/0]).
@@ -233,13 +235,19 @@ get_system_ram() ->
 has_3dnow() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
-has_avx() ->
-	erlang:nif_error({not_loaded, ?MODULE}).
-
 has_altivec() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
+has_avx() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_avx2() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 has_mmx() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_neon() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 has_rdtsc() ->

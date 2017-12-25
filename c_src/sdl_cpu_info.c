@@ -45,16 +45,6 @@ NIF_FUNCTION(has_3dnow)
 	return atom_false;
 }
 
-// has_avx
-
-NIF_FUNCTION(has_avx)
-{
-	if (SDL_HasAVX())
-		return atom_true;
-
-	return atom_false;
-}
-
 // has_altivec
 
 NIF_FUNCTION(has_altivec)
@@ -65,11 +55,41 @@ NIF_FUNCTION(has_altivec)
 	return atom_false;
 }
 
+// has_avx
+
+NIF_FUNCTION(has_avx)
+{
+	if (SDL_HasAVX())
+		return atom_true;
+
+	return atom_false;
+}
+
+// has_avx2
+
+NIF_FUNCTION(has_avx2)
+{
+	if (SDL_HasAVX2())
+		return atom_true;
+
+	return atom_false;
+}
+
 // has_mmx
 
 NIF_FUNCTION(has_mmx)
 {
 	if (SDL_HasMMX())
+		return atom_true;
+
+	return atom_false;
+}
+
+// has_neon
+
+NIF_FUNCTION(has_neon)
+{
+	if (SDL_HasNEON())
 		return atom_true;
 
 	return atom_false;

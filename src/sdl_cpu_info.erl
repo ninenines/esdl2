@@ -18,9 +18,11 @@
 -export([get_cpu_count/0]).
 -export([get_system_ram/0]).
 -export([has_3dnow/0]).
--export([has_avx/0]).
 -export([has_altivec/0]).
+-export([has_avx/0]).
+-export([has_avx2/0]).
 -export([has_mmx/0]).
+-export([has_neon/0]).
 -export([has_rdtsc/0]).
 -export([has_sse/0]).
 -export([has_sse2/0]).
@@ -44,17 +46,25 @@ get_system_ram() ->
 has_3dnow() ->
 	esdl2:has_3dnow().
 
--spec has_avx() -> boolean().
-has_avx() ->
-	esdl2:has_avx().
-
 -spec has_altivec() -> boolean().
 has_altivec() ->
 	esdl2:has_altivec().
 
+-spec has_avx() -> boolean().
+has_avx() ->
+	esdl2:has_avx().
+
+-spec has_avx2() -> boolean().
+has_avx2() ->
+	esdl2:has_avx2().
+
 -spec has_mmx() -> boolean().
 has_mmx() ->
 	esdl2:has_mmx().
+
+-spec has_neon() -> boolean().
+has_neon() ->
+	esdl2:has_neon().
 
 -spec has_rdtsc() -> boolean().
 has_rdtsc() ->

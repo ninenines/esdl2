@@ -10,6 +10,7 @@ corresponding to the public headers.
 
 * 'SDL.h'
 * 'SDL_blendmode.h'
+* 'SDL_cpuinfo.h'
 * 'SDL_mouse.h'
 * 'SDL_filesystem.h'
 * 'SDL_power.h'
@@ -17,7 +18,6 @@ corresponding to the public headers.
 == Partially implemented
 
 * 'SDL_clipboard.h': We currently do not support UTF-8. We should probably switch to binaries as input/output to support it.
-* 'SDL_cpuinfo.h': `SDL_HasAVX2` and `SDL_HasNEON` must be implemented.
 * 'SDL_events.h': Most of it is missing.
 * 'SDL_hints.h': We only have a proof of concept callback system.
 * 'SDL_keyboard.h': Most of it is missing.
