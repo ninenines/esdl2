@@ -20,7 +20,16 @@
 
 NIF_ENUM_TO_ATOM_FUNCTION(mousewheel_direction_to_atom, Uint32, MOUSEWHEEL_DIRECTION_ENUM)
 
-static ERL_NIF_TERM get_mouse_state_common(ErlNifEnv* env, int x, int y, Uint32 state)
+#define BUTTON_ENUM(E) \
+	E(left, SDL_BUTTON_LEFT) \
+	E(middle, SDL_BUTTON_MIDDLE) \
+	E(right, SDL_BUTTON_RIGHT) \
+	E(x1, SDL_BUTTON_X1) \
+	E(x2, SDL_BUTTON_X2)
+
+NIF_ENUM_TO_ATOM_FUNCTION(button_to_atom, Uint8, BUTTON_ENUM)
+
+ERL_NIF_TERM mouse_state_to_list(ErlNifEnv* env, Uint32 state)
 {
 	ERL_NIF_TERM list;
 
@@ -37,10 +46,15 @@ static ERL_NIF_TERM get_mouse_state_common(ErlNifEnv* env, int x, int y, Uint32 
 	if (state & SDL_BUTTON_X2MASK)
 		list = enif_make_list_cell(env, atom_x2, list);
 
+	return list;
+}
+
+static ERL_NIF_TERM get_mouse_state_common(ErlNifEnv* env, int x, int y, Uint32 state)
+{
 	return enif_make_tuple3(env,
 		enif_make_int(env, x),
 		enif_make_int(env, y),
-		list
+		mouse_state_to_list(env, state)
 	);
 }
 

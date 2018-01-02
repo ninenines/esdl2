@@ -24,6 +24,12 @@
 -export([warp/2]).
 -export([warp/3]).
 
+-type wheel_direction() :: normal | flipped.
+-export_type([wheel_direction/0]).
+
+-type button() :: left | middle | right | x1 | x2.
+-export_type([button/0]).
+
 -spec capture(boolean()) -> ok | sdl:error().
 capture(Bool) ->
 	esdl2:capture_mouse(Bool),
@@ -34,8 +40,7 @@ get_focused_window() ->
 	esdl2:get_mouse_focus(),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec get_global_state()
-	-> {integer(), integer(), [left | middle | right | x1 | x2]}.
+-spec get_global_state() -> {integer(), integer(), [button()]}.
 get_global_state() ->
 	esdl2:get_global_mouse_state(),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
@@ -45,14 +50,12 @@ get_relative_mode() ->
 	esdl2:get_relative_mouse_mode(),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec get_relative_state()
-	-> {integer(), integer(), [left | middle | right | x1 | x2]}.
+-spec get_relative_state() -> {integer(), integer(), [button()]}.
 get_relative_state() ->
 	esdl2:get_relative_mouse_state(),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec get_state()
-	-> {integer(), integer(), [left | middle | right | x1 | x2]}.
+-spec get_state() -> {integer(), integer(), [button()]}.
 get_state() ->
 	esdl2:get_mouse_state(),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.

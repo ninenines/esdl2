@@ -23,8 +23,16 @@
 	A(accelerated) \
 	A(add) \
 	A(allow_high_dpi) \
+	A(app_did_enter_background) \
+	A(app_did_enter_foreground) \
+	A(app_low_memory) \
+	A(app_terminating) \
+	A(app_will_enter_background) \
+	A(app_will_enter_foreground) \
 	A(arrow) \
 	A(audio) \
+	A(audio_device_added) \
+	A(audio_device_removed) \
 	A(blend) \
 	A(borderless) \
 	A(button) \
@@ -34,10 +42,24 @@
 	A(charged) \
 	A(charging) \
 	A(clicks) \
+	A(clipboard_update) \
 	A(close) \
+	A(controller_axis_motion) \
+	A(controller_button_down) \
+	A(controller_button_up) \
+	A(controller_device_added) \
+	A(controller_device_remapped) \
+	A(controller_device_removed) \
 	A(crosshair) \
-	A(data) \
+	A(data1) \
+	A(data2) \
 	A(direction) \
+	A(dollar_gesture) \
+	A(dollar_record) \
+	A(drop_begin) \
+	A(drop_complete) \
+	A(drop_file) \
+	A(drop_text) \
 	A(dst_alpha) \
 	A(dst_color) \
 	A(enter) \
@@ -47,6 +69,10 @@
 	A(everything) \
 	A(exposed) \
 	A(false) \
+	A(finger_down) \
+	A(finger_motion) \
+	A(finger_up) \
+	A(first) \
 	A(flipped) \
 	A(focus_gained) \
 	A(focus_lost) \
@@ -54,18 +80,29 @@
 	A(fullscreen) \
 	A(fullscreen_desktop) \
 	A(game_controller) \
+	A(get) \
 	A(h) \
 	A(hand) \
 	A(haptic) \
 	A(hidden) \
+	A(hit_test) \
 	A(horizontal) \
 	A(ibeam) \
 	A(input_focus) \
 	A(input_grabbed) \
 	A(invalid) \
+	A(joy_axis_motion) \
+	A(joy_ball_motion) \
+	A(joy_button_down) \
+	A(joy_button_up) \
+	A(joy_device_added) \
+	A(joy_device_removed) \
+	A(joy_hat_motion) \
 	A(joystick) \
 	A(key_down) \
 	A(key_up) \
+	A(keymap_changed) \
+	A(last) \
 	A(leave) \
 	A(left) \
 	A(left_alt) \
@@ -91,6 +128,7 @@
 	A(mouse_up) \
 	A(mouse_wheel) \
 	A(moved) \
+	A(multi_gesture) \
 	A(no) \
 	A(no_battery) \
 	A(none) \
@@ -99,8 +137,13 @@
 	A(on_battery) \
 	A(one) \
 	A(opengl) \
+	A(peek) \
 	A(present_vsync) \
+	A(pressed) \
 	A(quit) \
+	A(released) \
+	A(render_targets_reset) \
+	A(render_device_reset) \
 	A(repeat) \
 	A(resizable) \
 	A(resized) \
@@ -125,7 +168,11 @@
 	A(state) \
 	A(substract) \
 	A(sym) \
+	A(syswm) \
+	A(take_focus) \
 	A(target_texture) \
+	A(text_editing) \
+	A(text_input) \
 	A(touch) \
 	A(true) \
 	A(timer) \
@@ -206,7 +253,13 @@
 	F(set_cursor, 1) \
 	F(show_cursor, 1) \
 	/* sdl_events */ \
+	F(flush_event, 1) \
+	F(flush_events, 2) \
+	F(has_event, 1) \
+	F(has_events, 2) \
+	F(peep_events, 4) \
 	F(poll_event, 0) \
+	F(pump_events, 0) \
 	/* sdl_filesystem */ \
 	F(get_base_path, 0) \
 	F(get_pref_path, 2) \
@@ -316,7 +369,13 @@ NIF_FUNCTIONS(NIF_FUNCTION_H_DECL)
 NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_bool, SDL_bool)
 NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_blend_mode, SDL_BlendMode)
 NIF_ENUM_TO_ATOM_FUNCTION_DECL(blend_mode_to_atom, SDL_BlendMode)
+NIF_ENUM_TO_ATOM_FUNCTION_DECL(button_to_atom, Uint8)
 NIF_ENUM_TO_ATOM_FUNCTION_DECL(mousewheel_direction_to_atom, Uint32)
+NIF_ENUM_TO_ATOM_FUNCTION_DECL(window_event_to_atom, Uint8)
+
+NIF_FLAGS_TO_LIST_FUNCTION_DECL(keymod_flags_to_list, Uint16)
+
+ERL_NIF_TERM mouse_state_to_list(ErlNifEnv*, Uint32);
 
 // --
 

@@ -51,6 +51,11 @@
 	| hidden | borderless | resizable | minimized | maximized
 	| input_grabbed | input_focus | mouse_focus | foreign | allow_high_dpi.
 
+-type window_event_type() :: shown | hidden | exposed | moved | resized
+	| size_changed | minimized | maximized | restored | enter | leave
+	| focus_gained | focus_lost | close | take_focus | hit_test.
+-export_type([window_event_type/0]).
+
 -spec create(string(), window_pos(), window_pos(), integer(), integer(), [window_flag()])
 	-> {ok, window()} | sdl:error().
 create(Title, X, Y, W, H, Flags) ->

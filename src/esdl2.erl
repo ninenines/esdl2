@@ -60,7 +60,13 @@
 -export([show_cursor/1]).
 
 %% sdl_events
+-export([flush_event/1]).
+-export([flush_events/2]).
+-export([has_event/1]).
+-export([has_events/2]).
+-export([peep_events/4]).
 -export([poll_event/0]).
+-export([pump_events/0]).
 
 %% sdl_filesystem
 -export([get_base_path/0]).
@@ -293,7 +299,25 @@ show_cursor(_) ->
 
 %% sdl_events
 
+flush_event(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+flush_events(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_event(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_events(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+peep_events(_, _, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 poll_event() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+pump_events() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_filesystem
