@@ -87,7 +87,6 @@ corresponding to the public headers.
 * 'SDL_video.h': The following elements are missing:
 ** `SDL_WindowFlags` values SDL_WINDOW_ALWAYS_ON_TOP, SDL_WINDOW_SKIP_TASKBAR, SDL_WINDOW_UTILITY, SDL_WINDOW_TOOLTIP, SDL_WINDOW_POPUP_MENU, SDL_WINDOW_VULKAN
 ** `SDL_WINDOWPOS_*` values for different displays
-** Window events are in sdl_events instead of sdl_window; `SDL_WINDOWEVENT_TAKE_FOCUS` and `SDL_WINDOWEVENT_HIT_TEST` are also missing.
 ** `SDL_GetNumVideoDrivers`
 ** `SDL_GetVideoDriver`
 ** `SDL_VideoInit`
