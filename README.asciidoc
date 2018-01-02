@@ -18,7 +18,44 @@ corresponding to the public headers.
 == Partially implemented
 
 * 'SDL_clipboard.h': We currently do not support UTF-8. We should probably switch to binaries as input/output to support it.
-* 'SDL_events.h': Most of it is missing.
+* 'SDL_events.h': The following events and functions are missing:
+** `SDL_SYSWMEVENT`
+** `SDL_TEXTEDITING`
+** `SDL_TEXTINPUT`
+** `SDL_JOYAXISMOTION`
+** `SDL_JOYBALLMOTION`
+** `SDL_JOYHATMOTION`
+** `SDL_JOYBUTTONDOWN`
+** `SDL_JOYBUTTONUP`
+** `SDL_JOYDEVICEADDED`
+** `SDL_JOYDEVICEREMOVED`
+** `SDL_CONTROLLERAXISMOTION`
+** `SDL_CONTROLLERBUTTONDOWN`
+** `SDL_CONTROLLERBUTTONUP`
+** `SDL_CONTROLLERDEVICEADDED`
+** `SDL_CONTROLLERDEVICEREMOVED`
+** `SDL_CONTROLLERDEVICEREMAPPED`
+** `SDL_FINGERDOWN`
+** `SDL_FINGERUP`
+** `SDL_FINGERMOTION`
+** `SDL_DOLLARGESTURE`
+** `SDL_DOLLARRECORD`
+** `SDL_MULTIGESTURE`
+** `SDL_DROPFILE`
+** `SDL_DROPTEXT`
+** `SDL_DROPBEGIN`
+** `SDL_DROPCOMPLETE`
+** `SDL_AUDIODEVICEADDED`
+** `SDL_AUDIODEVICEREMOVED`
+** `SDL_PeepEvents` with action argument `SDL_ADDEVENT`
+** `SDL_PushEvents`
+** `SDL_SetEventFilter`
+** `SDL_GetEventFilter`
+** `SDL_AddEventWatch`
+** `SDL_DelEventWatch`
+** `SDL_FilterEvents`
+** `SDL_EventState` and `SDL_GetEventState`
+** `SDL_RegisterEvents`
 * 'SDL_hints.h': We only have a proof of concept callback system.
 * 'SDL_keyboard.h': Most of it is missing.
 * 'SDL_render.h': The following elements are missing:
@@ -132,6 +169,8 @@ wxErlang. If we can, great! If not, find an automated way to provide
 access to OpenGL.
 
 SDL extensions also need to be investigated and implemented.
+We definitely want at least some of SDL_image, SDL_mixer
+and SDL_ttf. We probably do not need SDL_net or SDL_rtf.
 
 == To be removed
 
@@ -145,6 +184,7 @@ These don't make a lot of sense for Erlang.
 * 'SDL_atomic.h'
 * 'SDL_bits.h'
 * 'SDL_endian.h'
+* 'SDL_events.h': the functions `SDL_WaitEvent` and `SDL_WaitEventTimeout` are blocking.
 * 'SDL_loadso.h'
 * 'SDL_log.h'
 * 'SDL_main.h'
