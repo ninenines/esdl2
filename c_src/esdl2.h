@@ -269,7 +269,15 @@
 	/* sdl_hints */ \
 	F(add_hint_callback, 3) \
 	/* sdl_keyboard */ \
+	F(get_key_from_name, 1) \
+	F(get_key_from_scancode, 1) \
+	F(get_key_name, 1) \
+	F(get_mod_state, 0) \
+	F(get_scancode_from_key, 1) \
+	F(get_scancode_from_name, 1) \
+	F(get_scancode_name, 1) \
 	F(is_text_input_active, 0) \
+	F(set_mod_state, 1) \
 	F(start_text_input, 0) \
 	F(stop_text_input, 0) \
 	/* sdl_mouse */ \
@@ -373,6 +381,7 @@ NIF_ENUM_TO_ATOM_FUNCTION_DECL(button_to_atom, Uint8)
 NIF_ENUM_TO_ATOM_FUNCTION_DECL(mousewheel_direction_to_atom, Uint32)
 NIF_ENUM_TO_ATOM_FUNCTION_DECL(window_event_to_atom, Uint8)
 
+NIF_LIST_TO_FLAGS_FUNCTION_DECL(keymod_list_to_flags, Uint16)
 NIF_FLAGS_TO_LIST_FUNCTION_DECL(keymod_flags_to_list, Uint16)
 
 ERL_NIF_TERM mouse_state_to_list(ErlNifEnv*, Uint32);

@@ -14,14 +14,56 @@
 
 -module(sdl_keyboard).
 
+-export([get_key_from_name/1]).
+-export([get_key_from_scancode/1]).
+-export([get_key_name/1]).
+-export([get_mod_state/0]).
+-export([get_scancode_from_key/1]).
+-export([get_scancode_from_name/1]).
+-export([get_scancode_name/1]).
 -export([is_text_input_active/0]).
+-export([set_mod_state/1]).
 -export([start_text_input/0]).
 -export([stop_text_input/0]).
+
+-spec get_key_from_name(binary()) -> non_neg_integer() | undefined.
+get_key_from_name(Name) ->
+	esdl2:get_key_from_name(Name).
+
+-spec get_key_from_scancode(non_neg_integer()) -> non_neg_integer() | undefined.
+get_key_from_scancode(Scancode) ->
+	esdl2:get_key_from_scancode(Scancode).
+
+-spec get_key_name(non_neg_integer()) -> binary().
+get_key_name(Key) ->
+	esdl2:get_key_name(Key),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec get_mod_state() -> [sdl_keycode:keymod()].
+get_mod_state() ->
+	esdl2:get_mod_state(),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec get_scancode_from_key(non_neg_integer()) -> non_neg_integer() | undefined.
+get_scancode_from_key(Key) ->
+	esdl2:get_scancode_from_key(Key).
+
+-spec get_scancode_from_name(binary()) -> non_neg_integer() | undefined.
+get_scancode_from_name(Name) ->
+	esdl2:get_scancode_from_name(Name).
+
+-spec get_scancode_name(non_neg_integer()) -> binary().
+get_scancode_name(Scancode) ->
+	esdl2:get_scancode_name(Scancode).
 
 -spec is_text_input_active() -> boolean().
 is_text_input_active() ->
 	esdl2:is_text_input_active(),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec set_mod_state([sdl_keycode:keymod()]) -> ok.
+set_mod_state(Mod) ->
+	esdl2:set_mod_state(Mod).
 
 -spec start_text_input() -> ok.
 start_text_input() ->

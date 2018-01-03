@@ -101,7 +101,7 @@ static ERL_NIF_TERM keyboard_event_to_map(ErlNifEnv* env, SDL_Event* event, ERL_
 	enif_make_map_put(env, map, atom_scancode,
 		enif_make_uint(env, event->key.keysym.scancode), &map);
 	enif_make_map_put(env, map, atom_sym,
-		enif_make_uint(env, event->key.keysym.sym), &map);
+		enif_make_int(env, event->key.keysym.sym), &map);
 	enif_make_map_put(env, map, atom_mod,
 		keymod_flags_to_list(env, event->key.keysym.mod), &map);
 

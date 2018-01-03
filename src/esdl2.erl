@@ -80,7 +80,15 @@
 -export([add_hint_callback/3]).
 
 %% sdl_keyboard
+-export([get_key_from_name/1]).
+-export([get_key_from_scancode/1]).
+-export([get_key_name/1]).
+-export([get_mod_state/0]).
+-export([get_scancode_from_key/1]).
+-export([get_scancode_from_name/1]).
+-export([get_scancode_name/1]).
 -export([is_text_input_active/0]).
+-export([set_mod_state/1]).
 -export([start_text_input/0]).
 -export([stop_text_input/0]).
 
@@ -343,7 +351,31 @@ add_hint_callback(_, _, _) ->
 
 %% sdl_keyboard
 
+get_key_from_name(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_key_from_scancode(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_key_name(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_mod_state() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_scancode_from_key(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_scancode_from_name(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_scancode_name(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 is_text_input_active() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+set_mod_state(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 start_text_input() ->

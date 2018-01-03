@@ -27,4 +27,5 @@
 	F(caps, KMOD_CAPS) \
 	F(mode, KMOD_MODE)
 
+NIF_LIST_TO_FLAGS_FUNCTION(keymod_list_to_flags, Uint16, KEYMOD_FLAGS)
 NIF_FLAGS_TO_LIST_FUNCTION(keymod_flags_to_list, Uint16, KEYMOD_FLAGS)
