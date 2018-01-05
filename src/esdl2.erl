@@ -108,6 +108,9 @@
 -export([warp_mouse_global/2]).
 -export([warp_mouse_in_window/3]).
 
+%% sdl_platform
+-export([get_platform/0]).
+
 %% sdl_power
 -export([get_power_info/0]).
 
@@ -431,6 +434,11 @@ warp_mouse_global(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 warp_mouse_in_window(_, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+%% sdl_platform
+
+get_platform() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_power

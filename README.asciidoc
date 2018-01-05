@@ -15,6 +15,7 @@ corresponding to the public headers.
 * 'SDL_keyboard.h'
 * 'SDL_keycode.h'
 * 'SDL_mouse.h'
+* 'SDL_platform.h'
 * 'SDL_power.h'
 * 'SDL_scancode.h'
 
@@ -154,7 +155,6 @@ corresponding to the public headers.
 * 'SDL_joystick.h'
 * 'SDL_messagebox.h'
 * 'SDL_pixels.h'
-* 'SDL_platform.h'
 * 'SDL_rwops.h' (unclear if we need it)
 * 'SDL_shape.h'
 * 'SDL_system.h'

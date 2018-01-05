@@ -295,6 +295,8 @@
 	F(set_relative_mouse_mode, 1) \
 	F(warp_mouse_global, 2) \
 	F(warp_mouse_in_window, 3) \
+	/* sdl_platform */ \
+	F(get_platform, 0) \
 	/* sdl_power */ \
 	F(get_power_info, 0) \
 	/* sdl_renderer */ \
