@@ -37,48 +37,6 @@ static NIF_LIST_TO_FLAGS_FUNCTION(list_to_renderer_flags, Uint32, RENDERER_FLAGS
 
 static NIF_LIST_TO_FLAGS_FUNCTION(list_to_flip_flags, SDL_RendererFlip, FLIP_FLAGS)
 
-static int map_to_point(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Point* point)
-{
-	ERL_NIF_TERM x, y;
-
-	if (!enif_get_map_value(env, map, atom_x, &x))
-		return 0;
-	if (!enif_get_map_value(env, map, atom_y, &y))
-		return 0;
-
-	if (!enif_get_int(env, x, &point->x))
-		return 0;
-	if (!enif_get_int(env, y, &point->y))
-		return 0;
-
-	return 1;
-}
-
-static int map_to_rect(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Rect* rect)
-{
-	ERL_NIF_TERM x, y, w, h;
-
-	if (!enif_get_map_value(env, map, atom_x, &x))
-		return 0;
-	if (!enif_get_map_value(env, map, atom_y, &y))
-		return 0;
-	if (!enif_get_map_value(env, map, atom_w, &w))
-		return 0;
-	if (!enif_get_map_value(env, map, atom_h, &h))
-		return 0;
-
-	if (!enif_get_int(env, x, &rect->x))
-		return 0;
-	if (!enif_get_int(env, y, &rect->y))
-		return 0;
-	if (!enif_get_int(env, w, &rect->w))
-		return 0;
-	if (!enif_get_int(env, h, &rect->h))
-		return 0;
-
-	return 1;
-}
-
 // create_renderer
 
 NIF_CALL_HANDLER(thread_create_renderer)

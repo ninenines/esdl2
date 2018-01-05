@@ -56,9 +56,6 @@
 -type renderer_flag() :: software | accelerated | present_vsync | target_texture.
 -export_type([renderer_flag/0]).
 
--type point() :: #{x=>integer(), y=>integer()}.
--type rect() :: #{x=>integer(), y=>integer(), w=>integer(), h=>integer()}.
-
 -spec clear(renderer()) -> ok | sdl:error().
 clear(Renderer) ->
 	esdl2:render_clear(Renderer),
@@ -69,14 +66,16 @@ copy(Renderer, Texture) ->
 	esdl2:render_copy(Renderer, Texture, undefined, undefined),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec copy(renderer(), sdl_texture:texture(), undefined | rect(), undefined | rect())
+-spec copy(renderer(), sdl_texture:texture(),
+	undefined | sdl_rect:rect(), undefined | sdl_rect:rect())
 	-> ok | sdl:error().
 copy(Renderer, Texture, SrcRect, DstRect) ->
 	esdl2:render_copy(Renderer, Texture, SrcRect, DstRect),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec copy(renderer(), sdl_texture:texture(), undefined | rect(), undefined | rect(),
-	float(), undefined | point(), none | horizontal | vertical)
+-spec copy(renderer(), sdl_texture:texture(),
+	undefined | sdl_rect:rect(), undefined | sdl_rect:rect(),
+	float(), undefined | sdl_rect:point(), none | horizontal | vertical)
 	-> ok | sdl:error().
 copy(Renderer, Texture, SrcRect, DstRect, Angle, CenterPoint, FlipFlags) ->
 	esdl2:render_copy_ex(Renderer, Texture, SrcRect, DstRect, Angle, CenterPoint, FlipFlags),
@@ -93,7 +92,7 @@ create(Window, Index, Flags) ->
 	esdl2:create_renderer(Window, Index, Flags),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec draw_line(renderer(), point(), point()) -> ok | sdl:error().
+-spec draw_line(renderer(), sdl_rect:point(), sdl_rect:point()) -> ok | sdl:error().
 draw_line(Renderer, #{x:=X1, y:=Y1}, #{x:=X2, y:=Y2}) ->
 	draw_line(Renderer, X1, Y1, X2, Y2).
 
@@ -102,12 +101,12 @@ draw_line(Renderer, X1, Y1, X2, Y2) ->
 	esdl2:render_draw_line(Renderer, X1, Y1, X2, Y2),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec draw_lines(renderer(), [point()]) -> ok | sdl:error().
+-spec draw_lines(renderer(), [sdl_rect:point()]) -> ok | sdl:error().
 draw_lines(Renderer, Points) ->
 	esdl2:render_draw_lines(Renderer, Points),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec draw_point(renderer(), point()) -> ok | sdl:error().
+-spec draw_point(renderer(), sdl_rect:point()) -> ok | sdl:error().
 draw_point(Renderer, #{x:=X, y:=Y}) ->
 	draw_point(Renderer, X, Y).
 
@@ -116,12 +115,12 @@ draw_point(Renderer, X, Y) ->
 	esdl2:render_draw_point(Renderer, X, Y),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec draw_points(renderer(), [point()]) -> ok | sdl:error().
+-spec draw_points(renderer(), [sdl_rect:point()]) -> ok | sdl:error().
 draw_points(Renderer, Points) ->
 	esdl2:render_draw_points(Renderer, Points),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec draw_rect(renderer(), rect()) -> ok | sdl:error().
+-spec draw_rect(renderer(), sdl_rect:rect()) -> ok | sdl:error().
 draw_rect(Renderer, #{x:=X, y:=Y, w:=W, h:=H}) ->
 	draw_rect(Renderer, X, Y, W, H).
 
@@ -130,12 +129,12 @@ draw_rect(Renderer, X, Y, W, H) ->
 	esdl2:render_draw_rect(Renderer, X, Y, W, H),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec draw_rects(renderer(), [rect()]) -> ok | sdl:error().
+-spec draw_rects(renderer(), [sdl_rect:rect()]) -> ok | sdl:error().
 draw_rects(Renderer, Rects) ->
 	esdl2:render_draw_rects(Renderer, Rects),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec fill_rect(renderer(), rect()) -> ok | sdl:error().
+-spec fill_rect(renderer(), sdl_rect:rect()) -> ok | sdl:error().
 fill_rect(Renderer, #{x:=X, y:=Y, w:=W, h:=H}) ->
 	fill_rect(Renderer, X, Y, W, H).
 
@@ -144,12 +143,12 @@ fill_rect(Renderer, X, Y, W, H) ->
 	esdl2:render_fill_rect(Renderer, X, Y, W, H),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec fill_rects(renderer(), [rect()]) -> ok | sdl:error().
+-spec fill_rects(renderer(), [sdl_rect:rect()]) -> ok | sdl:error().
 fill_rects(Renderer, Rects) ->
 	esdl2:render_fill_rects(Renderer, Rects),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec get_clip_rect(renderer()) -> rect().
+-spec get_clip_rect(renderer()) -> sdl_rect:rect().
 get_clip_rect(Renderer) ->
 	esdl2:render_get_clip_rect(Renderer),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
@@ -188,7 +187,7 @@ get_scale(Renderer) ->
 	esdl2:render_get_scale(Renderer),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec get_viewport(renderer()) -> rect().
+-spec get_viewport(renderer()) -> sdl_rect:rect().
 get_viewport(Renderer) ->
 	esdl2:render_get_viewport(Renderer),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
@@ -202,7 +201,7 @@ is_target_supported(Renderer) ->
 present(Renderer) ->
 	esdl2:render_present(Renderer).
 
--spec set_clip_rect(renderer(), rect()) -> ok | sdl:error().
+-spec set_clip_rect(renderer(), sdl_rect:rect()) -> ok | sdl:error().
 set_clip_rect(Renderer, #{x:=X, y:=Y, w:=W, h:=H}) ->
 	set_clip_rect(Renderer, X, Y, W, H).
 
@@ -231,7 +230,7 @@ set_scale(Renderer, ScaleX, ScaleY) ->
 	esdl2:render_set_scale(Renderer, ScaleX, ScaleY),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec set_viewport(renderer(), rect()) -> ok | sdl:error().
+-spec set_viewport(renderer(), sdl_rect:rect()) -> ok | sdl:error().
 set_viewport(Renderer, #{x:=X, y:=Y, w:=W, h:=H}) ->
 	set_viewport(Renderer, X, Y, W, H).
 

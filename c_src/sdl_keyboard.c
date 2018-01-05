@@ -147,8 +147,51 @@ NIF_FUNCTION(get_scancode_name)
 	return enif_make_binary(env, &bin);
 }
 
-// @todo get_keyboard_focus
-// @todo get_keyboard_state
+// get_keyboard_focus
+
+NIF_CALL_HANDLER(thread_get_keyboard_focus)
+{
+	SDL_Window* window;
+
+	window = SDL_GetKeyboardFocus();
+
+	if (!window)
+		return atom_undefined;
+
+	return esdl2_windows_find(env, window);
+}
+
+NIF_FUNCTION(get_keyboard_focus)
+{
+	return nif_thread_call(env, thread_get_keyboard_focus, 0);
+}
+
+// get_keyboard_state
+
+NIF_CALL_HANDLER(thread_get_keyboard_state)
+{
+	const Uint8* state;
+	int i, numkeys;
+	ERL_NIF_TERM map;
+
+	state = SDL_GetKeyboardState(&numkeys);
+
+	map = enif_make_new_map(env);
+
+	for (i = 0; i < numkeys; i++) {
+		enif_make_map_put(env, map,
+			enif_make_int(env, i),
+			state[i] ? atom_true : atom_false,
+			&map);
+	}
+
+	return map;
+}
+
+NIF_FUNCTION(get_keyboard_state)
+{
+	return nif_thread_call(env, thread_get_keyboard_state, 0);
+}
 
 // get_mod_state
 
@@ -166,8 +209,40 @@ NIF_FUNCTION(get_mod_state)
 	return nif_thread_call(env, thread_get_mod_state, 0);
 }
 
-// @todo has_screen_keyboard_support
-// @todo is_screen_keyboard_shown
+// has_screen_keyboard_support
+
+NIF_CALL_HANDLER(thread_has_screen_keyboard_support)
+{
+	if (SDL_HasScreenKeyboardSupport())
+		return atom_true;
+
+	return atom_false;
+}
+
+NIF_FUNCTION(has_screen_keyboard_support)
+{
+	return nif_thread_call(env, thread_has_screen_keyboard_support, 0);
+}
+
+// is_screen_keyboard_shown
+
+NIF_CALL_HANDLER(thread_is_screen_keyboard_shown)
+{
+	if (SDL_IsScreenKeyboardShown(args[0]))
+		return atom_true;
+
+	return atom_false;
+}
+
+NIF_FUNCTION(is_screen_keyboard_shown)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_is_screen_keyboard_shown, 1,
+		NIF_RES_GET(Window, window_res));
+}
 
 // is_text_input_active
 
@@ -200,7 +275,25 @@ NIF_FUNCTION(set_mod_state)
 	return nif_thread_cast(env, thread_set_mod_state, 1, mod);
 }
 
-// @todo set_text_input_rect
+// set_text_input_rect
+
+NIF_CAST_HANDLER(thread_set_text_input_rect)
+{
+	SDL_SetTextInputRect(args[0]);
+}
+
+NIF_FUNCTION(set_text_input_rect)
+{
+	SDL_Rect* rect = NULL;
+
+	rect = (SDL_Rect*)enif_alloc(sizeof(SDL_Rect));
+	if (!map_to_rect(env, argv[0], rect)) {
+		enif_free(rect);
+		return enif_make_badarg(env);
+	}
+
+	return nif_thread_cast(env, thread_set_text_input_rect, 1, rect);
+}
 
 // start_text_input
 

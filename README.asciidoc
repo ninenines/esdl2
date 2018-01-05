@@ -11,9 +11,12 @@ corresponding to the public headers.
 * 'SDL.h'
 * 'SDL_blendmode.h'
 * 'SDL_cpuinfo.h'
-* 'SDL_mouse.h'
 * 'SDL_filesystem.h'
+* 'SDL_keyboard.h'
+* 'SDL_keycode.h'
+* 'SDL_mouse.h'
 * 'SDL_power.h'
+* 'SDL_scancode.h'
 
 == Partially implemented
 
@@ -57,7 +60,7 @@ corresponding to the public headers.
 ** `SDL_EventState` and `SDL_GetEventState`
 ** `SDL_RegisterEvents`
 * 'SDL_hints.h': We only have a proof of concept callback system.
-* 'SDL_keyboard.h': A few more functions are missing.
+* 'SDL_rect.h': Everything is missing except the map to point/rect conversion functions.
 * 'SDL_render.h': The following elements are missing:
 ** `SDL_TextureAccess` enum
 ** `SDL_TextureModulate` enum
@@ -149,13 +152,10 @@ corresponding to the public headers.
 * 'SDL_gesture.h'
 * 'SDL_haptic.h'
 * 'SDL_joystick.h'
-* 'SDL_keycode.h' (have a header containing the values)
 * 'SDL_messagebox.h'
 * 'SDL_pixels.h'
 * 'SDL_platform.h'
-* 'SDL_rect.h' (though we have a rect data type in sdl_renderer)
 * 'SDL_rwops.h' (unclear if we need it)
-* 'SDL_scancode.h' (have a header containing the values)
 * 'SDL_shape.h'
 * 'SDL_system.h'
 * 'SDL_syswm.h'

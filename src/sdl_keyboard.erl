@@ -14,6 +14,7 @@
 
 -module(sdl_keyboard).
 
+-export([get_focused_window/0]).
 -export([get_key_from_name/1]).
 -export([get_key_from_scancode/1]).
 -export([get_key_name/1]).
@@ -21,10 +22,19 @@
 -export([get_scancode_from_key/1]).
 -export([get_scancode_from_name/1]).
 -export([get_scancode_name/1]).
+-export([get_state/0]).
+-export([has_screen_keyboard_support/0]).
+-export([is_screen_keyboard_shown/1]).
 -export([is_text_input_active/0]).
 -export([set_mod_state/1]).
+-export([set_text_input_rect/1]).
 -export([start_text_input/0]).
 -export([stop_text_input/0]).
+
+-spec get_focused_window() -> sdl_window:window() | undefined.
+get_focused_window() ->
+	esdl2:get_keyboard_focus(),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 -spec get_key_from_name(binary()) -> non_neg_integer() | undefined.
 get_key_from_name(Name) ->
@@ -56,6 +66,21 @@ get_scancode_from_name(Name) ->
 get_scancode_name(Scancode) ->
 	esdl2:get_scancode_name(Scancode).
 
+-spec get_state() -> #{non_neg_integer() => boolean()}.
+get_state() ->
+	esdl2:get_keyboard_state(),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec has_screen_keyboard_support() -> boolean().
+has_screen_keyboard_support() ->
+	esdl2:has_screen_keyboard_support(),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec is_screen_keyboard_shown(sdl_window:window()) -> boolean().
+is_screen_keyboard_shown(Window) ->
+	esdl2:is_screen_keyboard_shown(Window),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
 -spec is_text_input_active() -> boolean().
 is_text_input_active() ->
 	esdl2:is_text_input_active(),
@@ -64,6 +89,10 @@ is_text_input_active() ->
 -spec set_mod_state([sdl_keycode:keymod()]) -> ok.
 set_mod_state(Mod) ->
 	esdl2:set_mod_state(Mod).
+
+-spec set_text_input_rect(sdl_rect:rect()) -> ok.
+set_text_input_rect(Rect) ->
+	esdl2:set_text_input_rect(Rect).
 
 -spec start_text_input() -> ok.
 start_text_input() ->
