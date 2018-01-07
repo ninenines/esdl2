@@ -49,7 +49,9 @@
 -type window_pos() :: centered | undefined | integer().
 -type window_flag() :: fullscreen | fullscreen_desktop | opengl | shown
 	| hidden | borderless | resizable | minimized | maximized
-	| input_grabbed | input_focus | mouse_focus | foreign | allow_high_dpi.
+	| input_grabbed | input_focus | mouse_focus | foreign | allow_high_dpi
+	| mouse_capture | always_on_top | skip_taskbar | utility
+	| tooltip | popup_menu | vulkan.
 
 -type window_event_type() :: shown | hidden | exposed | moved | resized
 	| size_changed | minimized | maximized | restored | enter | leave

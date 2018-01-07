@@ -38,7 +38,13 @@ void dtor_Window(ErlNifEnv* env, void* obj)
 	F(fullscreen_desktop, SDL_WINDOW_FULLSCREEN_DESKTOP) \
 	F(foreign, SDL_WINDOW_FOREIGN) \
 	F(allow_high_dpi, SDL_WINDOW_ALLOW_HIGHDPI) \
-	F(mouse_capture, SDL_WINDOW_MOUSE_CAPTURE)
+	F(mouse_capture, SDL_WINDOW_MOUSE_CAPTURE) \
+	F(always_on_top, SDL_WINDOW_ALWAYS_ON_TOP) \
+	F(skip_taskbar, SDL_WINDOW_SKIP_TASKBAR) \
+	F(utility, SDL_WINDOW_UTILITY) \
+	F(tooltip, SDL_WINDOW_TOOLTIP) \
+	F(popup_menu, SDL_WINDOW_POPUP_MENU) \
+	F(vulkan, SDL_WINDOW_VULKAN)
 
 static NIF_LIST_TO_FLAGS_FUNCTION(list_to_window_flags, Uint32, WINDOW_FLAGS)
 static NIF_FLAGS_TO_LIST_FUNCTION(window_flags_to_list, Uint32, WINDOW_FLAGS)

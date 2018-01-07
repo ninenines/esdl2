@@ -27,6 +27,7 @@
 	A(accelerated) \
 	A(add) \
 	A(allow_high_dpi) \
+	A(always_on_top) \
 	A(app_did_enter_background) \
 	A(app_did_enter_foreground) \
 	A(app_low_memory) \
@@ -170,6 +171,7 @@
 	A(one_minus_src_color) \
 	A(opengl) \
 	A(peek) \
+	A(popup_menu) \
 	A(present_vsync) \
 	A(pressed) \
 	A(quit) \
@@ -206,6 +208,7 @@
 	A(size_ns) \
 	A(size_nwse) \
 	A(size_we) \
+	A(skip_taskbar) \
 	A(software) \
 	A(src_alpha) \
 	A(src_color) \
@@ -220,14 +223,17 @@
 	A(texture_formats) \
 	A(timer) \
 	A(timestamp) \
+	A(tooltip) \
 	A(touch) \
 	A(true) \
 	A(type) \
 	A(undefined) \
 	A(unknown) \
+	A(utility) \
 	A(uyvy) \
 	A(vertical) \
 	A(video) \
+	A(vulkan) \
 	A(w) \
 	A(wait) \
 	A(wait_arrow) \

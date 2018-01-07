@@ -84,7 +84,6 @@ corresponding to the public headers.
 * 'SDL_surface.h': Only surface creation (via `IMG_Load`) and destruction is implemented. Might be better to move IMG_* functions in their own space.
 * 'SDL_version.h': `SDL_GetRevisionNumber` must be implemented. The macros may also be useful.
 * 'SDL_video.h': The following elements are missing:
-** `SDL_WindowFlags` values SDL_WINDOW_ALWAYS_ON_TOP, SDL_WINDOW_SKIP_TASKBAR, SDL_WINDOW_UTILITY, SDL_WINDOW_TOOLTIP, SDL_WINDOW_POPUP_MENU, SDL_WINDOW_VULKAN
 ** `SDL_WINDOWPOS_*` values for different displays
 ** `SDL_GetWindowDisplayIndex` (window)
 ** `SDL_SetWindowDisplayMode` (window)
