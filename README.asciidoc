@@ -61,30 +61,25 @@ corresponding to the public headers.
 ** `SDL_EventState` and `SDL_GetEventState`
 ** `SDL_RegisterEvents`
 * 'SDL_hints.h': We only have a proof of concept callback system.
+* 'SDL_pixels.h': Only the pixel format enum and conversion function is defined.
 * 'SDL_rect.h': Everything is missing except the map to point/rect conversion functions.
 * 'SDL_render.h': The following elements are missing:
 ** `SDL_TextureAccess` enum
 ** `SDL_TextureModulate` enum
-** `SDL_GetNumRenderDrivers`
-** `SDL_GetRenderDriverInfo`
 ** `SDL_CreateWindowAndRenderer` is currently located in `sdl_window`. Move it?
-** `SDL_CreateSoftwareRenderer`
-** `SDL_GetRenderer`
-** `SDL_GetRendererInfo`
-** `SDL_CreateTexture`
-** `SDL_QueryTexture`
-** `SDL_UpdateTexture`
-** `SDL_UpdateYUVTexture`
-** `SDL_LockTexture`
-** `SDL_UnlockTexture`
-** `SDL_SetRenderTarget`
-** `SDL_GetRenderTarget`
-** `SDL_RenderSetIntegerScale`
-** `SDL_RenderGetIntegerScale`
-** `SDL_RenderIsClipEnabled`
-** `SDL_RenderReadPixels`
-** `SDL_GL_BindTexture`
-** `SDL_GL_UnbindTexture`
+** `SDL_CreateSoftwareRenderer` (renderer)
+** `SDL_CreateTexture` (texture)
+** `SDL_QueryTexture` (texture)
+** `SDL_UpdateTexture` (texture)
+** `SDL_UpdateYUVTexture` (texture)
+** `SDL_LockTexture` (texture)
+** `SDL_UnlockTexture` (texture)
+** `SDL_SetRenderTarget` (renderer)
+** `SDL_GetRenderTarget` (renderer)
+** `SDL_RenderIsClipEnabled` (renderer)
+** `SDL_RenderReadPixels` (renderer)
+** `SDL_GL_BindTexture` (gl)
+** `SDL_GL_UnbindTexture` (gl)
 * 'SDL_stdinc.h': SDL_bool is implemented in 'sdl_bool.c'. Do we need anything else?
 * 'SDL_surface.h': Only surface creation (via `IMG_Load`) and destruction is implemented. Might be better to move IMG_* functions in their own space.
 * 'SDL_version.h': `SDL_GetRevisionNumber` must be implemented. The macros may also be useful.
@@ -154,7 +149,6 @@ corresponding to the public headers.
 * 'SDL_haptic.h'
 * 'SDL_joystick.h'
 * 'SDL_messagebox.h'
-* 'SDL_pixels.h'
 * 'SDL_rwops.h' (unclear if we need it)
 * 'SDL_shape.h'
 * 'SDL_system.h'

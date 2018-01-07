@@ -69,7 +69,6 @@ NIF_CALL_HANDLER(thread_get_key_name)
 	name = SDL_GetKeyName((long)args[0]);
 
 	enif_alloc_binary(strlen(name), &bin);
-
 	memcpy(bin.data, name, bin.size);
 
 	return enif_make_binary(env, &bin);
@@ -141,7 +140,6 @@ NIF_FUNCTION(get_scancode_name)
 	name = SDL_GetScancodeName(scancode);
 
 	enif_alloc_binary(strlen(name), &bin);
-
 	memcpy(bin.data, name, bin.size);
 
 	return enif_make_binary(env, &bin);

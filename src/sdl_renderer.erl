@@ -18,7 +18,6 @@
 -export([copy/2]).
 -export([copy/4]).
 -export([copy/7]).
--export([count_drivers/0]).
 -export([create/3]).
 -export([draw_line/3]).
 -export([draw_line/5]).
@@ -35,7 +34,12 @@
 -export([get_clip_rect/1]).
 -export([get_draw_blend_mode/1]).
 -export([get_draw_color/1]).
+-export([get_driver_info/1]).
+-export([get_from_window/1]).
+-export([get_info/1]).
+-export([get_integer_scale/1]).
 -export([get_logical_size/1]).
+-export([get_num_drivers/0]).
 -export([get_output_size/1]).
 -export([get_scale/1]).
 -export([get_viewport/1]).
@@ -45,6 +49,7 @@
 -export([set_clip_rect/5]).
 -export([set_draw_blend_mode/2]).
 -export([set_draw_color/5]).
+-export([set_integer_scale/2]).
 -export([set_logical_size/3]).
 -export([set_scale/3]).
 -export([set_viewport/2]).
@@ -55,6 +60,14 @@
 
 -type renderer_flag() :: software | accelerated | present_vsync | target_texture.
 -export_type([renderer_flag/0]).
+
+-type renderer_info() :: #{
+	name => binary(),
+	flags => [renderer_flag()],
+	texture_formats => sdl_pixels:pixel_format(),
+	max_texture_width => integer(),
+	max_texture_height => integer()
+}.
 
 -spec clear(renderer()) -> ok | sdl:error().
 clear(Renderer) ->
@@ -80,11 +93,6 @@ copy(Renderer, Texture, SrcRect, DstRect) ->
 copy(Renderer, Texture, SrcRect, DstRect, Angle, CenterPoint, FlipFlags) ->
 	esdl2:render_copy_ex(Renderer, Texture, SrcRect, DstRect, Angle, CenterPoint, FlipFlags),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
-
--spec count_drivers() -> integer().
-count_drivers() ->
-	{ok, Count} = esdl2:get_num_render_drivers(),
-	Count.
 
 -spec create(sdl_window:window(), integer(), [renderer_flag()])
 	-> {ok, renderer()} | sdl:error().
@@ -169,10 +177,35 @@ get_draw_color(Renderer) ->
 		Mode
 	end.
 
+-spec get_driver_info(integer()) -> {ok, renderer_info()} | sdl:error().
+get_driver_info(Index) ->
+	esdl2:get_render_driver_info(Index),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec get_from_window(sdl_window:window()) -> renderer().
+get_from_window(Window) ->
+	esdl2:get_renderer(Window),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec get_info(renderer()) -> {ok, renderer_info()} | sdl:error().
+get_info(Renderer) ->
+	esdl2:get_renderer_info(Renderer),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec get_integer_scale(renderer()) -> boolean().
+get_integer_scale(Renderer) ->
+	esdl2:render_get_integer_scale(Renderer),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
 -spec get_logical_size(renderer()) -> {integer(), integer()}.
 get_logical_size(Renderer) ->
 	esdl2:render_get_logical_size(Renderer),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec get_num_drivers() -> integer().
+get_num_drivers() ->
+	{ok, Num} = esdl2:get_num_render_drivers(),
+	Num.
 
 -spec get_output_size(renderer()) -> {integer(), integer()}.
 get_output_size(Renderer) ->
@@ -218,6 +251,11 @@ set_draw_blend_mode(Renderer, BlendMode) ->
 -spec set_draw_color(renderer(), byte(), byte(), byte(), byte()) -> ok | sdl:error().
 set_draw_color(Renderer, R, G, B, A) ->
 	esdl2:set_render_draw_color(Renderer, R, G, B, A),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec set_integer_scale(renderer(), boolean()) -> ok | sdl:error().
+set_integer_scale(Renderer, Bool) ->
+	esdl2:render_set_integer_scale(Renderer, Bool),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 -spec set_logical_size(renderer(), integer(), integer()) -> ok | sdl:error().

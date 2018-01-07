@@ -119,7 +119,10 @@
 -export([get_num_render_drivers/0]).
 -export([get_render_draw_blend_mode/1]).
 -export([get_render_draw_color/1]).
+-export([get_render_driver_info/1]).
 -export([get_render_output_size/1]).
+-export([get_renderer/1]).
+-export([get_renderer_info/1]).
 -export([render_clear/1]).
 -export([render_copy/4]).
 -export([render_copy_ex/7]).
@@ -132,11 +135,13 @@
 -export([render_fill_rect/5]).
 -export([render_fill_rects/2]).
 -export([render_get_clip_rect/1]).
+-export([render_get_integer_scale/1]).
 -export([render_get_logical_size/1]).
 -export([render_get_scale/1]).
 -export([render_get_viewport/1]).
 -export([render_present/1]).
 -export([render_set_clip_rect/5]).
+-export([render_set_integer_scale/2]).
 -export([render_set_logical_size/3]).
 -export([render_set_scale/3]).
 -export([render_set_viewport/5]).
@@ -460,7 +465,16 @@ get_render_draw_blend_mode(_) ->
 get_render_draw_color(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
+get_render_driver_info(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 get_render_output_size(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_renderer(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_renderer_info(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 render_clear(_) ->
@@ -499,6 +513,9 @@ render_fill_rects(_, _) ->
 render_get_clip_rect(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
+render_get_integer_scale(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 render_get_logical_size(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
@@ -512,6 +529,9 @@ render_present(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 render_set_clip_rect(_, _, _, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+render_set_integer_scale(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 render_set_logical_size(_, _, _) ->

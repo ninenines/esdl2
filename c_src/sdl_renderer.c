@@ -29,6 +29,7 @@ void dtor_Renderer(ErlNifEnv* env, void* obj)
 	F(target_texture, SDL_RENDERER_TARGETTEXTURE)
 
 static NIF_LIST_TO_FLAGS_FUNCTION(list_to_renderer_flags, Uint32, RENDERER_FLAGS)
+static NIF_FLAGS_TO_LIST_FUNCTION(renderer_flags_to_list, Uint32, RENDERER_FLAGS)
 
 #define FLIP_FLAGS(F) \
 	F(none, SDL_FLIP_NONE) \
@@ -36,6 +37,42 @@ static NIF_LIST_TO_FLAGS_FUNCTION(list_to_renderer_flags, Uint32, RENDERER_FLAGS
 	F(vertical, SDL_FLIP_VERTICAL)
 
 static NIF_LIST_TO_FLAGS_FUNCTION(list_to_flip_flags, SDL_RendererFlip, FLIP_FLAGS)
+
+static ERL_NIF_TERM renderer_info_to_map(ErlNifEnv* env, SDL_RendererInfo* info)
+{
+	ERL_NIF_TERM map, list;
+	ErlNifBinary bin;
+	int i;
+
+	map = enif_make_new_map(env);
+
+	enif_alloc_binary(strlen(info->name), &bin);
+	memcpy(bin.data, info->name, bin.size);
+
+	enif_make_map_put(env, map, atom_name,
+		enif_make_binary(env, &bin), &map);
+
+	enif_make_map_put(env, map, atom_flags,
+		renderer_flags_to_list(env, info->flags), &map);
+
+	list = enif_make_list(env, 0);
+
+	for (i = 0; i < info->num_texture_formats; i++) {
+		list = enif_make_list_cell(env,
+			pixel_format_to_atom(info->texture_formats[i]),
+			list);
+	}
+
+	enif_make_map_put(env, map, atom_texture_formats, list, &map);
+
+	enif_make_map_put(env, map, atom_max_texture_width,
+		enif_make_int(env, info->max_texture_width), &map);
+
+	enif_make_map_put(env, map, atom_max_texture_height,
+		enif_make_int(env, info->max_texture_height), &map);
+
+	return map;
+}
 
 // create_renderer
 
@@ -143,6 +180,34 @@ NIF_FUNCTION(get_render_draw_color)
 		NIF_RES_GET(Renderer, renderer_res));
 }
 
+// get_render_driver_info
+//
+// The max_texture_* values will most likely be returned as 0
+// when using this function. The get_renderer_info will always
+// have an accurate value on the other hand.
+
+NIF_CALL_HANDLER(thread_get_render_driver_info)
+{
+	SDL_RendererInfo info;
+
+	if (SDL_GetRenderDriverInfo((long)args[0], &info))
+		return sdl_error_tuple(env);
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		renderer_info_to_map(env, &info)
+	);
+}
+
+NIF_FUNCTION(get_render_driver_info)
+{
+	int index;
+
+	BADARG_IF(!enif_get_int(env, argv[0], &index));
+
+	return nif_thread_call(env, thread_get_render_driver_info, 1, index);
+}
+
 // get_render_output_size
 
 NIF_CALL_HANDLER(thread_get_render_output_size)
@@ -168,6 +233,55 @@ NIF_FUNCTION(get_render_output_size)
 	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
 
 	return nif_thread_call(env, thread_get_render_output_size, 1,
+		NIF_RES_GET(Renderer, renderer_res));
+}
+
+// get_renderer
+
+NIF_CALL_HANDLER(thread_get_renderer)
+{
+	SDL_Renderer* renderer;
+
+	renderer = SDL_GetRenderer(args[0]);
+
+	if (!renderer)
+		return atom_undefined;
+
+	return esdl2_renderers_find(env, renderer);
+}
+
+NIF_FUNCTION(get_renderer)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_get_renderer, 1,
+		NIF_RES_GET(Window, window_res));
+}
+
+// get_renderer_info
+
+NIF_CALL_HANDLER(thread_get_renderer_info)
+{
+	SDL_RendererInfo info;
+
+	if (SDL_GetRendererInfo(args[0], &info))
+		return sdl_error_tuple(env);
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		renderer_info_to_map(env, &info)
+	);
+}
+
+NIF_FUNCTION(get_renderer_info)
+{
+	void* renderer_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+
+	return nif_thread_call(env, thread_get_renderer_info, 1,
 		NIF_RES_GET(Renderer, renderer_res));
 }
 
@@ -617,6 +731,26 @@ NIF_FUNCTION(render_get_clip_rect)
 		NIF_RES_GET(Renderer, renderer_res));
 }
 
+// render_get_integer_scale
+
+NIF_CALL_HANDLER(thread_render_get_integer_scale)
+{
+	if (SDL_RenderGetIntegerScale(args[0]))
+		return atom_true;
+
+	return atom_false;
+}
+
+NIF_FUNCTION(render_get_integer_scale)
+{
+	void* renderer_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+
+	return nif_thread_call(env, thread_render_get_integer_scale, 1,
+		NIF_RES_GET(Renderer, renderer_res));
+}
+
 // render_get_logical_size
 
 NIF_CALL_HANDLER(thread_render_get_logical_size)
@@ -736,6 +870,28 @@ NIF_FUNCTION(render_set_clip_rect)
 
 	return nif_thread_call(env, thread_render_set_clip_rect, 5,
 		NIF_RES_GET(Renderer, renderer_res), x, y, w, h);
+}
+
+// render_set_integer_scale
+
+NIF_CALL_HANDLER(thread_render_set_integer_scale)
+{
+	if (SDL_RenderSetIntegerScale(args[0], (long)args[1]))
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(render_set_integer_scale)
+{
+	void* renderer_res;
+	SDL_bool b;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Renderer, &renderer_res));
+	BADARG_IF(!atom_to_bool(env, argv[1], &b));
+
+	return nif_thread_call(env, thread_render_set_integer_scale, 2,
+		NIF_RES_GET(Renderer, renderer_res), b);
 }
 
 // render_set_logical_size

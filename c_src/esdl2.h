@@ -20,6 +20,10 @@
 // List of atoms used by this NIF.
 
 #define NIF_ATOMS(A) \
+	A(abgr1555) \
+	A(abgr32) \
+	A(abgr4444) \
+	A(abgr8888) \
 	A(accelerated) \
 	A(add) \
 	A(allow_high_dpi) \
@@ -29,10 +33,24 @@
 	A(app_terminating) \
 	A(app_will_enter_background) \
 	A(app_will_enter_foreground) \
+	A(argb1555) \
+	A(argb2101010) \
+	A(argb32) \
+	A(argb4444) \
+	A(argb8888) \
 	A(arrow) \
 	A(audio) \
 	A(audio_device_added) \
 	A(audio_device_removed) \
+	A(bgr24) \
+	A(bgr555) \
+	A(bgr565) \
+	A(bgr888) \
+	A(bgra32) \
+	A(bgra4444) \
+	A(bgra5551) \
+	A(bgra8888) \
+	A(bgrx8888) \
 	A(blend) \
 	A(borderless) \
 	A(button) \
@@ -73,6 +91,7 @@
 	A(finger_motion) \
 	A(finger_up) \
 	A(first) \
+	A(flags) \
 	A(flipped) \
 	A(focus_gained) \
 	A(focus_lost) \
@@ -88,9 +107,15 @@
 	A(hit_test) \
 	A(horizontal) \
 	A(ibeam) \
+	A(index1lsb) \
+	A(index1msb) \
+	A(index4lsb) \
+	A(index4msb) \
+	A(index8) \
 	A(input_focus) \
 	A(input_grabbed) \
 	A(invalid) \
+	A(iyuv) \
 	A(joy_axis_motion) \
 	A(joy_ball_motion) \
 	A(joy_button_down) \
@@ -109,11 +134,8 @@
 	A(left_ctrl) \
 	A(left_gui) \
 	A(left_shift) \
-	A(ok) \
-	A(one_minus_dst_alpha) \
-	A(one_minus_dst_color) \
-	A(one_minus_src_alpha) \
-	A(one_minus_src_color) \
+	A(max_texture_height) \
+	A(max_texture_width) \
 	A(maximized) \
 	A(maximum) \
 	A(middle) \
@@ -129,26 +151,45 @@
 	A(mouse_wheel) \
 	A(moved) \
 	A(multi_gesture) \
+	A(name) \
 	A(no) \
 	A(no_battery) \
 	A(none) \
 	A(normal) \
 	A(num) \
+	A(nv12) \
+	A(nv21) \
+	A(ok) \
 	A(on_battery) \
 	A(one) \
+	A(one_minus_dst_alpha) \
+	A(one_minus_dst_color) \
+	A(one_minus_src_alpha) \
+	A(one_minus_src_color) \
 	A(opengl) \
 	A(peek) \
 	A(present_vsync) \
 	A(pressed) \
 	A(quit) \
 	A(released) \
-	A(render_targets_reset) \
 	A(render_device_reset) \
+	A(render_targets_reset) \
 	A(repeat) \
 	A(resizable) \
 	A(resized) \
 	A(restored) \
 	A(rev_substract) \
+	A(rgb24) \
+	A(rgb332) \
+	A(rgb444) \
+	A(rgb555) \
+	A(rgb565) \
+	A(rgb888) \
+	A(rgba32) \
+	A(rgba4444) \
+	A(rgba5551) \
+	A(rgba8888) \
+	A(rgbx8888) \
 	A(right) \
 	A(right_alt) \
 	A(right_ctrl) \
@@ -173,13 +214,15 @@
 	A(target_texture) \
 	A(text_editing) \
 	A(text_input) \
-	A(touch) \
-	A(true) \
+	A(texture_formats) \
 	A(timer) \
 	A(timestamp) \
+	A(touch) \
+	A(true) \
 	A(type) \
 	A(undefined) \
 	A(unknown) \
+	A(uyvy) \
 	A(vertical) \
 	A(video) \
 	A(w) \
@@ -195,6 +238,9 @@
 	A(xrel) \
 	A(y) \
 	A(yrel) \
+	A(yuy2) \
+	A(yv12) \
+	A(yvyu) \
 	A(zero) \
 	A(_nif_thread_ret_)
 
@@ -304,7 +350,10 @@
 	F(get_num_render_drivers, 0) \
 	F(get_render_draw_blend_mode, 1) \
 	F(get_render_draw_color, 1) \
+	F(get_render_driver_info, 1) \
 	F(get_render_output_size, 1) \
+	F(get_renderer, 1) \
+	F(get_renderer_info, 1) \
 	F(render_clear, 1) \
 	F(render_copy, 4) \
 	F(render_copy_ex, 7) \
@@ -317,11 +366,13 @@
 	F(render_fill_rect, 5) \
 	F(render_fill_rects, 2) \
 	F(render_get_clip_rect, 1) \
+	F(render_get_integer_scale, 1) \
 	F(render_get_logical_size, 1) \
 	F(render_get_scale, 1) \
 	F(render_get_viewport, 1) \
 	F(render_present, 1) \
 	F(render_set_clip_rect, 5) \
+	F(render_set_integer_scale, 2) \
 	F(render_set_logical_size, 3) \
 	F(render_set_scale, 3) \
 	F(render_set_viewport, 5) \
@@ -386,6 +437,7 @@ NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_blend_mode, SDL_BlendMode)
 NIF_ENUM_TO_ATOM_FUNCTION_DECL(blend_mode_to_atom, SDL_BlendMode)
 NIF_ENUM_TO_ATOM_FUNCTION_DECL(button_to_atom, Uint8)
 NIF_ENUM_TO_ATOM_FUNCTION_DECL(mousewheel_direction_to_atom, Uint32)
+NIF_ENUM_TO_ATOM_FUNCTION_DECL(pixel_format_to_atom, Uint32)
 NIF_ENUM_TO_ATOM_FUNCTION_DECL(window_event_to_atom, Uint8)
 
 NIF_LIST_TO_FLAGS_FUNCTION_DECL(keymod_list_to_flags, Uint16)
