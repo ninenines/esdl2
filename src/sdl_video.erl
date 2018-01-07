@@ -36,6 +36,7 @@
 	h => integer(),
 	refresh_rate => integer()
 }.
+-export_type([display_mode/0]).
 
 -spec get_closest_display_mode(integer(), display_mode()) -> display_mode() | undefined.
 get_closest_display_mode(DisplayIndex, Mode) ->

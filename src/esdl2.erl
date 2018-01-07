@@ -187,11 +187,14 @@
 -export([create_window_and_renderer/3]).
 -export([get_window_brightness/1]).
 -export([get_window_display_index/1]).
+-export([get_window_display_mode/1]).
 -export([get_window_flags/1]).
+-export([get_window_from_id/1]).
 -export([get_window_grab/1]).
 -export([get_window_id/1]).
 -export([get_window_maximum_size/1]).
 -export([get_window_minimum_size/1]).
+-export([get_window_pixel_format/1]).
 -export([get_window_position/1]).
 -export([get_window_size/1]).
 -export([get_window_title/1]).
@@ -202,6 +205,7 @@
 -export([restore_window/1]).
 -export([set_window_bordered/2]).
 -export([set_window_brightness/2]).
+-export([set_window_display_mode/2]).
 -export([set_window_fullscreen/2]).
 -export([set_window_grab/2]).
 -export([set_window_icon/2]).
@@ -666,7 +670,13 @@ get_window_brightness(_) ->
 get_window_display_index(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
+get_window_display_mode(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 get_window_flags(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_window_from_id(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 get_window_grab(_) ->
@@ -679,6 +689,9 @@ get_window_maximum_size(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 get_window_minimum_size(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_window_pixel_format(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 get_window_position(_) ->
@@ -709,6 +722,9 @@ set_window_bordered(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 set_window_brightness(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+set_window_display_mode(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 set_window_fullscreen(_, _) ->

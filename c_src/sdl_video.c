@@ -14,7 +14,7 @@
 
 #include "esdl2.h"
 
-static ERL_NIF_TERM display_mode_to_map(ErlNifEnv* env, SDL_DisplayMode* mode)
+ERL_NIF_TERM display_mode_to_map(ErlNifEnv* env, SDL_DisplayMode* mode)
 {
 	ERL_NIF_TERM map;
 

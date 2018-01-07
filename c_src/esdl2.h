@@ -422,11 +422,14 @@
 	F(create_window_and_renderer, 3) \
 	F(get_window_brightness, 1) \
 	F(get_window_display_index, 1) \
+	F(get_window_display_mode, 1) \
 	F(get_window_flags, 1) \
+	F(get_window_from_id, 1) \
 	F(get_window_grab, 1) \
 	F(get_window_id, 1) \
 	F(get_window_maximum_size, 1) \
 	F(get_window_minimum_size, 1) \
+	F(get_window_pixel_format, 1) \
 	F(get_window_position, 1) \
 	F(get_window_size, 1) \
 	F(get_window_title, 1) \
@@ -437,6 +440,7 @@
 	F(restore_window, 1) \
 	F(set_window_bordered, 2) \
 	F(set_window_brightness, 2) \
+	F(set_window_display_mode, 2) \
 	F(set_window_fullscreen, 2) \
 	F(set_window_grab, 2) \
 	F(set_window_icon, 2) \
@@ -473,6 +477,7 @@ int map_to_point(ErlNifEnv*, ERL_NIF_TERM, SDL_Point*);
 int map_to_rect(ErlNifEnv*, ERL_NIF_TERM, SDL_Rect*);
 ERL_NIF_TERM rect_to_map(ErlNifEnv*, SDL_Rect*);
 
+ERL_NIF_TERM display_mode_to_map(ErlNifEnv*, SDL_DisplayMode*);
 ERL_NIF_TERM mouse_state_to_list(ErlNifEnv*, Uint32);
 
 // --

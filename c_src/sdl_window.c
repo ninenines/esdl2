@@ -220,6 +220,31 @@ NIF_FUNCTION(get_window_display_index)
 		NIF_RES_GET(Window, window_res));
 }
 
+// get_window_display_mode
+
+NIF_CALL_HANDLER(thread_get_window_display_mode)
+{
+	SDL_DisplayMode mode;
+
+	if (SDL_GetWindowDisplayMode(args[0], &mode))
+		return sdl_error_tuple(env);
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		display_mode_to_map(env, &mode)
+	);
+}
+
+NIF_FUNCTION(get_window_display_mode)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_get_window_display_mode, 1,
+		NIF_RES_GET(Window, window_res));
+}
+
 // get_window_flags
 
 NIF_CALL_HANDLER(thread_get_window_flags)
@@ -235,6 +260,29 @@ NIF_FUNCTION(get_window_flags)
 
 	return nif_thread_call(env, thread_get_window_flags, 1,
 		NIF_RES_GET(Window, window_res));
+}
+
+// get_window_from_id
+
+NIF_CALL_HANDLER(thread_get_window_from_id)
+{
+	SDL_Window* window;
+
+	window = SDL_GetWindowFromID((long)args[0]);
+
+	if (!window)
+		return atom_undefined;
+
+	return esdl2_windows_find(env, window);
+}
+
+NIF_FUNCTION(get_window_from_id)
+{
+	Uint32 windowID;
+
+	BADARG_IF(!enif_get_uint(env, argv[0], &windowID));
+
+	return nif_thread_call(env, thread_get_window_from_id, 1, windowID);
 }
 
 // get_window_grab
@@ -319,6 +367,27 @@ NIF_FUNCTION(get_window_minimum_size)
 	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
 
 	return nif_thread_call(env, thread_get_window_minimum_size, 1,
+		NIF_RES_GET(Window, window_res));
+}
+
+// get_window_pixel_format
+
+NIF_CALL_HANDLER(thread_get_window_pixel_format)
+{
+	Uint32 format;
+
+	format = SDL_GetWindowPixelFormat(args[0]);
+
+	return pixel_format_to_atom(format);
+}
+
+NIF_FUNCTION(get_window_pixel_format)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_get_window_pixel_format, 1,
 		NIF_RES_GET(Window, window_res));
 }
 
@@ -520,6 +589,44 @@ NIF_FUNCTION(set_window_brightness)
 
 	return nif_thread_call(env, thread_set_window_brightness, 2,
 		NIF_RES_GET(Window, window_res), brightnessPtr);
+}
+
+// set_window_display_mode
+
+NIF_CALL_HANDLER(thread_set_window_display_mode)
+{
+	SDL_DisplayMode mode;
+
+	mode.format = (long)args[1];
+	mode.w = (long)args[2];
+	mode.h = (long)args[3];
+	mode.refresh_rate = (long)args[4];
+
+	if (SDL_SetWindowDisplayMode(args[0], &mode))
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(set_window_display_mode)
+{
+	void* window_res;
+	ERL_NIF_TERM term;
+	Uint32 format;
+	int w, h, refresh_rate;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+	BADARG_IF(!enif_get_map_value(env, argv[1], atom_format, &term));
+	BADARG_IF(!atom_to_pixel_format(env, term, &format));
+	BADARG_IF(!enif_get_map_value(env, argv[1], atom_w, &term));
+	BADARG_IF(!enif_get_int(env, term, &w));
+	BADARG_IF(!enif_get_map_value(env, argv[1], atom_h, &term));
+	BADARG_IF(!enif_get_int(env, term, &h));
+	BADARG_IF(!enif_get_map_value(env, argv[1], atom_refresh_rate, &term));
+	BADARG_IF(!enif_get_int(env, term, &refresh_rate));
+
+	return nif_thread_call(env, thread_set_window_display_mode, 5,
+		NIF_RES_GET(Window, window_res), format, w, h, refresh_rate);
 }
 
 // set_window_fullscreen

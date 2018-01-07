@@ -18,10 +18,13 @@
 -export([create_window_and_renderer/3]).
 -export([get_brightness/1]).
 -export([get_display_index/1]).
+-export([get_display_mode/1]).
 -export([get_flags/1]).
+-export([get_from_id/1]).
 -export([get_id/1]).
 -export([get_max_size/1]).
 -export([get_min_size/1]).
+-export([get_pixel_format/1]).
 -export([get_pos/1]).
 -export([get_size/1]).
 -export([get_title/1]).
@@ -34,6 +37,7 @@
 -export([restore/1]).
 -export([set_bordered/2]).
 -export([set_brightness/2]).
+-export([set_display_mode/2]).
 -export([set_fullscreen/2]).
 -export([set_icon/2]).
 -export([set_max_size/3]).
@@ -75,6 +79,14 @@ get_brightness(Window) ->
 	esdl2:get_window_brightness(Window),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
+-spec get_display_mode(window()) -> sdl_video:display_mode().
+get_display_mode(Window) ->
+	esdl2:get_window_display_mode(Window),
+	receive {'_nif_thread_ret_', Ret} ->
+		{ok, Mode} = Ret,
+		Mode
+	end.
+
 -spec get_display_index(window()) -> integer().
 get_display_index(Window) ->
 	esdl2:get_window_display_index(Window),
@@ -86,6 +98,11 @@ get_display_index(Window) ->
 -spec get_flags(window()) -> [window_flag()].
 get_flags(Window) ->
 	esdl2:get_window_flags(Window),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec get_from_id(non_neg_integer()) -> window().
+get_from_id(WindowID) ->
+	esdl2:get_window_from_id(WindowID),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 -spec get_id(window()) -> non_neg_integer().
@@ -101,6 +118,11 @@ get_max_size(Window) ->
 -spec get_min_size(window()) -> {integer(), integer()}.
 get_min_size(Window) ->
 	esdl2:get_window_minimum_size(Window),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec get_pixel_format(window()) -> sdl_pixels:pixel_format().
+get_pixel_format(Window) ->
+	esdl2:get_window_pixel_format(Window),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 -spec get_pos(window()) -> {integer(), integer()}.
@@ -154,6 +176,11 @@ set_bordered(Window, Bordered) ->
 -spec set_brightness(window(), float()) -> ok | sdl:error().
 set_brightness(Window, Brightness) ->
 	esdl2:set_window_brightness(Window, Brightness),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec set_display_mode(window(), sdl_video:display_mode()) -> ok | sdl:error().
+set_display_mode(Window, Mode) ->
+	esdl2:set_window_display_mode(Window, Mode),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 -spec set_fullscreen(window(), fullscreen | fullscreen_desktop | windowed)
