@@ -71,6 +71,7 @@
 	A(crosshair) \
 	A(data1) \
 	A(data2) \
+	A(diagonal) \
 	A(direction) \
 	A(dollar_gesture) \
 	A(dollar_record) \
@@ -392,6 +393,17 @@
 	/* sdl_version */ \
 	F(get_version, 0) \
 	F(get_revision, 0) \
+	/* sdl_video */ \
+	F(get_current_video_driver, 0) \
+	F(get_display_bounds, 1) \
+	F(get_display_dpi, 1) \
+	F(get_display_name, 1) \
+	F(get_display_usable_bounds, 1) \
+	F(get_num_video_displays, 0) \
+	F(get_num_video_drivers, 0) \
+	F(get_video_driver, 1) \
+	F(video_init, 1) \
+	F(video_quit, 0) \
 	/* sdl_window */ \
 	F(create_window, 6) \
 	F(create_window_and_renderer, 3) \
@@ -445,6 +457,7 @@ NIF_FLAGS_TO_LIST_FUNCTION_DECL(keymod_flags_to_list, Uint16)
 
 int map_to_point(ErlNifEnv*, ERL_NIF_TERM, SDL_Point*);
 int map_to_rect(ErlNifEnv*, ERL_NIF_TERM, SDL_Rect*);
+ERL_NIF_TERM rect_to_map(ErlNifEnv*, SDL_Rect*);
 
 ERL_NIF_TERM mouse_state_to_list(ErlNifEnv*, Uint32);
 

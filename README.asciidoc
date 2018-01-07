@@ -86,42 +86,32 @@ corresponding to the public headers.
 * 'SDL_video.h': The following elements are missing:
 ** `SDL_WindowFlags` values SDL_WINDOW_ALWAYS_ON_TOP, SDL_WINDOW_SKIP_TASKBAR, SDL_WINDOW_UTILITY, SDL_WINDOW_TOOLTIP, SDL_WINDOW_POPUP_MENU, SDL_WINDOW_VULKAN
 ** `SDL_WINDOWPOS_*` values for different displays
-** `SDL_GetNumVideoDrivers`
-** `SDL_GetVideoDriver`
-** `SDL_VideoInit`
-** `SDL_VideoQuit`
-** `SDL_GetCurrentVideoDriver`
-** `SDL_GetNumVideoDisplays`
-** `SDL_GetDisplayName`
-** `SDL_GetDisplayBounds`
-** `SDL_GetDisplayDPI`
-** `SDL_GetDisplayUsableBounds`
-** `SDL_GetNumDisplayModes`
-** `SDL_GetDisplayMode`
-** `SDL_GetDesktopDisplayMode`
-** `SDL_GetCurrentDisplayMode`
-** `SDL_GetClosestDisplayMode`
-** `SDL_GetWindowDisplayIndex`
-** `SDL_SetWindowDisplayMode`
-** `SDL_GetWindowDisplayMode`
-** `SDL_GetWindowPixelFormat`
-** `SDL_CreateWindowFrom`
-** `SDL_GetWindowFromID`
+** `SDL_GetNumDisplayModes` (video)
+** `SDL_GetDisplayMode` (video)
+** `SDL_GetDesktopDisplayMode` (video)
+** `SDL_GetCurrentDisplayMode` (video)
+** `SDL_GetClosestDisplayMode` (video)
+** `SDL_GetWindowDisplayIndex` (window)
+** `SDL_SetWindowDisplayMode` (window)
+** `SDL_GetWindowDisplayMode` (window)
+** `SDL_GetWindowPixelFormat` (window)
+** `SDL_CreateWindowFrom` (window)
+** `SDL_GetWindowFromID` (window)
 ** We currently do not support UTF-8. We should probably switch to binaries as input/output to support it for `SDL_SetWindowTitle` and `SDL_GetWindowTitle`
-** `SDL_SetWindowData`
-** `SDL_GetWindowData`
-** `SDL_GetWindowBordersSize`
-** `SDL_SetWindowResizable`
-** `SDL_GetWindowSurface`
-** `SDL_UpdateWindowSurface`
-** `SDL_UpdateWindowSurfaceRects`
-** `SDL_GetGrabbedWindow`
-** `SDL_SetWindowOpacity`
-** `SDL_GetWindowOpacity`
-** `SDL_SetWindowModalFor`
-** `SDL_SetWindowInputFocus`
-** `SDL_SetWindowGammaRamp`
-** `SDL_GetWindowGammaRamp`
+** `SDL_SetWindowData` (window)
+** `SDL_GetWindowData` (window)
+** `SDL_GetWindowBordersSize` (window)
+** `SDL_SetWindowResizable` (window)
+** `SDL_GetWindowSurface` (window)
+** `SDL_UpdateWindowSurface` (window)
+** `SDL_UpdateWindowSurfaceRects` (window)
+** `SDL_GetGrabbedWindow` (window)
+** `SDL_SetWindowOpacity` (window)
+** `SDL_GetWindowOpacity` (window)
+** `SDL_SetWindowModalFor` (window)
+** `SDL_SetWindowInputFocus` (window)
+** `SDL_SetWindowGammaRamp` (window)
+** `SDL_GetWindowGammaRamp` (window)
 ** `SDL_SetWindowHitTest` and the related callback `SDL_HitTestResult`
 ** `SDL_IsScreenSaverEnabled`
 ** `SDL_EnableScreenSaver`
