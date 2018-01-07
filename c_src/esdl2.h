@@ -97,6 +97,7 @@
 	A(focus_gained) \
 	A(focus_lost) \
 	A(foreign) \
+	A(format) \
 	A(fullscreen) \
 	A(fullscreen_desktop) \
 	A(game_controller) \
@@ -172,6 +173,7 @@
 	A(present_vsync) \
 	A(pressed) \
 	A(quit) \
+	A(refresh_rate) \
 	A(released) \
 	A(render_device_reset) \
 	A(render_targets_reset) \
@@ -394,11 +396,16 @@
 	F(get_version, 0) \
 	F(get_revision, 0) \
 	/* sdl_video */ \
+	F(get_closest_display_mode, 2) \
+	F(get_current_display_mode, 1) \
 	F(get_current_video_driver, 0) \
+	F(get_desktop_display_mode, 1) \
 	F(get_display_bounds, 1) \
 	F(get_display_dpi, 1) \
+	F(get_display_mode, 2) \
 	F(get_display_name, 1) \
 	F(get_display_usable_bounds, 1) \
+	F(get_num_display_modes, 1) \
 	F(get_num_video_displays, 0) \
 	F(get_num_video_drivers, 0) \
 	F(get_video_driver, 1) \
@@ -444,8 +451,9 @@ NIF_FUNCTIONS(NIF_FUNCTION_H_DECL)
 
 // Utility functions used across different files.
 
-NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_bool, SDL_bool)
 NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_blend_mode, SDL_BlendMode)
+NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_bool, SDL_bool)
+NIF_ATOM_TO_ENUM_FUNCTION_DECL(atom_to_pixel_format, Uint32)
 NIF_ENUM_TO_ATOM_FUNCTION_DECL(blend_mode_to_atom, SDL_BlendMode)
 NIF_ENUM_TO_ATOM_FUNCTION_DECL(button_to_atom, Uint8)
 NIF_ENUM_TO_ATOM_FUNCTION_DECL(mousewheel_direction_to_atom, Uint32)

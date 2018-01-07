@@ -14,6 +14,92 @@
 
 #include "esdl2.h"
 
+static ERL_NIF_TERM display_mode_to_map(ErlNifEnv* env, SDL_DisplayMode* mode)
+{
+	ERL_NIF_TERM map;
+
+	map = enif_make_new_map(env);
+
+	enif_make_map_put(env, map, atom_format,
+		pixel_format_to_atom(mode->format), &map);
+	enif_make_map_put(env, map, atom_w,
+		enif_make_int(env, mode->w), &map);
+	enif_make_map_put(env, map, atom_h,
+		enif_make_int(env, mode->h), &map);
+	enif_make_map_put(env, map, atom_refresh_rate,
+		enif_make_int(env, mode->refresh_rate), &map);
+
+	// There is also a driverdata field but it is unclear whether it has any use.
+
+	return map;
+}
+
+// get_closest_display_mode
+
+NIF_CALL_HANDLER(thread_get_closest_display_mode)
+{
+	SDL_DisplayMode mode, closest;
+
+	mode.format = (long)args[1];
+	mode.w = (long)args[2];
+	mode.h = (long)args[3];
+	mode.refresh_rate = (long)args[4];
+
+	if (!SDL_GetClosestDisplayMode((long)args[0], &mode, &closest))
+		return atom_undefined;
+
+	return display_mode_to_map(env, &closest);
+}
+
+NIF_FUNCTION(get_closest_display_mode)
+{
+	int displayIndex;
+	ERL_NIF_TERM term;
+	Uint32 format = 0;
+	int w = 0, h = 0, refresh_rate = 0;
+
+	BADARG_IF(!enif_get_int(env, argv[0], &displayIndex));
+	BADARG_IF(!enif_is_map(env, argv[1]));
+
+	// We default to 0 when a field is missing.
+
+	if (enif_get_map_value(env, argv[1], atom_format, &term))
+		BADARG_IF(!atom_to_pixel_format(env, term, &format));
+
+	if (enif_get_map_value(env, argv[1], atom_w, &term))
+		BADARG_IF(!enif_get_int(env, term, &w));
+
+	if (enif_get_map_value(env, argv[1], atom_h, &term))
+		BADARG_IF(!enif_get_int(env, term, &h));
+
+	if (enif_get_map_value(env, argv[1], atom_refresh_rate, &term))
+		BADARG_IF(!enif_get_int(env, term, &refresh_rate));
+
+	return nif_thread_call(env, thread_get_closest_display_mode, 5,
+		displayIndex, format, w, h, refresh_rate);
+}
+
+// get_current_display_mode
+
+NIF_CALL_HANDLER(thread_get_current_display_mode)
+{
+	SDL_DisplayMode mode;
+
+	if (SDL_GetCurrentDisplayMode((long)args[0], &mode))
+		return atom_undefined;
+
+	return display_mode_to_map(env, &mode);
+}
+
+NIF_FUNCTION(get_current_display_mode)
+{
+	int displayIndex;
+
+	BADARG_IF(!enif_get_int(env, argv[0], &displayIndex));
+
+	return nif_thread_call(env, thread_get_current_display_mode, 1, displayIndex);
+}
+
 // get_current_video_driver
 
 NIF_CALL_HANDLER(thread_get_current_video_driver)
@@ -35,6 +121,27 @@ NIF_CALL_HANDLER(thread_get_current_video_driver)
 NIF_FUNCTION(get_current_video_driver)
 {
 	return nif_thread_call(env, thread_get_current_video_driver, 0);
+}
+
+// get_desktop_display_mode
+
+NIF_CALL_HANDLER(thread_get_desktop_display_mode)
+{
+	SDL_DisplayMode mode;
+
+	if (SDL_GetDesktopDisplayMode((long)args[0], &mode))
+		return atom_undefined;
+
+	return display_mode_to_map(env, &mode);
+}
+
+NIF_FUNCTION(get_desktop_display_mode)
+{
+	int displayIndex;
+
+	BADARG_IF(!enif_get_int(env, argv[0], &displayIndex));
+
+	return nif_thread_call(env, thread_get_desktop_display_mode, 1, displayIndex);
 }
 
 // get_display_bounds
@@ -89,6 +196,29 @@ NIF_FUNCTION(get_display_dpi)
 	return nif_thread_call(env, thread_get_display_dpi, 1, index);
 }
 
+// get_display_mode
+
+NIF_CALL_HANDLER(thread_get_display_mode)
+{
+	SDL_DisplayMode mode;
+
+	if (SDL_GetDisplayMode((long)args[0], (long)args[1], &mode))
+		return atom_undefined;
+
+	return display_mode_to_map(env, &mode);
+}
+
+NIF_FUNCTION(get_display_mode)
+{
+	int displayIndex, index;
+
+	BADARG_IF(!enif_get_int(env, argv[0], &displayIndex));
+	BADARG_IF(!enif_get_int(env, argv[1], &index));
+
+	return nif_thread_call(env, thread_get_display_mode, 2,
+		displayIndex, index);
+}
+
 // get_display_name
 
 NIF_CALL_HANDLER(thread_get_display_name)
@@ -135,6 +265,22 @@ NIF_FUNCTION(get_display_usable_bounds)
 	BADARG_IF(!enif_get_int(env, argv[0], &index));
 
 	return nif_thread_call(env, thread_get_display_usable_bounds, 1, index);
+}
+
+// get_num_display_modes
+
+NIF_CALL_HANDLER(thread_get_num_display_modes)
+{
+	return enif_make_int(env, SDL_GetNumDisplayModes((long)args[0]));
+}
+
+NIF_FUNCTION(get_num_display_modes)
+{
+	int displayIndex;
+
+	BADARG_IF(!enif_get_int(env, argv[0], &displayIndex));
+
+	return nif_thread_call(env, thread_get_num_display_modes, 1, displayIndex);
 }
 
 // get_num_video_displays

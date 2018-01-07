@@ -166,11 +166,16 @@
 -export([get_revision/0]).
 
 %% sdl_video
+-export([get_closest_display_mode/2]).
+-export([get_current_display_mode/1]).
 -export([get_current_video_driver/0]).
+-export([get_desktop_display_mode/1]).
 -export([get_display_bounds/1]).
 -export([get_display_dpi/1]).
+-export([get_display_mode/2]).
 -export([get_display_name/1]).
 -export([get_display_usable_bounds/1]).
+-export([get_num_display_modes/1]).
 -export([get_num_video_displays/0]).
 -export([get_num_video_drivers/0]).
 -export([get_video_driver/1]).
@@ -602,7 +607,16 @@ get_revision() ->
 
 %% sdl_video
 
+get_closest_display_mode(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_current_display_mode(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 get_current_video_driver() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_desktop_display_mode(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 get_display_bounds(_) ->
@@ -611,10 +625,16 @@ get_display_bounds(_) ->
 get_display_dpi(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
+get_display_mode(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 get_display_name(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 get_display_usable_bounds(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_num_display_modes(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 get_num_video_displays() ->
