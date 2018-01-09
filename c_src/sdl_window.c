@@ -178,6 +178,59 @@ NIF_FUNCTION(create_window_and_renderer)
 		w, h, flags);
 }
 
+// get_grabbed_window
+
+NIF_CALL_HANDLER(thread_get_grabbed_window)
+{
+	SDL_Window* window;
+
+	window = SDL_GetGrabbedWindow();
+
+	if (!window)
+		return atom_undefined;
+
+	return esdl2_windows_find(env, window);
+}
+
+NIF_FUNCTION(get_grabbed_window)
+{
+	return nif_thread_call(env, thread_get_grabbed_window, 0);
+}
+
+// get_window_borders_size
+
+NIF_CALL_HANDLER(thread_get_window_borders_size)
+{
+	int top, left, bottom, right;
+	ERL_NIF_TERM map;
+
+	if (SDL_GetWindowBordersSize(args[0], &top, &left, &bottom, &right))
+		return atom_undefined;
+
+	map = enif_make_new_map(env);
+
+	enif_make_map_put(env, map, atom_top,
+		enif_make_int(env, top), &map);
+	enif_make_map_put(env, map, atom_left,
+		enif_make_int(env, left), &map);
+	enif_make_map_put(env, map, atom_bottom,
+		enif_make_int(env, bottom), &map);
+	enif_make_map_put(env, map, atom_right,
+		enif_make_int(env, right), &map);
+
+	return map;
+}
+
+NIF_FUNCTION(get_window_borders_size)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_get_window_borders_size, 1,
+		NIF_RES_GET(Window, window_res));
+}
+
 // get_window_brightness
 
 NIF_CALL_HANDLER(thread_get_window_brightness)
@@ -285,6 +338,39 @@ NIF_FUNCTION(get_window_from_id)
 	return nif_thread_call(env, thread_get_window_from_id, 1, windowID);
 }
 
+// get_window_gamma_ramp
+
+NIF_CALL_HANDLER(thread_get_window_gamma_ramp)
+{
+	Uint16 gamma[256 * 3];
+	ERL_NIF_TERM list[3];
+	int i, j;
+
+	if (SDL_GetWindowGammaRamp(args[0], gamma, gamma + 256, gamma + 512))
+		return sdl_error_tuple(env);
+
+	for (i = 0; i < 3; i++) {
+		list[i] = enif_make_list(env, 0);
+		for (j = 255; j >= 0; j--) {
+			list[i] = enif_make_list_cell(env,
+				enif_make_uint(env, gamma[i * 256 + j]),
+				list[i]);
+		}
+	}
+
+	return enif_make_tuple3(env, list[0], list[1], list[2]);
+}
+
+NIF_FUNCTION(get_window_gamma_ramp)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_get_window_gamma_ramp, 1,
+		NIF_RES_GET(Window, window_res));
+}
+
 // get_window_grab
 
 NIF_CALL_HANDLER(thread_get_window_grab)
@@ -367,6 +453,31 @@ NIF_FUNCTION(get_window_minimum_size)
 	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
 
 	return nif_thread_call(env, thread_get_window_minimum_size, 1,
+		NIF_RES_GET(Window, window_res));
+}
+
+// get_window_opacity
+
+NIF_CALL_HANDLER(thread_get_window_opacity)
+{
+	float opacity;
+
+	if (SDL_GetWindowOpacity(args[0], &opacity))
+		return sdl_error_tuple(env);
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		enif_make_double(env, opacity)
+	);
+}
+
+NIF_FUNCTION(get_window_opacity)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_get_window_opacity, 1,
 		NIF_RES_GET(Window, window_res));
 }
 
@@ -651,6 +762,60 @@ NIF_FUNCTION(set_window_fullscreen)
 		NIF_RES_GET(Window, window_res), flags);
 }
 
+// set_window_gamma_ramp
+
+NIF_CALL_HANDLER(thread_set_window_gamma_ramp)
+{
+	int ret = SDL_SetWindowGammaRamp(args[0], args[1],
+		((Uint16*)args[1]) + 256,
+		((Uint16*)args[1]) + 512);
+
+	enif_free(args[1]);
+
+	if (ret != 0)
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(set_window_gamma_ramp)
+{
+	void* window_res;
+	Uint16 *gamma;
+	ERL_NIF_TERM list, head;
+	int i, j;
+	unsigned int value;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	gamma = enif_alloc(sizeof(Uint16) * 256 * 3);
+
+	for (i = 0; i < 3; i++) {
+		list = argv[i + 1];
+
+		for (j = 0; j < 256; j++) {
+			if (!enif_get_list_cell(env, list, &head, &list))
+				goto set_window_gamma_ramp_badarg;
+
+			if (!enif_get_uint(env, head, &value))
+				goto set_window_gamma_ramp_badarg;
+
+			if (value > 65535)
+				goto set_window_gamma_ramp_badarg;
+
+			gamma[i * 256 + j] = value;
+		}
+	}
+
+	return nif_thread_call(env, thread_set_window_gamma_ramp, 2,
+		NIF_RES_GET(Window, window_res), gamma);
+
+set_window_gamma_ramp_badarg:
+	enif_free(gamma);
+
+	return enif_make_badarg(env);
+}
+
 // set_window_grab
 
 NIF_CAST_HANDLER(thread_set_window_grab)
@@ -695,6 +860,26 @@ NIF_FUNCTION(set_window_icon)
 		NIF_RES_GET(Window, window_res), NIF_RES_GET(Surface, surface_res));
 }
 
+// set_window_input_focus
+
+NIF_CALL_HANDLER(thread_set_window_input_focus)
+{
+	if (SDL_SetWindowInputFocus(args[0]))
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(set_window_input_focus)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_set_window_input_focus, 1,
+		NIF_RES_GET(Window, window_res));
+}
+
 // set_window_maximum_size
 
 NIF_CAST_HANDLER(thread_set_window_maximum_size)
@@ -735,6 +920,60 @@ NIF_FUNCTION(set_window_minimum_size)
 		NIF_RES_GET(Window, window_res), w, h);
 }
 
+// set_window_modal_for
+
+NIF_CALL_HANDLER(thread_set_window_modal_for)
+{
+	if (SDL_SetWindowModalFor(args[0], args[1]))
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(set_window_modal_for)
+{
+	void* modal_window_res;
+	void* parent_window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &modal_window_res));
+	BADARG_IF(!enif_get_resource(env, argv[1], res_Window, &parent_window_res));
+
+	return nif_thread_call(env, thread_set_window_modal_for, 2,
+		NIF_RES_GET(Window, modal_window_res),
+		NIF_RES_GET(Window, parent_window_res));
+}
+
+// set_window_opacity
+
+NIF_CALL_HANDLER(thread_set_window_opacity)
+{
+	int ret = SDL_SetWindowOpacity(args[0], *((double*)args[1]));
+
+	enif_free(args[1]);
+
+	if (ret != 0)
+		return sdl_error_tuple(env);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(set_window_opacity)
+{
+	void* window_res;
+	double *opacityPtr;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	opacityPtr = (double*)enif_alloc(sizeof(double));
+	if (!enif_get_double(env, argv[1], opacityPtr)) {
+		enif_free(opacityPtr);
+		return enif_make_badarg(env);
+	}
+
+	return nif_thread_call(env, thread_set_window_opacity, 2,
+		NIF_RES_GET(Window, window_res), opacityPtr);
+}
+
 // set_window_position
 
 NIF_CAST_HANDLER(thread_set_window_position)
@@ -753,6 +992,25 @@ NIF_FUNCTION(set_window_position)
 
 	return nif_thread_cast(env, thread_set_window_position, 3,
 		NIF_RES_GET(Window, window_res), x, y);
+}
+
+// set_window_resizable
+
+NIF_CAST_HANDLER(thread_set_window_resizable)
+{
+	SDL_SetWindowResizable(args[0], (long)args[1]);
+}
+
+NIF_FUNCTION(set_window_resizable)
+{
+	void* window_res;
+	SDL_bool b;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+	BADARG_IF(!atom_to_bool(env, argv[1], &b));
+
+	return nif_thread_cast(env, thread_set_window_resizable, 2,
+		NIF_RES_GET(Window, window_res), b);
 }
 
 // set_window_size

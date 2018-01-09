@@ -16,14 +16,19 @@
 
 -export([create/6]).
 -export([create_window_and_renderer/3]).
+-export([focus_input/1]).
+-export([get_borders_size/1]).
 -export([get_brightness/1]).
 -export([get_display_index/1]).
 -export([get_display_mode/1]).
 -export([get_flags/1]).
 -export([get_from_id/1]).
+-export([get_gamma_ramp/1]).
+-export([get_grabbed_window/0]).
 -export([get_id/1]).
 -export([get_max_size/1]).
 -export([get_min_size/1]).
+-export([get_opacity/1]).
 -export([get_pixel_format/1]).
 -export([get_pos/1]).
 -export([get_size/1]).
@@ -39,10 +44,14 @@
 -export([set_brightness/2]).
 -export([set_display_mode/2]).
 -export([set_fullscreen/2]).
+-export([set_gamma_ramp/4]).
 -export([set_icon/2]).
 -export([set_max_size/3]).
 -export([set_min_size/3]).
+-export([set_modal/2]).
+-export([set_opacity/2]).
 -export([set_pos/3]).
+-export([set_resizable/2]).
 -export([set_size/3]).
 -export([set_title/2]).
 -export([show/1]).
@@ -62,6 +71,9 @@
 	| focus_gained | focus_lost | close | take_focus | hit_test.
 -export_type([window_event_type/0]).
 
+%% It must be a list of 256 elements.
+-type gamma_ramp() :: [0..65535].
+
 -spec create(string(), window_pos(), window_pos(), integer(), integer(), [window_flag()])
 	-> {ok, window()} | sdl:error().
 create(Title, X, Y, W, H, Flags) ->
@@ -72,6 +84,18 @@ create(Title, X, Y, W, H, Flags) ->
 	-> {ok, window(), sdl_renderer:renderer()} | sdl:error().
 create_window_and_renderer(W, H, Flags) ->
 	esdl2:create_window_and_renderer(W, H, Flags),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec focus_input(window()) -> ok | sdl:error().
+focus_input(Window) ->
+	esdl2:set_window_input_focus(Window),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec get_borders_size(window())
+	-> #{top := integer(), left := integer(), bottom := integer(), right := integer()}
+	| undefined.
+get_borders_size(Window) ->
+	esdl2:get_window_borders_size(Window),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 -spec get_brightness(window()) -> float().
@@ -100,9 +124,19 @@ get_flags(Window) ->
 	esdl2:get_window_flags(Window),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec get_from_id(non_neg_integer()) -> window().
+-spec get_from_id(non_neg_integer()) -> window() | undefined.
 get_from_id(WindowID) ->
 	esdl2:get_window_from_id(WindowID),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec get_gamma_ramp(window()) -> {gamma_ramp(), gamma_ramp(), gamma_ramp()}.
+get_gamma_ramp(Window) ->
+	esdl2:get_window_gamma_ramp(Window),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec get_grabbed_window() -> window() | undefined.
+get_grabbed_window() ->
+	esdl2:get_grabbed_window(),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 -spec get_id(window()) -> non_neg_integer().
@@ -119,6 +153,14 @@ get_max_size(Window) ->
 get_min_size(Window) ->
 	esdl2:get_window_minimum_size(Window),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec get_opacity(window()) -> float().
+get_opacity(Window) ->
+	esdl2:get_window_opacity(Window),
+	receive {'_nif_thread_ret_', Ret} ->
+		{ok, Opacity} = Ret,
+		Opacity
+	end.
 
 -spec get_pixel_format(window()) -> sdl_pixels:pixel_format().
 get_pixel_format(Window) ->
@@ -189,6 +231,12 @@ set_fullscreen(Window, Flag) ->
 	esdl2:set_window_fullscreen(Window, Flag),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
+-spec set_gamma_ramp(window(), gamma_ramp(), gamma_ramp(), gamma_ramp())
+	-> ok | sdl:error().
+set_gamma_ramp(Window, Red, Green, Blue) ->
+	esdl2:set_window_gamma_ramp(Window, Red, Green, Blue),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
 -spec set_icon(window(), sdl_surface:surface()) -> ok.
 set_icon(Window, Surface) ->
 	esdl2:set_window_icon(Window, Surface),
@@ -202,9 +250,23 @@ set_max_size(Window, W, H) ->
 set_min_size(Window, W, H) ->
 	esdl2:set_window_minimum_size(Window, W, H).
 
+-spec set_modal(window(), window()) -> ok | sdl:error().
+set_modal(ModalWindow, ParentWindow) ->
+	esdl2:set_window_modal_for(ModalWindow, ParentWindow),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec set_opacity(window(), float()) -> ok | sdl:error().
+set_opacity(Window, Opacity) ->
+	esdl2:set_window_opacity(Window, Opacity),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
 -spec set_pos(window(), integer(), integer()) -> ok.
 set_pos(Window, X, Y) ->
 	esdl2:set_window_position(Window, X, Y).
+
+-spec set_resizable(window(), boolean()) -> ok.
+set_resizable(Window, Resizable) ->
+	esdl2:set_window_resizable(Window, Resizable).
 
 -spec set_size(window(), integer(), integer()) -> ok.
 set_size(Window, W, H) ->

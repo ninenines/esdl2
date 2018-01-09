@@ -185,15 +185,19 @@
 %% sdl_window
 -export([create_window/6]).
 -export([create_window_and_renderer/3]).
+-export([get_grabbed_window/0]).
+-export([get_window_borders_size/1]).
 -export([get_window_brightness/1]).
 -export([get_window_display_index/1]).
 -export([get_window_display_mode/1]).
 -export([get_window_flags/1]).
 -export([get_window_from_id/1]).
+-export([get_window_gamma_ramp/1]).
 -export([get_window_grab/1]).
 -export([get_window_id/1]).
 -export([get_window_maximum_size/1]).
 -export([get_window_minimum_size/1]).
+-export([get_window_opacity/1]).
 -export([get_window_pixel_format/1]).
 -export([get_window_position/1]).
 -export([get_window_size/1]).
@@ -207,11 +211,16 @@
 -export([set_window_brightness/2]).
 -export([set_window_display_mode/2]).
 -export([set_window_fullscreen/2]).
+-export([set_window_gamma_ramp/4]).
 -export([set_window_grab/2]).
 -export([set_window_icon/2]).
+-export([set_window_input_focus/1]).
 -export([set_window_maximum_size/3]).
 -export([set_window_minimum_size/3]).
+-export([set_window_modal_for/2]).
+-export([set_window_opacity/2]).
 -export([set_window_position/3]).
+-export([set_window_resizable/2]).
 -export([set_window_size/3]).
 -export([set_window_title/2]).
 -export([show_window/1]).
@@ -664,6 +673,12 @@ create_window(_, _, _, _, _, _) ->
 create_window_and_renderer(_, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
+get_grabbed_window() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_window_borders_size(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 get_window_brightness(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
@@ -679,6 +694,9 @@ get_window_flags(_) ->
 get_window_from_id(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
+get_window_gamma_ramp(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 get_window_grab(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
@@ -689,6 +707,9 @@ get_window_maximum_size(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 get_window_minimum_size(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+get_window_opacity(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 get_window_pixel_format(_) ->
@@ -730,10 +751,16 @@ set_window_display_mode(_, _) ->
 set_window_fullscreen(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
+set_window_gamma_ramp(_, _, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 set_window_grab(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 set_window_icon(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+set_window_input_focus(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 set_window_maximum_size(_, _, _) ->
@@ -742,7 +769,16 @@ set_window_maximum_size(_, _, _) ->
 set_window_minimum_size(_, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
+set_window_modal_for(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+set_window_opacity(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 set_window_position(_, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+set_window_resizable(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 set_window_size(_, _, _) ->

@@ -87,21 +87,12 @@ corresponding to the public headers.
 ** `SDL_WINDOWPOS_*` values for different displays
 ** `SDL_CreateWindowFrom` (unclear if we need it)
 ** We currently do not support UTF-8. We should probably switch to binaries as input/output to support it for `SDL_SetWindowTitle` and `SDL_GetWindowTitle`
-** `SDL_SetWindowData` (window)
-** `SDL_GetWindowData` (window)
-** `SDL_GetWindowBordersSize` (window)
-** `SDL_SetWindowResizable` (window)
+** `SDL_SetWindowData` (unclear if we need it)
+** `SDL_GetWindowData` (unclear if we need it)
 ** `SDL_GetWindowSurface` (window)
 ** `SDL_UpdateWindowSurface` (window)
 ** `SDL_UpdateWindowSurfaceRects` (window)
-** `SDL_GetGrabbedWindow` (window)
-** `SDL_SetWindowOpacity` (window)
-** `SDL_GetWindowOpacity` (window)
-** `SDL_SetWindowModalFor` (window)
-** `SDL_SetWindowInputFocus` (window)
-** `SDL_SetWindowGammaRamp` (window)
-** `SDL_GetWindowGammaRamp` (window)
-** `SDL_SetWindowHitTest` and the related callback `SDL_HitTestResult`
+** `SDL_SetWindowHitTest` and the related callback `SDL_HitTestResult` (unclear if we need it and whether we can make it efficient enough)
 ** `SDL_IsScreenSaverEnabled`
 ** `SDL_EnableScreenSaver`
 ** `SDL_DisableScreenSaver`
@@ -118,6 +109,8 @@ corresponding to the public headers.
 ** `SDL_GL_GetDrawableSize`
 ** `SDL_GL_SetSwapInterval`
 ** `SDL_GL_GetSwapInterval`
+
+The code sometimes uses `malloc`. Use `enif_alloc` everywhere instead.
 
 == To be implemented
 

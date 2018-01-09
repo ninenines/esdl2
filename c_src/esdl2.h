@@ -54,6 +54,7 @@
 	A(bgrx8888) \
 	A(blend) \
 	A(borderless) \
+	A(bottom) \
 	A(button) \
 	A(callback) \
 	A(caps) \
@@ -224,6 +225,7 @@
 	A(timer) \
 	A(timestamp) \
 	A(tooltip) \
+	A(top) \
 	A(touch) \
 	A(true) \
 	A(type) \
@@ -420,15 +422,19 @@
 	/* sdl_window */ \
 	F(create_window, 6) \
 	F(create_window_and_renderer, 3) \
+	F(get_grabbed_window, 0) \
+	F(get_window_borders_size, 1) \
 	F(get_window_brightness, 1) \
 	F(get_window_display_index, 1) \
 	F(get_window_display_mode, 1) \
 	F(get_window_flags, 1) \
 	F(get_window_from_id, 1) \
+	F(get_window_gamma_ramp, 1) \
 	F(get_window_grab, 1) \
 	F(get_window_id, 1) \
 	F(get_window_maximum_size, 1) \
 	F(get_window_minimum_size, 1) \
+	F(get_window_opacity, 1) \
 	F(get_window_pixel_format, 1) \
 	F(get_window_position, 1) \
 	F(get_window_size, 1) \
@@ -442,11 +448,16 @@
 	F(set_window_brightness, 2) \
 	F(set_window_display_mode, 2) \
 	F(set_window_fullscreen, 2) \
+	F(set_window_gamma_ramp, 4) \
 	F(set_window_grab, 2) \
 	F(set_window_icon, 2) \
+	F(set_window_input_focus, 1) \
 	F(set_window_maximum_size, 3) \
 	F(set_window_minimum_size, 3) \
+	F(set_window_modal_for, 2) \
+	F(set_window_opacity, 2) \
 	F(set_window_position, 3) \
+	F(set_window_resizable, 2) \
 	F(set_window_size, 3) \
 	F(set_window_title, 2) \
 	F(show_window, 1)
