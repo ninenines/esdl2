@@ -200,3 +200,116 @@ headers or simply deprecated.
 * 'SDL_types.h'
 * 'begin_code.h'
 * 'close_code.h'
+
+== Thoughts on callbacks
+
+SDL2 has a number of callback interfaces. While we probably
+do not want to implement some of them (like the OS-specific
+callbacks for Windows and iOS) we do need others.
+
+Callbacks that have no return value are easy to implement.
+The idea is to have an Erlang process that waits for messages
+containing the callback MFA to execute. The following callbacks
+have no return value and no other caveat:
+
+* `SDL_AudioCallback`
+* `SDL_iOSSetAnimationCallback` (iOS)
+* `SDL_SetWindowsMessageHook` (Windows)
+
+The callback functions for hints do not have a return value
+either, but they have an extra caveat: there can be more
+than one per hint. SDL2 identifies these callbacks with the
+tuple `(callback, userdata)` and we need to give SDL2 this
+same tuple in order to remove the callback.
+
+The best way to handle this is probably to do it mostly via
+Erlang where a process would take care of the callbacks and
+would enable/disable the SDL2 callbacks when required. The
+`userdata` would in this case always be `NULL` since all the
+handling would be done from the Erlang side.
+
+The alternative would be to create a resource per callback
+that the user would have to keep around and that's not very
+convenient.
+
+The functions in question are:
+
+* `SDL_AddHintCallback`
+* `SDL_DelHintCallback`
+
+Other callbacks have a return value but otherwise work in a
+slightly different manner from each other. The callback can
+be invoked in a similar manner to others, by sending a message
+to the Erlang code. The difficulty comes in returning the
+result to the NIF code. The solution for doing that
+will vary depending on the callback in question.
+
+There can be one window hit test callback per window. This
+means we can use the window's user data for storing the
+result and then signal the NIF to read from it using the
+NIF mutex/cond mechanism. Both of those can also be stored
+in the window's user data.
+
+This means the window must be sent to Erlang and passed
+back to the NIF when giving the result back, which should
+be trivial. The callback data can stay empty since we
+store everything in the window data.
+
+The function in question is:
+
+* `SDL_SetWindowHitTest`
+
+The final set of callbacks is timers. When you add a timer
+it returns a `TimerID` and you can use it to remove the
+timer. In addition, the callback can decide to change the
+timer interval or to stop the timer. Unlike for windows
+there is no way to attach information to a `TimerID` so
+a separate solution will be necessary. Since there can
+be any number of timers and they can fire off at any
+time then some kind of queue will be necessary to store
+return values.
+
+Even though we don't know the `TimerID` when setting up
+the timer, we should be able to keep it around in the
+same data structure used for the callback extra parameter.
+There is however the concern of memory allocation: we
+will probably need to hook into all functions that can
+remove timers to make sure we free the memory we allocated
+too.
+
+They're the hardest callback functions to implement, but
+thankfully they're also some of the least interesting
+considering Erlang already comes with many ways to deal
+with timers.
+
+Even if we do implement them, their scope may be reduced
+so that we always return the same interval as a return
+value and therefore don't allow changing the interval or
+stopping the timer from inside a timer callback.
+
+The functions in question are:
+
+* `SDL_AddTimer`
+* `SDL_RemoveTimer`
+
+Other than hints, it should be possible to have a common
+mechanism for all callbacks. The following messages may
+be sent from the NIF:
+
+* `{callback, M, F, Args}` for `void`
+* `{callback, M, F, Args, ResF, ResExtraArg}` for others
+
+The `esdl2:ResF(Result, ResExtraArg)` function would be
+called in the second case after the callback returns.
+The NIF function can then decide what the appropriate
+behavior is for sending the result back to the SDL2
+callback.
+
+The main concern when dealing with SDL2 callbacks is
+the memory allocations since SDL2 will not free the
+memory we allocate. Solutions should be extra careful
+not to introduce leaks and try to avoid allocating
+memory entirely for callbacks. When not possible then
+the memory must be allocated and freed in the course
+of running the Erlang callback and not be kept any
+longer.
