@@ -55,6 +55,8 @@
 	A(blend) \
 	A(borderless) \
 	A(bottom) \
+	A(bottom_left) \
+	A(bottom_right) \
 	A(button) \
 	A(callback) \
 	A(caps) \
@@ -77,6 +79,7 @@
 	A(direction) \
 	A(dollar_gesture) \
 	A(dollar_record) \
+	A(draggable) \
 	A(drop_begin) \
 	A(drop_complete) \
 	A(drop_file) \
@@ -202,6 +205,7 @@
 	A(right_gui) \
 	A(right_shift) \
 	A(scancode) \
+	A(set_window_hit_test_result) \
 	A(shown) \
 	A(size_all) \
 	A(size_changed) \
@@ -226,6 +230,8 @@
 	A(timestamp) \
 	A(tooltip) \
 	A(top) \
+	A(top_left) \
+	A(top_right) \
 	A(touch) \
 	A(true) \
 	A(type) \
@@ -450,6 +456,9 @@
 	F(set_window_fullscreen, 2) \
 	F(set_window_gamma_ramp, 4) \
 	F(set_window_grab, 2) \
+	F(set_window_hit_test, 3) \
+	F(set_window_hit_test_remove, 1) \
+	F(set_window_hit_test_result, 2) \
 	F(set_window_icon, 2) \
 	F(set_window_input_focus, 1) \
 	F(set_window_maximum_size, 3) \
@@ -485,8 +494,9 @@ NIF_LIST_TO_FLAGS_FUNCTION_DECL(keymod_list_to_flags, Uint16)
 NIF_FLAGS_TO_LIST_FUNCTION_DECL(keymod_flags_to_list, Uint16)
 
 int map_to_point(ErlNifEnv*, ERL_NIF_TERM, SDL_Point*);
+ERL_NIF_TERM point_to_map(ErlNifEnv*, const SDL_Point*);
 int map_to_rect(ErlNifEnv*, ERL_NIF_TERM, SDL_Rect*);
-ERL_NIF_TERM rect_to_map(ErlNifEnv*, SDL_Rect*);
+ERL_NIF_TERM rect_to_map(ErlNifEnv*, const SDL_Rect*);
 
 ERL_NIF_TERM display_mode_to_map(ErlNifEnv*, SDL_DisplayMode*);
 ERL_NIF_TERM mouse_state_to_list(ErlNifEnv*, Uint32);

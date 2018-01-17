@@ -51,7 +51,19 @@ handle_info({callback, M, F, A}, State) ->
 	try
 		apply(M, F, A)
 	catch Class:Reason ->
-		error_logger:error_msg("Exception ~p:~p with callback:~n{~p,~p,~p}~n", [Class, Reason, M, F, A])
+		error_logger:error_msg("Exception ~p:~p with callback:~n{~p,~p,~p}~n",
+			[Class, Reason, M, F, A])
+	end,
+	{noreply, State};
+handle_info({callback, M, F, A, ResF, ResA}, State) ->
+	try apply(M, F, A) of
+		Res ->
+			apply(esdl2, ResF, ResA ++ [Res])
+	catch Class:Reason ->
+		%% We need to inform the NIF that an error occurred.
+		apply(esdl2, ResF, ResA ++ [error]),
+		error_logger:error_msg("Exception ~p:~p with callback:~n{~p,~p,~p}~n",
+			[Class, Reason, M, F, A])
 	end,
 	{noreply, State};
 handle_info(_Info, State) ->

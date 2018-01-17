@@ -82,6 +82,20 @@ NIF_ENUM_TO_ATOM_FUNCTION(window_event_to_atom, Uint8, WINDOW_EVENT_ENUM)
 
 static NIF_ATOM_TO_ENUM_FUNCTION(atom_to_window_fullscreen, Uint32, WINDOW_FULLSCREEN_ENUM)
 
+#define HIT_TEST_ENUM(E) \
+	E(normal, SDL_HITTEST_NORMAL) \
+	E(draggable, SDL_HITTEST_DRAGGABLE) \
+	E(top_left, SDL_HITTEST_RESIZE_TOPLEFT) \
+	E(top, SDL_HITTEST_RESIZE_TOP) \
+	E(top_right, SDL_HITTEST_RESIZE_TOPRIGHT) \
+	E(right, SDL_HITTEST_RESIZE_RIGHT) \
+	E(bottom_right, SDL_HITTEST_RESIZE_BOTTOMRIGHT) \
+	E(bottom, SDL_HITTEST_RESIZE_BOTTOM) \
+	E(bottom_left, SDL_HITTEST_RESIZE_BOTTOMLEFT) \
+	E(left, SDL_HITTEST_RESIZE_LEFT)
+
+static NIF_ATOM_TO_ENUM_FUNCTION(atom_to_hit_test_result, SDL_HitTestResult, HIT_TEST_ENUM)
+
 // create_window
 
 NIF_CALL_HANDLER(thread_create_window)
@@ -833,6 +847,215 @@ NIF_FUNCTION(set_window_grab)
 
 	return nif_thread_cast(env, thread_set_window_grab, 2,
 		NIF_RES_GET(Window, window_res), b);
+}
+
+// set_window_hit_test
+
+#define WAIT_FOR_RESULT -1
+#define NO_RESULT -2
+
+typedef struct hit_test_callback_data {
+	char module[256];
+	char function[256];
+	ErlNifMutex* lock;
+	ErlNifCond* cond;
+	int result; /* SDL_HitTestResult | WAIT_FOR_RESULT | NO_RESULT */
+} hit_test_callback_data;
+
+static SDL_HitTestResult hit_test_callback(SDL_Window* window, const SDL_Point* area, void* data)
+{
+	ERL_NIF_TERM module, function, window_term;
+	int result;
+	ErlNifEnv* env = enif_alloc_env();
+	hit_test_callback_data* callback = SDL_GetWindowData(window, "hit_test_callback");
+
+	enif_mutex_lock(callback->lock);
+
+	module = enif_make_atom(env, callback->module);
+	function = enif_make_atom(env, callback->function);
+
+	callback->result = WAIT_FOR_RESULT;
+
+	window_term = esdl2_windows_find(env, window);
+
+	// Tell our Erlang process to execute the callback.
+
+	enif_send(NULL, get_callback_process(), env,
+		enif_make_tuple6(env, atom_callback,
+			module,
+			function,
+			enif_make_list2(env, window_term, point_to_map(env, area)),
+			atom_set_window_hit_test_result,
+			enif_make_list1(env, window_term)
+	));
+
+	enif_free_env(env);
+
+	// Then wait for the result.
+
+	while (callback->result == WAIT_FOR_RESULT)
+		enif_cond_wait(callback->cond, callback->lock);
+
+	result = callback->result;
+	callback->result = NO_RESULT;
+
+	enif_mutex_unlock(callback->lock);
+
+	return result;
+}
+
+NIF_CALL_HANDLER(thread_set_window_hit_test)
+{
+	hit_test_callback_data* callback = SDL_GetWindowData(args[0], "hit_test_callback");
+
+	// We need to copy the module/function because atoms are theoretically
+	// dependent on an environment. This is not the case today but might change.
+
+	if (callback) {
+		// We already have an SDL2 window hit test callback.
+		// Just update the Erlang module/function we need to call.
+
+		enif_mutex_lock(callback->lock);
+
+		strcpy(callback->module, args[1]),
+		strcpy(callback->function, args[2]),
+
+		enif_mutex_unlock(callback->lock);
+	} else {
+		// This is the first time this function is called. We need
+		// to create the initial callback along with its lock/cond.
+
+		callback = (hit_test_callback_data*)SDL_malloc(sizeof(hit_test_callback_data));
+
+		strcpy(callback->module, args[1]),
+		strcpy(callback->function, args[2]),
+
+		callback->lock = enif_mutex_create("hit_test_callback_lock");
+		callback->cond = enif_cond_create("hit_test_callback_cond");
+		callback->result = NO_RESULT;
+
+		SDL_SetWindowData(args[0], "hit_test_callback", callback);
+	}
+
+	enif_free(args[1]);
+	enif_free(args[2]);
+
+	if (SDL_SetWindowHitTest(args[0], &hit_test_callback, NULL)) {
+		SDL_SetWindowData(args[0], "hit_test_callback", NULL);
+		SDL_free(callback);
+
+		return sdl_error_tuple(env);
+	}
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(set_window_hit_test)
+{
+	void* window_res;
+	unsigned int module_len, function_len;
+	char *module = NULL, *function = NULL;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+	BADARG_IF(!enif_get_atom_length(env, argv[1], &module_len, ERL_NIF_LATIN1));
+	BADARG_IF(!enif_get_atom_length(env, argv[2], &function_len, ERL_NIF_LATIN1));
+
+	module = (char*)enif_alloc(module_len + 1);
+	if (!enif_get_atom(env, argv[1], module, module_len + 1, ERL_NIF_LATIN1))
+		goto set_window_hit_test_badarg;
+
+	function = (char*)enif_alloc(function_len + 1);
+	if (!enif_get_atom(env, argv[2], function, function_len + 1, ERL_NIF_LATIN1))
+		goto set_window_hit_test_badarg;
+
+	return nif_thread_call(env, thread_set_window_hit_test, 3,
+		NIF_RES_GET(Window, window_res), module, function);
+
+set_window_hit_test_badarg:
+	enif_free(module);
+	enif_free(function);
+
+	return enif_make_badarg(env);
+}
+
+// set_window_hit_test_remove
+
+NIF_CALL_HANDLER(thread_set_window_hit_test_remove)
+{
+	hit_test_callback_data* callback;
+
+	// We execute the function unconditionally even if we know
+	// there is no callback set in order to best reproduce the
+	// behavior when the feature is unsupported.
+
+	if (SDL_SetWindowHitTest(args[0], NULL, NULL))
+		return sdl_error_tuple(env);
+
+	callback = SDL_GetWindowData(args[0], "hit_test_callback");
+
+	if (!callback)
+		return atom_ok;
+
+	// The callback we removed but just in case we check that
+	// there is no ongoing callback running before freeing memory.
+
+	enif_mutex_lock(callback->lock);
+
+	while (callback->result != NO_RESULT)
+		enif_cond_wait(callback->cond, callback->lock);
+
+	enif_mutex_unlock(callback->lock);
+
+	SDL_SetWindowData(args[0], "hit_test_callback", NULL);
+	SDL_free(callback);
+
+	return atom_ok;
+}
+
+NIF_FUNCTION(set_window_hit_test_remove)
+{
+	void* window_res;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	return nif_thread_call(env, thread_set_window_hit_test_remove, 1,
+		NIF_RES_GET(Window, window_res));
+}
+
+// set_window_hit_test_result
+
+NIF_FUNCTION(set_window_hit_test_result)
+{
+	void* window_res;
+	hit_test_callback_data* callback;
+	SDL_HitTestResult result;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+
+	callback = SDL_GetWindowData(NIF_RES_GET(Window, window_res), "hit_test_callback");
+
+	enif_mutex_lock(callback->lock);
+
+	if (!atom_to_hit_test_result(env, argv[1], &result)) {
+		// An exception occurred inside the callback function or
+		// the user returned an invalid value. Not much we can do.
+		// Act as if the callback was disabled and make the callback
+		// process crash loudly.
+
+		callback->result = SDL_HITTEST_NORMAL;
+
+		enif_cond_signal(callback->cond);
+		enif_mutex_unlock(callback->lock);
+
+		return enif_make_badarg(env);
+	}
+
+	callback->result = result;
+
+	enif_cond_signal(callback->cond);
+	enif_mutex_unlock(callback->lock);
+
+	return atom_ok;
 }
 
 // set_window_icon

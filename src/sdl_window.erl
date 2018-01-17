@@ -45,6 +45,7 @@
 -export([set_display_mode/2]).
 -export([set_fullscreen/2]).
 -export([set_gamma_ramp/4]).
+-export([set_hit_test_callback/3]).
 -export([set_icon/2]).
 -export([set_max_size/3]).
 -export([set_min_size/3]).
@@ -55,6 +56,7 @@
 -export([set_size/3]).
 -export([set_title/2]).
 -export([show/1]).
+-export([unset_hit_test_callback/1]).
 
 -opaque window() :: <<>>.
 -export_type([window/0]).
@@ -237,6 +239,11 @@ set_gamma_ramp(Window, Red, Green, Blue) ->
 	esdl2:set_window_gamma_ramp(Window, Red, Green, Blue),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
+-spec set_hit_test_callback(window(), module(), atom()) -> ok | sdl:error().
+set_hit_test_callback(Window, Module, Function) ->
+	esdl2:set_window_hit_test(Window, Module, Function),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
 -spec set_icon(window(), sdl_surface:surface()) -> ok.
 set_icon(Window, Surface) ->
 	esdl2:set_window_icon(Window, Surface),
@@ -279,3 +286,8 @@ set_title(Window, Title) ->
 -spec show(window()) -> ok.
 show(Window) ->
 	esdl2:show_window(Window).
+
+-spec unset_hit_test_callback(window()) -> ok | sdl:error().
+unset_hit_test_callback(Window) ->
+	esdl2:set_window_hit_test_remove(Window),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.

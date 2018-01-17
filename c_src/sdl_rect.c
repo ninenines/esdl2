@@ -31,6 +31,20 @@ int map_to_point(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Point* point)
 	return 1;
 }
 
+ERL_NIF_TERM point_to_map(ErlNifEnv* env, const SDL_Point* point)
+{
+	ERL_NIF_TERM map;
+
+	map = enif_make_new_map(env);
+
+	enif_make_map_put(env, map, atom_x,
+		enif_make_int(env, point->x), &map);
+	enif_make_map_put(env, map, atom_y,
+		enif_make_int(env, point->y), &map);
+
+	return map;
+}
+
 int map_to_rect(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Rect* rect)
 {
 	ERL_NIF_TERM x, y, w, h;
@@ -56,7 +70,7 @@ int map_to_rect(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Rect* rect)
 	return 1;
 }
 
-ERL_NIF_TERM rect_to_map(ErlNifEnv* env, SDL_Rect* rect)
+ERL_NIF_TERM rect_to_map(ErlNifEnv* env, const SDL_Rect* rect)
 {
 	ERL_NIF_TERM map;
 

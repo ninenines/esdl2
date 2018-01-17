@@ -18,7 +18,7 @@
 
 // register_callback_process
 
-ErlNifPid callback_process;
+static ErlNifPid callback_process;
 
 NIF_FUNCTION(register_callback_process)
 {

@@ -92,7 +92,6 @@ corresponding to the public headers.
 ** `SDL_GetWindowSurface` (window)
 ** `SDL_UpdateWindowSurface` (window)
 ** `SDL_UpdateWindowSurfaceRects` (window)
-** `SDL_SetWindowHitTest` and the related callback `SDL_HitTestResult` (unclear if we need it and whether we can make it efficient enough)
 ** `SDL_IsScreenSaverEnabled`
 ** `SDL_EnableScreenSaver`
 ** `SDL_DisableScreenSaver`

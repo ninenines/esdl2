@@ -213,6 +213,9 @@
 -export([set_window_fullscreen/2]).
 -export([set_window_gamma_ramp/4]).
 -export([set_window_grab/2]).
+-export([set_window_hit_test/3]).
+-export([set_window_hit_test_remove/1]).
+-export([set_window_hit_test_result/2]).
 -export([set_window_icon/2]).
 -export([set_window_input_focus/1]).
 -export([set_window_maximum_size/3]).
@@ -755,6 +758,15 @@ set_window_gamma_ramp(_, _, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 set_window_grab(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+set_window_hit_test(_, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+set_window_hit_test_remove(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+set_window_hit_test_result(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 set_window_icon(_, _) ->
