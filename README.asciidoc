@@ -78,33 +78,15 @@ corresponding to the public headers.
 ** `SDL_GetRenderTarget` (renderer)
 ** `SDL_RenderIsClipEnabled` (renderer)
 ** `SDL_RenderReadPixels` (renderer)
-** `SDL_GL_BindTexture` (gl)
-** `SDL_GL_UnbindTexture` (gl)
 * 'SDL_stdinc.h': SDL_bool is implemented in 'sdl_bool.c'. Do we need anything else?
 * 'SDL_surface.h': Only surface creation (via `IMG_Load`) and destruction is implemented. Might be better to move IMG_* functions in their own space.
 * 'SDL_version.h': `SDL_GetRevisionNumber` must be implemented. The macros may also be useful.
 * 'SDL_video.h': The following elements are missing:
 ** `SDL_WINDOWPOS_*` values for different displays
-** `SDL_CreateWindowFrom` (unclear if we need it)
 ** We currently do not support UTF-8. We should probably switch to binaries as input/output to support it for `SDL_SetWindowTitle` and `SDL_GetWindowTitle`
-** `SDL_SetWindowData` (unclear if we need it)
-** `SDL_GetWindowData` (unclear if we need it)
 ** `SDL_GetWindowSurface` (window)
 ** `SDL_UpdateWindowSurface` (window)
 ** `SDL_UpdateWindowSurfaceRects` (window)
-** `SDL_GL_LoadLibrary` (unclear if we need it)
-** `SDL_GL_GetProcAddress` (unclear if we need it)
-** `SDL_GL_UnloadLibrary` (unclear if we need it)
-** `SDL_GL_ExtensionSupported`
-** `SDL_GL_ResetAttributes`
-** `SDL_GL_SetAttribute`
-** `SDL_GL_GetAttribute`
-** `SDL_GL_MakeCurrent`
-** `SDL_GL_GetCurrentWindow`
-** `SDL_GL_GetCurrentContext`
-** `SDL_GL_GetDrawableSize`
-** `SDL_GL_SetSwapInterval`
-** `SDL_GL_GetSwapInterval`
 
 The code sometimes uses `malloc`. Use `enif_alloc` everywhere instead.
 
@@ -123,15 +105,38 @@ The code sometimes uses `malloc`. Use `enif_alloc` everywhere instead.
 * 'SDL_syswm.h'
 * 'SDL_timer.h' (unclear if we need it)
 * 'SDL_touch.h'
-* 'SDL_vulkan.h'
+
+SDL extensions also need to be investigated and implemented.
+We definitely want at least some of SDL_image, SDL_mixer
+and SDL_ttf. We probably do not need SDL_net or SDL_rtf.
+
+== OpenGL and Vulkan
 
 For OpenGL we need to figure out whether we can call the functions from
 wxErlang. If we can, great! If not, find an automated way to provide
 access to OpenGL.
 
-SDL extensions also need to be investigated and implemented.
-We definitely want at least some of SDL_image, SDL_mixer
-and SDL_ttf. We probably do not need SDL_net or SDL_rtf.
+The following functions are related to OpenGL and Vulkan and still
+need to be implemented:
+
+* 'SDL_render.h':
+** `SDL_GL_BindTexture`
+** `SDL_GL_UnbindTexture`
+* 'SDL_video.h':
+** `SDL_GL_LoadLibrary` (unclear if we need it)
+** `SDL_GL_GetProcAddress` (unclear if we need it)
+** `SDL_GL_UnloadLibrary` (unclear if we need it)
+** `SDL_GL_ExtensionSupported`
+** `SDL_GL_ResetAttributes`
+** `SDL_GL_SetAttribute`
+** `SDL_GL_GetAttribute`
+** `SDL_GL_MakeCurrent`
+** `SDL_GL_GetCurrentWindow`
+** `SDL_GL_GetCurrentContext`
+** `SDL_GL_GetDrawableSize`
+** `SDL_GL_SetSwapInterval`
+** `SDL_GL_GetSwapInterval`
+* 'SDL_vulkan.h'
 
 == To be removed
 
@@ -152,6 +157,7 @@ These don't make a lot of sense for Erlang.
 * 'SDL_mutex.h'
 * 'SDL_quit.h' (only necessary when using `SDL_Main`?)
 * 'SDL_thread.h'
+* 'SDL_video.h': the functions `SDL_CreateWindowFrom`, `SDL_SetWindowData` and `SDL_GetWindowData` take external data as argument.
 
 == Nothing to implement
 
