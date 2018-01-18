@@ -14,6 +14,8 @@
 
 -module(sdl_video).
 
+-export([disable_screensaver/0]).
+-export([enable_screensaver/0]).
 -export([get_closest_display_mode/2]).
 -export([get_current_display_mode/1]).
 -export([get_current_driver/0]).
@@ -27,6 +29,7 @@
 -export([get_num_display_modes/1]).
 -export([get_num_displays/0]).
 -export([get_num_drivers/0]).
+-export([is_screensaver_enabled/0]).
 -export([start/1]).
 -export([stop/0]).
 
@@ -37,6 +40,14 @@
 	refresh_rate => integer()
 }.
 -export_type([display_mode/0]).
+
+-spec disable_screensaver() -> ok.
+disable_screensaver() ->
+	esdl2:disable_screensaver().
+
+-spec enable_screensaver() -> ok.
+enable_screensaver() ->
+	esdl2:enable_screensaver().
 
 -spec get_closest_display_mode(integer(), display_mode()) -> display_mode() | undefined.
 get_closest_display_mode(DisplayIndex, Mode) ->
@@ -102,6 +113,11 @@ get_num_displays() ->
 -spec get_num_drivers() -> integer().
 get_num_drivers() ->
 	esdl2:get_num_video_drivers().
+
+-spec is_screensaver_enabled() -> boolean().
+is_screensaver_enabled() ->
+	esdl2:is_screensaver_enabled(),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 -spec start(binary()) -> ok | sdl:error().
 start(DriverName) ->

@@ -34,6 +34,30 @@ ERL_NIF_TERM display_mode_to_map(ErlNifEnv* env, SDL_DisplayMode* mode)
 	return map;
 }
 
+// disable_screensaver
+
+NIF_CAST_HANDLER(thread_disable_screensaver)
+{
+	SDL_DisableScreenSaver();
+}
+
+NIF_FUNCTION(disable_screensaver)
+{
+	return nif_thread_cast(env, thread_disable_screensaver, 0);
+}
+
+// enable_screensaver
+
+NIF_CAST_HANDLER(thread_enable_screensaver)
+{
+	SDL_EnableScreenSaver();
+}
+
+NIF_FUNCTION(enable_screensaver)
+{
+	return nif_thread_cast(env, thread_enable_screensaver, 0);
+}
+
 // get_closest_display_mode
 
 NIF_CALL_HANDLER(thread_get_closest_display_mode)
@@ -321,6 +345,21 @@ NIF_FUNCTION(get_video_driver)
 	memcpy(bin.data, name, bin.size);
 
 	return enif_make_binary(env, &bin);
+}
+
+// is_screensaver_enabled
+
+NIF_CALL_HANDLER(thread_is_screensaver_enabled)
+{
+	if (SDL_IsScreenSaverEnabled())
+		return atom_true;
+
+	return atom_false;
+}
+
+NIF_FUNCTION(is_screensaver_enabled)
+{
+	return nif_thread_call(env, thread_is_screensaver_enabled, 0);
 }
 
 // video_init

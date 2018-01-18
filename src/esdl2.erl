@@ -166,6 +166,8 @@
 -export([get_revision/0]).
 
 %% sdl_video
+-export([disable_screensaver/0]).
+-export([enable_screensaver/0]).
 -export([get_closest_display_mode/2]).
 -export([get_current_display_mode/1]).
 -export([get_current_video_driver/0]).
@@ -179,6 +181,7 @@
 -export([get_num_video_displays/0]).
 -export([get_num_video_drivers/0]).
 -export([get_video_driver/1]).
+-export([is_screensaver_enabled/0]).
 -export([video_init/1]).
 -export([video_quit/0]).
 
@@ -623,6 +626,12 @@ get_revision() ->
 
 %% sdl_video
 
+disable_screensaver() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+enable_screensaver() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 get_closest_display_mode(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
@@ -660,6 +669,9 @@ get_num_video_drivers() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 get_video_driver(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+is_screensaver_enabled() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 video_init(_) ->

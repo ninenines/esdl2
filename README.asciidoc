@@ -92,9 +92,6 @@ corresponding to the public headers.
 ** `SDL_GetWindowSurface` (window)
 ** `SDL_UpdateWindowSurface` (window)
 ** `SDL_UpdateWindowSurfaceRects` (window)
-** `SDL_IsScreenSaverEnabled`
-** `SDL_EnableScreenSaver`
-** `SDL_DisableScreenSaver`
 ** `SDL_GL_LoadLibrary` (unclear if we need it)
 ** `SDL_GL_GetProcAddress` (unclear if we need it)
 ** `SDL_GL_UnloadLibrary` (unclear if we need it)

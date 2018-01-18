@@ -410,6 +410,8 @@
 	F(get_version, 0) \
 	F(get_revision, 0) \
 	/* sdl_video */ \
+	F(disable_screensaver, 0) \
+	F(enable_screensaver, 0) \
 	F(get_closest_display_mode, 2) \
 	F(get_current_display_mode, 1) \
 	F(get_current_video_driver, 0) \
@@ -423,6 +425,7 @@
 	F(get_num_video_displays, 0) \
 	F(get_num_video_drivers, 0) \
 	F(get_video_driver, 1) \
+	F(is_screensaver_enabled, 0) \
 	F(video_init, 1) \
 	F(video_quit, 0) \
 	/* sdl_window */ \
