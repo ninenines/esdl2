@@ -18,21 +18,22 @@
 
 NIF_FUNCTION(get_clipboard_text)
 {
+	ErlNifBinary bin;
 	char* text;
-	ERL_NIF_TERM term;
 
 	text = SDL_GetClipboardText();
 
 	if (!text)
 		return sdl_error_tuple(env);
 
-	term = enif_make_string(env, text, ERL_NIF_LATIN1);
+	enif_alloc_binary(strlen(text), &bin);
+	memcpy(bin.data, text, bin.size);
 
 	SDL_free(text);
 
 	return enif_make_tuple2(env,
 		atom_ok,
-		term
+		enif_make_binary(env, &bin)
 	);
 }
 
@@ -50,21 +51,19 @@ NIF_FUNCTION(has_clipboard_text)
 
 NIF_FUNCTION(set_clipboard_text)
 {
-	unsigned int len;
+	ErlNifBinary bin;
 	char* text;
 	int ret;
 
-	BADARG_IF(!enif_get_list_length(env, argv[0], &len));
-	text = (char*)enif_alloc(len + 1);
+	BADARG_IF(!enif_inspect_binary(env, argv[0], &bin));
 
-	if (!enif_get_string(env, argv[0], text, len + 1, ERL_NIF_LATIN1)) {
-		enif_free(text);
-		return enif_make_badarg(env);
-	}
+	text = malloc(bin.size + 1);
+	memcpy(text, bin.data, bin.size);
+	text[bin.size] = '\0';
 
 	ret = SDL_SetClipboardText(text);
 
-	enif_free(text);
+	free(text);
 
 	if (ret != 0)
 		return sdl_error_tuple(env);

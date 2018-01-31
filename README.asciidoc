@@ -10,6 +10,7 @@ corresponding to the public headers.
 
 * 'SDL.h'
 * 'SDL_blendmode.h'
+* 'SDL_clipboard.h'
 * 'SDL_cpuinfo.h'
 * 'SDL_filesystem.h'
 * 'SDL_keyboard.h'
@@ -22,7 +23,6 @@ corresponding to the public headers.
 
 == Partially implemented
 
-* 'SDL_clipboard.h': We currently do not support UTF-8. We should probably switch to binaries as input/output to support it.
 * 'SDL_events.h': The following events and functions are missing:
 ** `SDL_SYSWMEVENT`
 ** `SDL_TEXTEDITING`
@@ -78,7 +78,7 @@ corresponding to the public headers.
 ** `SDL_GetRenderTarget` (renderer)
 ** `SDL_RenderIsClipEnabled` (renderer)
 ** `SDL_RenderReadPixels` (renderer)
-* 'SDL_stdinc.h': SDL_bool is implemented in 'sdl_bool.c'. Do we need anything else?
+* 'SDL_stdinc.h': Erlang does not come with the functions `copysign` and `scalbn`.
 * 'SDL_surface.h': Only surface creation (via `IMG_Load`) and destruction is implemented. Might be better to move IMG_* functions in their own space.
 * 'SDL_version.h': `SDL_GetRevisionNumber` must be implemented. The macros may also be useful.
 * 'SDL_video.h': The following elements are missing:
@@ -156,6 +156,7 @@ These don't make a lot of sense for Erlang.
 * 'SDL_main.h'
 * 'SDL_mutex.h'
 * 'SDL_quit.h' (only necessary when using `SDL_Main`?)
+* 'SDL_stdinc.h': only a few functions are implemented, others are not interesting.
 * 'SDL_thread.h'
 * 'SDL_video.h': the functions `SDL_CreateWindowFrom`, `SDL_SetWindowData` and `SDL_GetWindowData` take external data as argument.
 
