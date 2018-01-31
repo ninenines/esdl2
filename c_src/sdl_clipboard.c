@@ -57,13 +57,13 @@ NIF_FUNCTION(set_clipboard_text)
 
 	BADARG_IF(!enif_inspect_binary(env, argv[0], &bin));
 
-	text = malloc(bin.size + 1);
+	text = enif_alloc(bin.size + 1);
 	memcpy(text, bin.data, bin.size);
 	text[bin.size] = '\0';
 
 	ret = SDL_SetClipboardText(text);
 
-	free(text);
+	enif_free(text);
 
 	if (ret != 0)
 		return sdl_error_tuple(env);

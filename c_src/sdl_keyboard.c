@@ -24,13 +24,13 @@ NIF_FUNCTION(get_key_from_name)
 
 	BADARG_IF(!enif_inspect_binary(env, argv[0], &bin));
 
-	name = malloc(bin.size + 1);
+	name = enif_alloc(bin.size + 1);
 	memcpy(name, bin.data, bin.size);
 	name[bin.size] = '\0';
 
 	key = SDL_GetKeyFromName(name);
 
-	free(name);
+	enif_free(name);
 
 	if (key == SDLK_UNKNOWN)
 		return atom_undefined;
@@ -110,13 +110,13 @@ NIF_FUNCTION(get_scancode_from_name)
 
 	BADARG_IF(!enif_inspect_binary(env, argv[0], &bin));
 
-	name = malloc(bin.size + 1);
+	name = enif_alloc(bin.size + 1);
 	memcpy(name, bin.data, bin.size);
 	name[bin.size] = '\0';
 
 	scancode = SDL_GetScancodeFromName(name);
 
-	free(name);
+	enif_free(name);
 
 	if (scancode == SDL_SCANCODE_UNKNOWN)
 		return atom_undefined;

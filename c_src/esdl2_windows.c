@@ -33,7 +33,7 @@ void esdl2_windows_insert(SDL_Window* window, obj_Window* res)
 {
 	struct esdl2_window* item;
 
-	item = malloc(sizeof(struct esdl2_window));
+	item = enif_alloc(sizeof(struct esdl2_window));
 	item->window = window;
 	item->res = res;
 
@@ -89,7 +89,7 @@ void esdl2_windows_free()
 	head = LIST_FIRST(&windows);
 	while (head != NULL) {
 		next = LIST_NEXT(head, entries);
-		free(head);
+		enif_free(head);
 		head = next;
 	}
 }

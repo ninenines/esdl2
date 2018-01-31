@@ -340,7 +340,7 @@ NIF_CALL_HANDLER(thread_peep_events)
 	int i, numEvents;
 	ERL_NIF_TERM list;
 
-	events = malloc(sizeof(SDL_Event) * (long)args[1]);
+	events = enif_alloc(sizeof(SDL_Event) * (long)args[1]);
 
 	numEvents = SDL_PeepEvents(events, (long)args[1],
 		(long)args[0], (long)args[2], (long)args[3]);
@@ -353,7 +353,7 @@ NIF_CALL_HANDLER(thread_peep_events)
 	for (i = 0; i < numEvents; i++)
 		list = enif_make_list_cell(env, event_to_map(env, &events[i]), list);
 
-	free(events);
+	enif_free(events);
 
 	return enif_make_tuple2(env, atom_ok, list);
 }

@@ -34,7 +34,7 @@ void esdl2_renderers_insert(SDL_Renderer* renderer, obj_Renderer* res, obj_Windo
 {
 	struct esdl2_renderer* item;
 
-	item = malloc(sizeof(struct esdl2_renderer));
+	item = enif_alloc(sizeof(struct esdl2_renderer));
 	item->renderer = renderer;
 	item->res = res;
 	item->window_res = window_res;
@@ -95,7 +95,7 @@ void esdl2_renderers_free()
 	head = LIST_FIRST(&renderers);
 	while (head != NULL) {
 		next = LIST_NEXT(head, entries);
-		free(head);
+		enif_free(head);
 		head = next;
 	}
 }

@@ -33,7 +33,7 @@ void esdl2_cursors_insert(SDL_Cursor* cursor, obj_Cursor* res)
 {
 	struct esdl2_cursor* item;
 
-	item = malloc(sizeof(struct esdl2_cursor));
+	item = enif_alloc(sizeof(struct esdl2_cursor));
 	item->cursor = cursor;
 	item->res = res;
 
@@ -89,7 +89,7 @@ void esdl2_cursors_free()
 	head = LIST_FIRST(&cursors);
 	while (head != NULL) {
 		next = LIST_NEXT(head, entries);
-		free(head);
+		enif_free(head);
 		head = next;
 	}
 }

@@ -370,7 +370,7 @@ NIF_CALL_HANDLER(thread_video_init)
 
 	result = SDL_VideoInit(args[0]);
 
-	free(args[0]);
+	enif_free(args[0]);
 
 	if (result)
 		return sdl_error_tuple(env);
@@ -385,7 +385,7 @@ NIF_FUNCTION(video_init)
 
 	BADARG_IF(!enif_inspect_binary(env, argv[0], &bin));
 
-	name = malloc(bin.size + 1);
+	name = enif_alloc(bin.size + 1);
 	memcpy(name, bin.data, bin.size);
 	name[bin.size] = '\0';
 
