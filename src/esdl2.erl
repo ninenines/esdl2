@@ -114,6 +114,13 @@
 %% sdl_power
 -export([get_power_info/0]).
 
+%% sdl_rect
+-export([enclose_points/2]).
+-export([has_intersection/2]).
+-export([intersect_rect/2]).
+-export([intersect_rect_and_line/5]).
+-export([union_rect/2]).
+
 %% sdl_renderer
 -export([create_renderer/3]).
 -export([get_num_render_drivers/0]).
@@ -485,6 +492,23 @@ get_platform() ->
 %% sdl_power
 
 get_power_info() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+%% sdl_rect
+
+enclose_points(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+has_intersection(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+intersect_rect(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+intersect_rect_and_line(_, _, _, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+union_rect(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_renderer

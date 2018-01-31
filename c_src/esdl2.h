@@ -362,6 +362,12 @@
 	F(get_platform, 0) \
 	/* sdl_power */ \
 	F(get_power_info, 0) \
+	/* sdl_rect */ \
+	F(enclose_points, 2) \
+	F(has_intersection, 2) \
+	F(intersect_rect, 2) \
+	F(intersect_rect_and_line, 5) \
+	F(union_rect, 2) \
 	/* sdl_renderer */ \
 	F(create_renderer, 3) \
 	F(get_num_render_drivers, 0) \

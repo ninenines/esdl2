@@ -17,6 +17,7 @@ corresponding to the public headers.
 * 'SDL_mouse.h'
 * 'SDL_platform.h'
 * 'SDL_power.h'
+* 'SDL_rect.h'
 * 'SDL_scancode.h'
 
 == Partially implemented
@@ -62,7 +63,6 @@ corresponding to the public headers.
 ** `SDL_RegisterEvents`
 * 'SDL_hints.h': We only have a proof of concept callback system.
 * 'SDL_pixels.h': Only the pixel format enum and conversion function is defined.
-* 'SDL_rect.h': Everything is missing except the map to point/rect conversion functions.
 * 'SDL_render.h': The following elements are missing:
 ** `SDL_TextureAccess` enum
 ** `SDL_TextureModulate` enum
