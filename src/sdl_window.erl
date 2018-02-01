@@ -76,7 +76,7 @@
 %% It must be a list of 256 elements.
 -type gamma_ramp() :: [0..65535].
 
--spec create(string(), window_pos(), window_pos(), integer(), integer(), [window_flag()])
+-spec create(binary(), window_pos(), window_pos(), integer(), integer(), [window_flag()])
 	-> {ok, window()} | sdl:error().
 create(Title, X, Y, W, H, Flags) ->
 	esdl2:create_window(Title, X, Y, W, H, Flags),
@@ -179,7 +179,7 @@ get_size(Window) ->
 	esdl2:get_window_size(Window),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec get_title(window()) -> string().
+-spec get_title(window()) -> binary().
 get_title(Window) ->
 	esdl2:get_window_title(Window),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
@@ -279,7 +279,7 @@ set_resizable(Window, Resizable) ->
 set_size(Window, W, H) ->
 	esdl2:set_window_size(Window, W, H).
 
--spec set_title(window(), string()) -> ok.
+-spec set_title(window(), binary()) -> ok.
 set_title(Window, Title) ->
 	esdl2:set_window_title(Window, Title).
 

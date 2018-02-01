@@ -123,7 +123,7 @@ NIF_CALL_HANDLER(thread_create_window)
 
 NIF_FUNCTION(create_window)
 {
-	unsigned int len;
+	ErlNifBinary bin;
 	char* title;
 	int x, y, w, h;
 	Uint32 flags = 0;
@@ -146,13 +146,11 @@ NIF_FUNCTION(create_window)
 
 	// Getting the title last to simplify the code due to memory allocation.
 
-	BADARG_IF(!enif_get_list_length(env, argv[0], &len));
-	title = (char*)enif_alloc(len + 1);
+	BADARG_IF(!enif_inspect_binary(env, argv[0], &bin));
 
-	if (!enif_get_string(env, argv[0], title, len + 1, ERL_NIF_LATIN1)) {
-		enif_free(title);
-		return enif_make_badarg(env);
-	}
+	title = enif_alloc(bin.size + 1);
+	memcpy(title, bin.data, bin.size);
+	title[bin.size] = '\0';
 
 	return nif_thread_call(env, thread_create_window, 6,
 		title, x, y, w, h, flags);
@@ -568,7 +566,18 @@ NIF_FUNCTION(get_window_size)
 
 NIF_CALL_HANDLER(thread_get_window_title)
 {
-	return enif_make_string(env, SDL_GetWindowTitle(args[0]), ERL_NIF_LATIN1);
+	ErlNifBinary bin;
+	const char* title;
+
+	title = SDL_GetWindowTitle(args[0]);
+
+	if (!title)
+		return sdl_error_tuple(env);
+
+	enif_alloc_binary(strlen(title), &bin);
+	memcpy(bin.data, title, bin.size);
+
+	return enif_make_binary(env, &bin);
 }
 
 NIF_FUNCTION(get_window_title)
@@ -1268,18 +1277,15 @@ NIF_CAST_HANDLER(thread_set_window_title)
 NIF_FUNCTION(set_window_title)
 {
 	void* window_res;
-	unsigned int len;
+	ErlNifBinary bin;
 	char* title;
 
 	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
+	BADARG_IF(!enif_inspect_binary(env, argv[1], &bin));
 
-	BADARG_IF(!enif_get_list_length(env, argv[1], &len));
-	title = (char*)enif_alloc(len + 1);
-
-	if (!enif_get_string(env, argv[1], title, len + 1, ERL_NIF_LATIN1)) {
-		enif_free(title);
-		return enif_make_badarg(env);
-	}
+	title = enif_alloc(bin.size + 1);
+	memcpy(title, bin.data, bin.size);
+	title[bin.size] = '\0';
 
 	return nif_thread_cast(env, thread_set_window_title, 2,
 		NIF_RES_GET(Window, window_res), title);

@@ -83,7 +83,6 @@ corresponding to the public headers.
 * 'SDL_version.h': `SDL_GetRevisionNumber` must be implemented. The macros may also be useful.
 * 'SDL_video.h': The following elements are missing:
 ** `SDL_WINDOWPOS_*` values for different displays
-** We currently do not support UTF-8. We should probably switch to binaries as input/output to support it for `SDL_SetWindowTitle`, `SDL_GetWindowTitle` and `SDL_CreateWindow`.
 ** `SDL_GetWindowSurface` (window)
 ** `SDL_UpdateWindowSurface` (window)
 ** `SDL_UpdateWindowSurfaceRects` (window)
