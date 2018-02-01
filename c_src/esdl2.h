@@ -402,6 +402,8 @@
 	F(render_target_supported, 1) \
 	F(set_render_draw_blend_mode, 2) \
 	F(set_render_draw_color, 5) \
+	/* sdl_stdinc */ \
+	F(get_num_allocations, 0) \
 	/* sdl_surface */ \
 	F(img_load, 1) \
 	/* sdl_texture */ \

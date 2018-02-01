@@ -156,6 +156,9 @@
 -export([set_render_draw_blend_mode/2]).
 -export([set_render_draw_color/5]).
 
+%% sdl_stdinc
+-export([get_num_allocations/0]).
+
 %% sdl_surface
 -export([img_load/1]).
 
@@ -610,6 +613,11 @@ set_render_draw_blend_mode(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 set_render_draw_color(_, _, _, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+%% sdl_stdinc
+
+get_num_allocations() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_surface

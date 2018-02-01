@@ -19,3 +19,10 @@
 	E(true, SDL_TRUE)
 
 NIF_ATOM_TO_ENUM_FUNCTION(atom_to_bool, SDL_bool, BOOL_ENUM)
+
+// get_num_allocations
+
+NIF_FUNCTION(get_num_allocations)
+{
+	return enif_make_int(env, SDL_GetNumAllocations());
+}
