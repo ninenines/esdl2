@@ -60,3 +60,34 @@
 
 NIF_ENUM_TO_ATOM_FUNCTION(pixel_format_to_atom, Uint32, PIXEL_FORMAT_ENUM)
 NIF_ATOM_TO_ENUM_FUNCTION(atom_to_pixel_format, Uint32, PIXEL_FORMAT_ENUM)
+
+int map_to_color(ErlNifEnv* env, ERL_NIF_TERM map, SDL_Color* color)
+{
+	ERL_NIF_TERM r, g, b, a;
+	unsigned int ri, gi, bi, ai;
+
+	if (!enif_get_map_value(env, map, atom_r, &r))
+		return 0;
+	if (!enif_get_map_value(env, map, atom_g, &g))
+		return 0;
+	if (!enif_get_map_value(env, map, atom_b, &b))
+		return 0;
+	if (!enif_get_map_value(env, map, atom_a, &a))
+		return 0;
+
+	if (!enif_get_uint(env, r, &ri))
+		return 0;
+	if (!enif_get_uint(env, g, &gi))
+		return 0;
+	if (!enif_get_uint(env, b, &bi))
+		return 0;
+	if (!enif_get_uint(env, a, &ai))
+		return 0;
+
+	color->r = ri;
+	color->g = gi;
+	color->b = bi;
+	color->a = ai;
+
+	return 1;
+}

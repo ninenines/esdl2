@@ -20,7 +20,26 @@ void dtor_Surface(ErlNifEnv* env, void* obj)
 	SDL_FreeSurface(NIF_RES_GET(Surface, obj));
 }
 
+// get_surface_dimensions
+
+NIF_FUNCTION(get_surface_dimensions)
+{
+	void* surface_res;
+	SDL_Surface* surface;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Surface, &surface_res));
+	surface = NIF_RES_GET(Surface, surface_res);
+
+	return enif_make_tuple2(env,
+		enif_make_int(env, surface->w),
+		enif_make_int(env, surface->h)
+	);
+}
+
 // img_load
+// @todo We should accept file:filename_all() and convert to binary
+// before passing it to the NIF. Then we can support UTF-8 paths.
+// @todo This function probably doesn't need to be a call.
 
 NIF_CALL_HANDLER(thread_img_load)
 {

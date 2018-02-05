@@ -16,10 +16,12 @@
 #define __ESDL2_H__
 
 #include "SDL.h"
+#include "SDL_ttf.h"
 
 // List of atoms used by this NIF.
 
 #define NIF_ATOMS(A) \
+	A(a) \
 	A(abgr1555) \
 	A(abgr32) \
 	A(abgr4444) \
@@ -43,6 +45,7 @@
 	A(audio) \
 	A(audio_device_added) \
 	A(audio_device_removed) \
+	A(b) \
 	A(bgr24) \
 	A(bgr555) \
 	A(bgr565) \
@@ -105,6 +108,7 @@
 	A(format) \
 	A(fullscreen) \
 	A(fullscreen_desktop) \
+	A(g) \
 	A(game_controller) \
 	A(get) \
 	A(h) \
@@ -179,6 +183,7 @@
 	A(present_vsync) \
 	A(pressed) \
 	A(quit) \
+	A(r) \
 	A(refresh_rate) \
 	A(released) \
 	A(render_device_reset) \
@@ -263,9 +268,12 @@
 
 // List of resources used by this NIF.
 
+#define SDL_Font TTF_Font
+
 #define NIF_RES_TYPE(r) SDL_ ## r
 #define NIF_RESOURCES(R) \
 	R(Cursor) \
+	R(Font) \
 	R(GLContext) \
 	R(Renderer) \
 	R(Surface) \
@@ -405,6 +413,7 @@
 	/* sdl_stdinc */ \
 	F(get_num_allocations, 0) \
 	/* sdl_surface */ \
+	F(get_surface_dimensions, 1) \
 	F(img_load, 1) \
 	/* sdl_texture */ \
 	F(create_texture_from_surface, 2) \
@@ -414,6 +423,12 @@
 	F(set_texture_alpha_mod, 2) \
 	F(set_texture_blend_mode, 2) \
 	F(set_texture_color_mod, 4) \
+	/* sdl_ttf */ \
+	F(ttf_init, 0) \
+	F(ttf_open_font, 2) \
+	F(ttf_quit, 0) \
+	F(ttf_render_utf8_solid, 3) \
+	F(ttf_was_init, 0) \
 	/* sdl_version */ \
 	F(get_version, 0) \
 	F(get_revision, 0) \
@@ -504,6 +519,7 @@ NIF_ENUM_TO_ATOM_FUNCTION_DECL(window_event_to_atom, Uint8)
 NIF_LIST_TO_FLAGS_FUNCTION_DECL(keymod_list_to_flags, Uint16)
 NIF_FLAGS_TO_LIST_FUNCTION_DECL(keymod_flags_to_list, Uint16)
 
+int map_to_color(ErlNifEnv*, ERL_NIF_TERM, SDL_Color*);
 int map_to_point(ErlNifEnv*, ERL_NIF_TERM, SDL_Point*);
 ERL_NIF_TERM point_to_map(ErlNifEnv*, const SDL_Point*);
 int map_to_rect(ErlNifEnv*, ERL_NIF_TERM, SDL_Rect*);

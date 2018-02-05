@@ -2,9 +2,15 @@
 
 SDL2 Erlang NIF.
 
-The following sections list the state of the implementation
-as of SDL 2.0.7. The implementation is cut into sections
-corresponding to the public headers.
+This project tries to implement SDL2 and some of its
+extensions in one convenient NIF. The supported versions
+and features are listed below.
+
+* SDL 2.0.7
+* SDL_ttf 2.0.14
+
+The implementation is cut into sections corresponding
+to the public headers.
 
 == Fully implemented
 
@@ -80,6 +86,53 @@ corresponding to the public headers.
 ** `SDL_RenderReadPixels` (renderer)
 * 'SDL_stdinc.h': Erlang does not come with the functions `copysign` and `scalbn`.
 * 'SDL_surface.h': Only surface creation (via `IMG_Load`) and destruction is implemented. Might be better to move IMG_* functions in their own space.
+** Everything in this header can be implemented as simple functions (as opposed to cast/call).
+** We'll need to add functions to retrieve the pixel format and possibly pitch (though format+dimensions is enough to get it).
+** We'll need to add extra functions for direct access to the pixels.
+* 'SDL_ttf.h':
+** A function to obtain the SDL_ttf version could be useful
+** `TTF_Linked_Version` (if it makes sense, depends on how the library is loaded)
+** `TTF_ByteSwappedUNICODE`
+** `TTF_OpenFontIndex`
+** `TTF_OpenFontRW`
+** `TTF_OpenFontIndexRW`
+** `TTF_GetFontStyle`
+** `TTF_SetFontStyle`
+** `TTF_GetFontOutline`
+** `TTF_SetFontOutline`
+** `TTF_GetFontHinting`
+** `TTF_SetFontHinting`
+** `TTF_FontHeight`
+** `TTF_FontAscent`
+** `TTF_FontDescent`
+** `TTF_FontLineSkip`
+** `TTF_GetFontKerning`
+** `TTF_SetFontKerning`
+** `TTF_FontFaces`
+** `TTF_FontFaceIsFixedWidth`
+** `TTF_FontFaceFamilyName`
+** `TTF_FontFaceStyleName`
+** `TTF_GlyphIsProvided`
+** `TTF_GlyphMetrics`
+** `TTF_SizeText`
+** `TTF_SizeUTF8`
+** `TTF_SizeUNICODE`
+** `TTF_RenderText_Solid`
+** `TTF_RenderUNICODE_Solid`
+** `TTF_RenderGlyph_Solid`
+** `TTF_RenderText_Shaded`
+** `TTF_RenderUTF8_Shaded`
+** `TTF_RenderUNICODE_Shaded`
+** `TTF_RenderGlyph_Shaded`
+** `TTF_RenderText_Blended`
+** `TTF_RenderUTF8_Blended`
+** `TTF_RenderUNICODE_Blended`
+** `TTF_RenderText_Blended_Wrapped`
+** `TTF_RenderUTF8_Blended_Wrapped`
+** `TTF_RenderUNICODE_Blended_Wrapped`
+** `TTF_RenderGlyph_Blended`
+** `TTF_CloseFont`
+** `TTF_GetFontKerningSizeGlyphs`
 * 'SDL_version.h': `SDL_GetRevisionNumber` must be implemented. The macros may also be useful.
 * 'SDL_video.h': The following elements are missing:
 ** `SDL_WINDOWPOS_*` values for different displays
@@ -103,9 +156,9 @@ corresponding to the public headers.
 * 'SDL_timer.h' (unclear if we need it)
 * 'SDL_touch.h'
 
-SDL extensions also need to be investigated and implemented.
-We definitely want at least some of SDL_image, SDL_mixer
-and SDL_ttf. We probably do not need SDL_net or SDL_rtf.
+Other SDL extensions need to be investigated and implemented.
+We definitely want at least some of SDL_image and SDL_mixer.
+We probably do not need SDL_net or SDL_rtf.
 
 == OpenGL and Vulkan
 

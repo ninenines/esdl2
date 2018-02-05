@@ -14,10 +14,15 @@
 
 -module(sdl_surface).
 
+-export([get_dimensions/1]).
 -export([load/1]).
 
 -opaque surface() :: <<>>.
 -export_type([surface/0]).
+
+-spec get_dimensions(surface()) -> {non_neg_integer(), non_neg_integer()}.
+get_dimensions(Surface) ->
+	esdl2:get_surface_dimensions(Surface).
 
 -spec load(string()) -> {ok, surface()} | sdl:error().
 load(Filename) ->

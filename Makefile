@@ -28,7 +28,7 @@ include erlang.mk
 
 CFLAGS += $(shell sdl2-config --cflags)
 # @todo -undefined dynamic_lookup on OSX?
-LDLIBS += $(SDL2_LIBS) -lSDL2_image
+LDLIBS += $(SDL2_LIBS) -lSDL2_image -lSDL2_ttf
 
 check:: cppcheck scan-build
 

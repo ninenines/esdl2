@@ -160,6 +160,7 @@
 -export([get_num_allocations/0]).
 
 %% sdl_surface
+-export([get_surface_dimensions/1]).
 -export([img_load/1]).
 
 %% sdl_texture
@@ -170,6 +171,13 @@
 -export([set_texture_alpha_mod/2]).
 -export([set_texture_blend_mode/2]).
 -export([set_texture_color_mod/4]).
+
+%% sdl_ttf
+-export([ttf_init/0]).
+-export([ttf_open_font/2]).
+-export([ttf_quit/0]).
+-export([ttf_render_utf8_solid/3]).
+-export([ttf_was_init/0]).
 
 %% sdl_version
 -export([get_version/0]).
@@ -622,6 +630,9 @@ get_num_allocations() ->
 
 %% sdl_surface
 
+get_surface_dimensions(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 img_load(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
@@ -646,6 +657,23 @@ set_texture_blend_mode(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 set_texture_color_mod(_, _, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+%% sdl_ttf
+
+ttf_init() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_open_font(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_quit() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_render_utf8_solid(_, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_was_init() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 %% sdl_version

@@ -14,6 +14,14 @@
 
 -module(sdl_pixels).
 
+-type color() :: #{
+	r := 0..255,
+	g := 0..255,
+	b := 0..255,
+	a := 0..255
+}.
+-export_type([color/0]).
+
 -type pixel_format() :: unknown
 	| index1lsb | index1msb | index4lsb | index4msb | index8
 	| rgb332 | rgb444 | rgb555 | bgr555
