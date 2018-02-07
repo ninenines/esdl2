@@ -92,46 +92,13 @@ to the public headers.
 * 'SDL_ttf.h':
 ** A function to obtain the SDL_ttf version could be useful
 ** `TTF_Linked_Version` (if it makes sense, depends on how the library is loaded)
-** `TTF_ByteSwappedUNICODE`
-** `TTF_OpenFontIndex`
-** `TTF_OpenFontRW`
-** `TTF_OpenFontIndexRW`
-** `TTF_GetFontStyle`
-** `TTF_SetFontStyle`
-** `TTF_GetFontOutline`
-** `TTF_SetFontOutline`
-** `TTF_GetFontHinting`
-** `TTF_SetFontHinting`
-** `TTF_FontHeight`
-** `TTF_FontAscent`
-** `TTF_FontDescent`
-** `TTF_FontLineSkip`
-** `TTF_GetFontKerning`
-** `TTF_SetFontKerning`
-** `TTF_FontFaces`
-** `TTF_FontFaceIsFixedWidth`
-** `TTF_FontFaceFamilyName`
-** `TTF_FontFaceStyleName`
+** `TTF_OpenFontRW` (unclear if we need it)
+** `TTF_OpenFontIndexRW` (unclear if we need it)
 ** `TTF_GlyphIsProvided`
 ** `TTF_GlyphMetrics`
-** `TTF_SizeText`
-** `TTF_SizeUTF8`
-** `TTF_SizeUNICODE`
-** `TTF_RenderText_Solid`
-** `TTF_RenderUNICODE_Solid`
 ** `TTF_RenderGlyph_Solid`
-** `TTF_RenderText_Shaded`
-** `TTF_RenderUTF8_Shaded`
-** `TTF_RenderUNICODE_Shaded`
 ** `TTF_RenderGlyph_Shaded`
-** `TTF_RenderText_Blended`
-** `TTF_RenderUTF8_Blended`
-** `TTF_RenderUNICODE_Blended`
-** `TTF_RenderText_Blended_Wrapped`
-** `TTF_RenderUTF8_Blended_Wrapped`
-** `TTF_RenderUNICODE_Blended_Wrapped`
 ** `TTF_RenderGlyph_Blended`
-** `TTF_CloseFont`
 ** `TTF_GetFontKerningSizeGlyphs`
 * 'SDL_version.h': `SDL_GetRevisionNumber` must be implemented. The macros may also be useful.
 * 'SDL_video.h': The following elements are missing:
@@ -208,6 +175,7 @@ These don't make a lot of sense for Erlang.
 * 'SDL_quit.h' (only necessary when using `SDL_Main`?)
 * 'SDL_stdinc.h': only a few functions are implemented, others are not interesting.
 * 'SDL_thread.h'
+* 'SDL_ttf.h': the rendering functions for `Text` and `UNICODE` are not interesting because they internally call the `UTF8` functions so we may as well provide utf8-encoded binaries directly. The `TTF_ByteSwappedUNICODE` also falls in this category and is not provided.
 * 'SDL_video.h': the functions `SDL_CreateWindowFrom`, `SDL_SetWindowData` and `SDL_GetWindowData` take external data as argument.
 
 == Nothing to implement

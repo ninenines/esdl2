@@ -173,10 +173,31 @@
 -export([set_texture_color_mod/4]).
 
 %% sdl_ttf
+-export([ttf_font_ascent/1]).
+-export([ttf_font_descent/1]).
+-export([ttf_font_face_family_name/1]).
+-export([ttf_font_face_is_fixed_width/1]).
+-export([ttf_font_face_style_name/1]).
+-export([ttf_font_faces/1]).
+-export([ttf_font_height/1]).
+-export([ttf_font_line_skip/1]).
+-export([ttf_get_font_hinting/1]).
+-export([ttf_get_font_kerning/1]).
+-export([ttf_get_font_outline/1]).
+-export([ttf_get_font_style/1]).
 -export([ttf_init/0]).
 -export([ttf_open_font/2]).
+-export([ttf_open_font_index/3]).
 -export([ttf_quit/0]).
+-export([ttf_render_utf8_blended/3]).
+-export([ttf_render_utf8_blended_wrapped/4]).
+-export([ttf_render_utf8_shaded/4]).
 -export([ttf_render_utf8_solid/3]).
+-export([ttf_set_font_hinting/2]).
+-export([ttf_set_font_kerning/2]).
+-export([ttf_set_font_outline/2]).
+-export([ttf_set_font_style/2]).
+-export([ttf_size_utf8/2]).
 -export([ttf_was_init/0]).
 
 %% sdl_version
@@ -661,16 +682,79 @@ set_texture_color_mod(_, _, _, _) ->
 
 %% sdl_ttf
 
+ttf_font_ascent(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_font_descent(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_font_face_family_name(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_font_face_is_fixed_width(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_font_face_style_name(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_font_faces(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_font_height(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_font_line_skip(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_get_font_hinting(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_get_font_kerning(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_get_font_outline(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_get_font_style(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 ttf_init() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 ttf_open_font(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
+ttf_open_font_index(_, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 ttf_quit() ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
+ttf_render_utf8_blended(_, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_render_utf8_blended_wrapped(_, _, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_render_utf8_shaded(_, _, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 ttf_render_utf8_solid(_, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_set_font_hinting(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_set_font_kerning(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_set_font_outline(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_set_font_style(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_size_utf8(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 ttf_was_init() ->

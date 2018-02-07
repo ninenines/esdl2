@@ -56,6 +56,7 @@
 	A(bgra8888) \
 	A(bgrx8888) \
 	A(blend) \
+	A(bold) \
 	A(borderless) \
 	A(bottom) \
 	A(bottom_left) \
@@ -126,6 +127,7 @@
 	A(input_focus) \
 	A(input_grabbed) \
 	A(invalid) \
+	A(italic) \
 	A(iyuv) \
 	A(joy_axis_motion) \
 	A(joy_ball_motion) \
@@ -145,6 +147,7 @@
 	A(left_ctrl) \
 	A(left_gui) \
 	A(left_shift) \
+	A(light) \
 	A(max_texture_height) \
 	A(max_texture_width) \
 	A(maximized) \
@@ -154,6 +157,7 @@
 	A(minimum) \
 	A(mod) \
 	A(mode) \
+	A(mono) \
 	A(mouse_capture) \
 	A(mouse_down) \
 	A(mouse_focus) \
@@ -223,6 +227,7 @@
 	A(src_alpha) \
 	A(src_color) \
 	A(state) \
+	A(strikethrough) \
 	A(substract) \
 	A(sym) \
 	A(syswm) \
@@ -241,6 +246,7 @@
 	A(true) \
 	A(type) \
 	A(undefined) \
+	A(underline) \
 	A(unknown) \
 	A(utility) \
 	A(uyvy) \
@@ -424,10 +430,31 @@
 	F(set_texture_blend_mode, 2) \
 	F(set_texture_color_mod, 4) \
 	/* sdl_ttf */ \
+	F(ttf_font_ascent, 1) \
+	F(ttf_font_descent, 1) \
+	F(ttf_font_face_family_name, 1) \
+	F(ttf_font_face_is_fixed_width, 1) \
+	F(ttf_font_face_style_name, 1) \
+	F(ttf_font_faces, 1) \
+	F(ttf_font_height, 1) \
+	F(ttf_font_line_skip, 1) \
+	F(ttf_get_font_hinting, 1) \
+	F(ttf_get_font_kerning, 1) \
+	F(ttf_get_font_outline, 1) \
+	F(ttf_get_font_style, 1) \
 	F(ttf_init, 0) \
 	F(ttf_open_font, 2) \
+	F(ttf_open_font_index, 3) \
 	F(ttf_quit, 0) \
+	F(ttf_render_utf8_blended, 3) \
+	F(ttf_render_utf8_blended_wrapped, 4) \
+	F(ttf_render_utf8_shaded, 4) \
 	F(ttf_render_utf8_solid, 3) \
+	F(ttf_set_font_hinting, 2) \
+	F(ttf_set_font_kerning, 2) \
+	F(ttf_set_font_outline, 2) \
+	F(ttf_set_font_style, 2) \
+	F(ttf_size_utf8, 2) \
 	F(ttf_was_init, 0) \
 	/* sdl_version */ \
 	F(get_version, 0) \
