@@ -183,8 +183,11 @@
 -export([ttf_font_line_skip/1]).
 -export([ttf_get_font_hinting/1]).
 -export([ttf_get_font_kerning/1]).
+-export([ttf_get_font_kerning_size_glyphs/3]).
 -export([ttf_get_font_outline/1]).
 -export([ttf_get_font_style/1]).
+-export([ttf_glyph_is_provided/2]).
+-export([ttf_glyph_metrics/2]).
 -export([ttf_init/0]).
 -export([ttf_open_font/2]).
 -export([ttf_open_font_index/3]).
@@ -712,10 +715,19 @@ ttf_get_font_hinting(_) ->
 ttf_get_font_kerning(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
+ttf_get_font_kerning_size_glyphs(_, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
 ttf_get_font_outline(_) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 ttf_get_font_style(_) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_glyph_is_provided(_, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_glyph_metrics(_, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 ttf_init() ->

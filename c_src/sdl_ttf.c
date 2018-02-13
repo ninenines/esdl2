@@ -239,6 +239,36 @@ NIF_FUNCTION(ttf_get_font_kerning)
 		NIF_RES_GET(Font, font_res));
 }
 
+// ttf_get_font_kerning_size_glyphs
+
+NIF_CALL_HANDLER(thread_ttf_get_font_kerning_size_glyphs)
+{
+	int size;
+
+	size = TTF_GetFontKerningSizeGlyphs(args[0], (long)args[1], (long)args[2]);
+
+	if (size < 0)
+		return sdl_error_tuple(env);
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		enif_make_int(env, size)
+	);
+}
+
+NIF_FUNCTION(ttf_get_font_kerning_size_glyphs)
+{
+	void* font_res;
+	unsigned int previous_ch, ch;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Font, &font_res));
+	BADARG_IF(!enif_get_uint(env, argv[1], &previous_ch));
+	BADARG_IF(!enif_get_uint(env, argv[2], &ch));
+
+	return nif_thread_call(env, thread_ttf_get_font_kerning_size_glyphs, 3,
+		NIF_RES_GET(Font, font_res), previous_ch, ch);
+}
+
 // ttf_get_font_outline
 
 NIF_CALL_HANDLER(thread_ttf_get_font_outline)
@@ -271,6 +301,63 @@ NIF_FUNCTION(ttf_get_font_style)
 
 	return nif_thread_call(env, thread_ttf_get_font_style, 1,
 		NIF_RES_GET(Font, font_res));
+}
+
+// ttf_glyph_is_provided
+
+NIF_CALL_HANDLER(thread_ttf_glyph_is_provided)
+{
+	if (TTF_GlyphIsProvided(args[0], (long)args[1]))
+		return atom_true;
+
+	return atom_false;
+}
+
+NIF_FUNCTION(ttf_glyph_is_provided)
+{
+	void* font_res;
+	unsigned int ch;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Font, &font_res));
+	BADARG_IF(!enif_get_uint(env, argv[1], &ch));
+
+	return nif_thread_call(env, thread_ttf_glyph_is_provided, 2,
+		NIF_RES_GET(Font, font_res), ch);
+}
+
+// ttf_glyph_metrics
+
+NIF_CALL_HANDLER(thread_ttf_glyph_metrics)
+{
+	int minx, maxx, miny, maxy, advance;
+
+	if (TTF_GlyphMetrics(args[0], (long)args[1],
+		&minx, &maxx, &miny, &maxy, &advance)) {
+		return sdl_error_tuple(env);
+	}
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		enif_make_tuple5(env,
+			enif_make_int(env, minx),
+			enif_make_int(env, maxx),
+			enif_make_int(env, miny),
+			enif_make_int(env, maxy),
+			enif_make_int(env, advance)
+		)
+	);
+}
+
+NIF_FUNCTION(ttf_glyph_metrics)
+{
+	void* font_res;
+	unsigned int ch;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Font, &font_res));
+	BADARG_IF(!enif_get_uint(env, argv[1], &ch));
+
+	return nif_thread_call(env, thread_ttf_glyph_metrics, 2,
+		NIF_RES_GET(Font, font_res), ch);
 }
 
 // ttf_init

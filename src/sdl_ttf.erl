@@ -19,6 +19,8 @@
 -export([get_ascent/1]).
 -export([get_descent/1]).
 -export([get_family_name/1]).
+-export([get_glyph_metrics/2]).
+-export([get_glyphs_kerning_size/3]).
 -export([get_height/1]).
 -export([get_hinting/1]).
 -export([get_line_skip/1]).
@@ -26,6 +28,7 @@
 -export([get_outline/1]).
 -export([get_style/1]).
 -export([get_style_name/1]).
+-export([has_glyph/2]).
 -export([is_fixed_width/1]).
 -export([is_kerning_enabled/1]).
 -export([is_started/0]).
@@ -44,6 +47,9 @@
 
 -opaque font() :: reference().
 -export_type([font/0]).
+
+-type glyph() :: 0..65535.
+-export_type([glyph/0]).
 
 -type hinting() :: normal | light | mono | none.
 -export_type([hinting/0]).
@@ -72,6 +78,19 @@ get_descent(Font) ->
 -spec get_family_name(font()) -> binary().
 get_family_name(Font) ->
 	esdl2:ttf_font_face_family_name(Font),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec get_glyph_metrics(font(), glyph())
+	-> {ok, {integer(), integer(), integer(), integer(), integer()}}
+	| sdl:error().
+get_glyph_metrics(Font, Glyph) ->
+	esdl2:ttf_glyph_metrics(Font, Glyph),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec get_glyphs_kerning_size(font(), glyph(), glyph())
+	-> {ok, integer()} | sdl:error().
+get_glyphs_kerning_size(Font, PreviousGlyph, Glyph) ->
+	esdl2:ttf_get_font_kerning_size_glyphs(Font, PreviousGlyph, Glyph),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 -spec get_height(font()) -> non_neg_integer().
@@ -107,6 +126,11 @@ get_style(Font) ->
 -spec get_style_name(font()) -> binary().
 get_style_name(Font) ->
 	esdl2:ttf_font_face_style_name(Font),
+	receive {'_nif_thread_ret_', Ret} -> Ret end.
+
+-spec has_glyph(font(), glyph()) -> boolean().
+has_glyph(Font, Glyph) ->
+	esdl2:ttf_glyph_is_provided(Font, Glyph),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 -spec is_fixed_width(font()) -> boolean().

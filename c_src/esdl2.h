@@ -440,8 +440,11 @@
 	F(ttf_font_line_skip, 1) \
 	F(ttf_get_font_hinting, 1) \
 	F(ttf_get_font_kerning, 1) \
+	F(ttf_get_font_kerning_size_glyphs, 3) \
 	F(ttf_get_font_outline, 1) \
 	F(ttf_get_font_style, 1) \
+	F(ttf_glyph_is_provided, 2) \
+	F(ttf_glyph_metrics, 2) \
 	F(ttf_init, 0) \
 	F(ttf_open_font, 2) \
 	F(ttf_open_font_index, 3) \
