@@ -449,6 +449,9 @@
 	F(ttf_open_font, 2) \
 	F(ttf_open_font_index, 3) \
 	F(ttf_quit, 0) \
+	F(ttf_render_glyph_blended, 3) \
+	F(ttf_render_glyph_shaded, 4) \
+	F(ttf_render_glyph_solid, 3) \
 	F(ttf_render_utf8_blended, 3) \
 	F(ttf_render_utf8_blended_wrapped, 4) \
 	F(ttf_render_utf8_shaded, 4) \

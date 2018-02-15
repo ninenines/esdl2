@@ -192,6 +192,9 @@
 -export([ttf_open_font/2]).
 -export([ttf_open_font_index/3]).
 -export([ttf_quit/0]).
+-export([ttf_render_glyph_blended/3]).
+-export([ttf_render_glyph_shaded/4]).
+-export([ttf_render_glyph_solid/3]).
 -export([ttf_render_utf8_blended/3]).
 -export([ttf_render_utf8_blended_wrapped/4]).
 -export([ttf_render_utf8_shaded/4]).
@@ -740,6 +743,15 @@ ttf_open_font_index(_, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 ttf_quit() ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_render_glyph_blended(_, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_render_glyph_shaded(_, _, _, _) ->
+	erlang:nif_error({not_loaded, ?MODULE}).
+
+ttf_render_glyph_solid(_, _, _) ->
 	erlang:nif_error({not_loaded, ?MODULE}).
 
 ttf_render_utf8_blended(_, _, _) ->

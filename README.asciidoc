@@ -94,9 +94,6 @@ to the public headers.
 ** `TTF_Linked_Version` (if it makes sense, depends on how the library is loaded)
 ** `TTF_OpenFontRW` (unclear if we need it)
 ** `TTF_OpenFontIndexRW` (unclear if we need it)
-** `TTF_RenderGlyph_Solid`
-** `TTF_RenderGlyph_Shaded`
-** `TTF_RenderGlyph_Blended`
 * 'SDL_version.h': `SDL_GetRevisionNumber` must be implemented. The macros may also be useful.
 * 'SDL_video.h': The following elements are missing:
 ** `SDL_WINDOWPOS_*` values for different displays

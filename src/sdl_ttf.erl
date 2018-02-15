@@ -158,10 +158,13 @@ open_font(Filename, PointSize, Index) ->
 	esdl2:ttf_open_font_index(Filename, PointSize, Index),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec render_blended(font(), binary(), sdl_pixels:color())
+-spec render_blended(font(), binary() | glyph(), sdl_pixels:color())
 	-> {ok, sdl_surface:surface()} | sdl:error().
-render_blended(Font, Text, Fg) ->
+render_blended(Font, Text, Fg) when is_binary(Text) ->
 	esdl2:ttf_render_utf8_blended(Font, Text, Fg),
+	receive {'_nif_thread_ret_', Ret} -> Ret end;
+render_blended(Font, Glyph, Fg) ->
+	esdl2:ttf_render_glyph_blended(Font, Glyph, Fg),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 -spec render_blended(font(), binary(), sdl_pixels:color(), non_neg_integer())
@@ -170,16 +173,22 @@ render_blended(Font, Text, Fg, WrapLen) ->
 	esdl2:ttf_render_utf8_blended_wrapped(Font, Text, Fg, WrapLen),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec render_shaded(font(), binary(), sdl_pixels:color(), sdl_pixels:color())
+-spec render_shaded(font(), binary() | glyph(), sdl_pixels:color(), sdl_pixels:color())
 	-> {ok, sdl_surface:surface()} | sdl:error().
-render_shaded(Font, Text, Fg, Bg) ->
+render_shaded(Font, Text, Fg, Bg) when is_binary(Text) ->
 	esdl2:ttf_render_utf8_shaded(Font, Text, Fg, Bg),
+	receive {'_nif_thread_ret_', Ret} -> Ret end;
+render_shaded(Font, Glyph, Fg, Bg) ->
+	esdl2:ttf_render_glyph_shaded(Font, Glyph, Fg, Bg),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
--spec render_solid(font(), binary(), sdl_pixels:color())
+-spec render_solid(font(), binary() | glyph(), sdl_pixels:color())
 	-> {ok, sdl_surface:surface()} | sdl:error().
-render_solid(Font, Text, Fg) ->
+render_solid(Font, Text, Fg) when is_binary(Text) ->
 	esdl2:ttf_render_utf8_solid(Font, Text, Fg),
+	receive {'_nif_thread_ret_', Ret} -> Ret end;
+render_solid(Font, Glyph, Fg) ->
+	esdl2:ttf_render_glyph_solid(Font, Glyph, Fg),
 	receive {'_nif_thread_ret_', Ret} -> Ret end.
 
 -spec render_size(font(), binary())

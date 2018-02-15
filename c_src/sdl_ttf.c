@@ -475,6 +475,145 @@ NIF_FUNCTION(ttf_quit)
 	return nif_thread_cast(env, thread_ttf_quit, 0);
 }
 
+// ttf_render_glyph_blended
+
+NIF_CALL_HANDLER(thread_ttf_render_glyph_blended)
+{
+	SDL_Surface* surface;
+	obj_Surface* res;
+	ERL_NIF_TERM term;
+
+	surface = TTF_RenderGlyph_Blended(args[0], (long)args[1], *(SDL_Color*)args[2]);
+
+	enif_free(args[2]);
+
+	if (!surface)
+		return sdl_error_tuple(env);
+
+	NIF_RES_TO_PTR_AND_TERM(Surface, surface, res, term);
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		term
+	);
+}
+
+NIF_FUNCTION(ttf_render_glyph_blended)
+{
+	void* font_res;
+	unsigned int ch;
+	SDL_Color* fg;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Font, &font_res));
+	BADARG_IF(!enif_get_uint(env, argv[1], &ch));
+
+	fg = enif_alloc(sizeof(SDL_Color));
+	if (!map_to_color(env, argv[2], fg)) {
+		enif_free(fg);
+
+		return enif_make_badarg(env);
+	}
+
+	return nif_thread_call(env, thread_ttf_render_glyph_blended, 3,
+		NIF_RES_GET(Font, font_res), ch, fg);
+}
+
+// ttf_render_glyph_shaded
+
+NIF_CALL_HANDLER(thread_ttf_render_glyph_shaded)
+{
+	SDL_Surface* surface;
+	obj_Surface* res;
+	ERL_NIF_TERM term;
+
+	surface = TTF_RenderGlyph_Shaded(args[0], (long)args[1],
+		*(SDL_Color*)args[2], *(SDL_Color*)args[3]);
+
+	enif_free(args[2]);
+	enif_free(args[3]);
+
+	if (!surface)
+		return sdl_error_tuple(env);
+
+	NIF_RES_TO_PTR_AND_TERM(Surface, surface, res, term);
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		term
+	);
+}
+
+NIF_FUNCTION(ttf_render_glyph_shaded)
+{
+	void* font_res;
+	unsigned int ch;
+	SDL_Color *fg, *bg;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Font, &font_res));
+	BADARG_IF(!enif_get_uint(env, argv[1], &ch));
+
+	fg = enif_alloc(sizeof(SDL_Color));
+	if (!map_to_color(env, argv[2], fg)) {
+		enif_free(fg);
+
+		return enif_make_badarg(env);
+	}
+
+	bg = enif_alloc(sizeof(SDL_Color));
+	if (!map_to_color(env, argv[3], bg)) {
+		enif_free(fg);
+		enif_free(bg);
+
+		return enif_make_badarg(env);
+	}
+
+	return nif_thread_call(env, thread_ttf_render_glyph_shaded, 4,
+		NIF_RES_GET(Font, font_res), ch, fg, bg);
+}
+
+// ttf_render_glyph_solid
+
+NIF_CALL_HANDLER(thread_ttf_render_glyph_solid)
+{
+	SDL_Surface* surface;
+	obj_Surface* res;
+	ERL_NIF_TERM term;
+
+	surface = TTF_RenderGlyph_Solid(args[0], (long)args[1], *(SDL_Color*)args[2]);
+
+	enif_free(args[2]);
+
+	if (!surface)
+		return sdl_error_tuple(env);
+
+	NIF_RES_TO_PTR_AND_TERM(Surface, surface, res, term);
+
+	return enif_make_tuple2(env,
+		atom_ok,
+		term
+	);
+}
+
+NIF_FUNCTION(ttf_render_glyph_solid)
+{
+	void* font_res;
+	unsigned int ch;
+	SDL_Color* fg;
+
+	BADARG_IF(!enif_get_resource(env, argv[0], res_Font, &font_res));
+	BADARG_IF(!enif_get_uint(env, argv[1], &ch));
+
+	fg = enif_alloc(sizeof(SDL_Color));
+	if (!map_to_color(env, argv[2], fg)) {
+		enif_free(fg);
+
+		return enif_make_badarg(env);
+	}
+
+	return nif_thread_call(env, thread_ttf_render_glyph_solid, 3,
+		NIF_RES_GET(Font, font_res), ch, fg);
+}
+
 // ttf_render_utf8_blended
 
 NIF_CALL_HANDLER(thread_ttf_render_utf8_blended)
