@@ -9,7 +9,7 @@ run() ->
 init() ->
 	ok = sdl:start([video]),
 	ok = sdl:stop_on_exit(),
-	{ok, Window} = sdl_window:create("Hello SDL", 10, 10, 500, 500, []),
+	{ok, Window} = sdl_window:create(<<"Hello SDL">>, 10, 10, 500, 500, []),
 	{ok, Renderer} = sdl_renderer:create(Window, -1, [accelerated, present_vsync]),
 	ok = sdl_renderer:set_draw_color(Renderer, 255, 255, 255, 255),
 	{ok, Texture} = sdl_texture:create_from_file(Renderer, "erlang.png"),

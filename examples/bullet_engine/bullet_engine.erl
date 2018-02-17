@@ -9,7 +9,7 @@ run() ->
 init() ->
 	ok = sdl:start([video]),
 	ok = sdl:stop_on_exit(),
-	{ok, Window} = sdl_window:create("Hello SDL", 10, 10, 500, 600, []),
+	{ok, Window} = sdl_window:create(<<"Hello SDL">>, 10, 10, 500, 600, []),
 	{ok, Renderer} = sdl_renderer:create(Window, -1, [accelerated, present_vsync]),
 	ok = sdl_renderer:set_logical_size(Renderer, 500 bsl 16, 600 bsl 16),
 	{ok, Texture} = sdl_texture:create_from_file(Renderer, "bullet.png"),
