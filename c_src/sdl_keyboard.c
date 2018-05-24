@@ -282,9 +282,8 @@ NIF_CAST_HANDLER(thread_set_text_input_rect)
 
 NIF_FUNCTION(set_text_input_rect)
 {
-	SDL_Rect* rect = NULL;
+	SDL_Rect* rect = (SDL_Rect*)enif_alloc(sizeof(SDL_Rect));
 
-	rect = (SDL_Rect*)enif_alloc(sizeof(SDL_Rect));
 	if (!map_to_rect(env, argv[0], rect)) {
 		enif_free(rect);
 		return enif_make_badarg(env);

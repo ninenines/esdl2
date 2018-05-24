@@ -68,6 +68,7 @@ NIF_CALL_HANDLER(thread_get_closest_display_mode)
 	mode.w = (long)args[2];
 	mode.h = (long)args[3];
 	mode.refresh_rate = (long)args[4];
+	mode.driverdata = NULL;
 
 	if (!SDL_GetClosestDisplayMode((long)args[0], &mode, &closest))
 		return atom_undefined;

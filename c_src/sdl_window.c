@@ -735,6 +735,7 @@ NIF_CALL_HANDLER(thread_set_window_display_mode)
 	mode.w = (long)args[2];
 	mode.h = (long)args[3];
 	mode.refresh_rate = (long)args[4];
+	mode.driverdata = NULL;
 
 	if (SDL_SetWindowDisplayMode(args[0], &mode))
 		return sdl_error_tuple(env);
@@ -963,28 +964,29 @@ NIF_FUNCTION(set_window_hit_test)
 {
 	void* window_res;
 	unsigned int module_len, function_len;
-	char *module = NULL, *function = NULL;
+	char *module, *function;
 
 	BADARG_IF(!enif_get_resource(env, argv[0], res_Window, &window_res));
 	BADARG_IF(!enif_get_atom_length(env, argv[1], &module_len, ERL_NIF_LATIN1));
 	BADARG_IF(!enif_get_atom_length(env, argv[2], &function_len, ERL_NIF_LATIN1));
 
 	module = (char*)enif_alloc(module_len + 1);
-	if (!enif_get_atom(env, argv[1], module, module_len + 1, ERL_NIF_LATIN1))
-		goto set_window_hit_test_badarg;
+	if (!enif_get_atom(env, argv[1], module, module_len + 1, ERL_NIF_LATIN1)) {
+		enif_free(module);
+
+		return enif_make_badarg(env);
+	}
 
 	function = (char*)enif_alloc(function_len + 1);
-	if (!enif_get_atom(env, argv[2], function, function_len + 1, ERL_NIF_LATIN1))
-		goto set_window_hit_test_badarg;
+	if (!enif_get_atom(env, argv[2], function, function_len + 1, ERL_NIF_LATIN1)) {
+		enif_free(module);
+		enif_free(function);
+
+		return enif_make_badarg(env);
+	}
 
 	return nif_thread_call(env, thread_set_window_hit_test, 3,
 		NIF_RES_GET(Window, window_res), module, function);
-
-set_window_hit_test_badarg:
-	enif_free(module);
-	enif_free(function);
-
-	return enif_make_badarg(env);
 }
 
 // set_window_hit_test_remove

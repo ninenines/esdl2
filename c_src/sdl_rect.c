@@ -92,7 +92,7 @@ ERL_NIF_TERM rect_to_map(ErlNifEnv* env, const SDL_Rect* rect)
 
 NIF_FUNCTION(enclose_points)
 {
-	SDL_Point* points = NULL;
+	SDL_Point* points;
 	SDL_Rect clip, result;
 	SDL_bool b;
 	ERL_NIF_TERM list, head;
