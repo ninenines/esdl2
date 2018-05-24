@@ -24,5 +24,9 @@ NIF_ATOM_TO_ENUM_FUNCTION(atom_to_bool, SDL_bool, BOOL_ENUM)
 
 NIF_FUNCTION(get_num_allocations)
 {
+#if SDL_VERSION_ATLEAST(2, 0, 7)
 	return enif_make_int(env, SDL_GetNumAllocations());
+#else
+	return atom_undefined;
+#endif
 }
