@@ -45,11 +45,14 @@ ci-setup:: distclean-c_src-env
 check:: cppcheck scan-build
 
 cppcheck:
-	cppcheck -f --quiet --error-exitcode=2 --enable=all --inconclusive --std=posix -I/usr/include/SDL2 c_src/
+	$(gen_verbose) cppcheck -f -q \
+		--error-exitcode=2 --enable=warning,style \
+		--inconclusive --std=posix -I/usr/include/SDL2 \
+		-U_System -USDL_CreateThread c_src/
 
 scan-build:
-	make clean
-	scan-build make
+	$(verbose) $(MAKE) clean
+	$(gen_verbose) scan-build $(MAKE)
 
 hello_sdl:: all
 	erlc -o examples/hello_sdl examples/hello_sdl/*.erl
