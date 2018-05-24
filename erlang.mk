@@ -5987,6 +5987,7 @@ list-templates:
 C_SRC_DIR ?= $(CURDIR)/c_src
 C_SRC_ENV ?= $(C_SRC_DIR)/env.mk
 C_SRC_OUTPUT ?= $(CURDIR)/priv/$(PROJECT)
+C_SRC_SHARED_FLAG = -shared
 C_SRC_TYPE ?= shared
 
 # System type and C compiler/flags.
@@ -6017,6 +6018,7 @@ else ifeq ($(PLATFORM),darwin)
 	CFLAGS ?= -O3 -std=c99 -arch x86_64 -finline-functions -Wall -Wmissing-prototypes
 	CXXFLAGS ?= -O3 -arch x86_64 -Wall
 	LDFLAGS ?= -arch x86_64 -flat_namespace -undefined suppress
+	C_SRC_SHARED_FLAG = -bundle
 else ifeq ($(PLATFORM),freebsd)
 	CC ?= cc
 	CFLAGS ?= -O3 -std=c99 -Wall -Wmissing-prototypes
@@ -6078,9 +6080,9 @@ test-build:: $(C_SRC_ENV) $(C_SRC_OUTPUT_FILE)
 
 $(C_SRC_OUTPUT_FILE): $(OBJECTS)
 	$(verbose) mkdir -p priv/
-	$(link_verbose) $(CC) $(OBJECTS) \
-		$(LDFLAGS) $(if $(filter $(C_SRC_TYPE),shared),-shared) $(LDLIBS) \
-		-o $(C_SRC_OUTPUT_FILE)
+	$(link_verbose) $(CC) $(OBJECTS) $(LDFLAGS) \
+		$(if $(filter $(C_SRC_TYPE),shared),$(C_SRC_SHARED_FLAG)) \
+		$(LDLIBS) -o $(C_SRC_OUTPUT_FILE)
 
 %.o: %.c
 	$(COMPILE_C) $(OUTPUT_OPTION) $<
