@@ -4299,7 +4299,7 @@ export NO_AUTOPATCH
 
 # Verbosity.
 
-dep_verbose_0 = @echo " DEP   $1 ($(call dep_commit,$1))";
+dep_verbose_0 = @echo " DEP    $1 ($(call dep_commit,$1))";
 dep_verbose_2 = set -x;
 dep_verbose = $(dep_verbose_$(V))
 
@@ -6019,7 +6019,7 @@ else ifeq ($(PLATFORM),darwin)
 	LDFLAGS ?= -arch x86_64 -flat_namespace -undefined suppress
 else ifeq ($(PLATFORM),freebsd)
 	CC ?= cc
-	CFLAGS ?= -O3 -std=c99 -finline-functions -Wall -Wmissing-prototypes
+	CFLAGS ?= -O3 -std=c99 -Wall -Wmissing-prototypes
 	CXXFLAGS ?= -O3 -finline-functions -Wall
 else ifeq ($(PLATFORM),linux)
 	CC ?= gcc
