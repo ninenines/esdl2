@@ -62,7 +62,7 @@ hide() ->
 	esdl2:show_cursor(0),
 	receive {'_nif_thread_ret_', _} -> ok end.
 
--spec is_visible() -> ok.
+-spec is_visible() -> boolean().
 is_visible() ->
 	esdl2:show_cursor(-1),
 	receive
