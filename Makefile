@@ -36,6 +36,10 @@ CFLAGS += $(shell sdl2-config --cflags)
 # @todo -undefined dynamic_lookup on OSX?
 LDLIBS += $(SDL2_LIBS) -lSDL2_image -lSDL2_ttf
 
+# Clean the environment before each CI builds.
+
+ci-setup:: distclean-c_src-env
+
 # Additional checks.
 
 check:: cppcheck scan-build
