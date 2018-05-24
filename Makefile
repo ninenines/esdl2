@@ -12,6 +12,7 @@ DEP_PLUGINS = nif_helpers
 
 TEST_DEPS = $(if $(CI_ERLANG_MK),ci.erlang.mk)
 
+SDL2_CFLAGS = $(shell sdl2-config --cflags)
 # SDL 2.0.3 has this option enabled that causes problems with NIF functions.
 SDL2_LIBS_FILTER_OUT = -Wl,--no-undefined
 SDL2_LIBS = $(filter-out $(SDL2_LIBS_FILTER_OUT),$(shell sdl2-config --static-libs))
@@ -32,7 +33,7 @@ include erlang.mk
 
 # SDL2 flags.
 
-CFLAGS += $(shell sdl2-config --cflags)
+CFLAGS += $(SDL2_CFLAGS)
 # @todo -undefined dynamic_lookup on OSX?
 LDLIBS += $(SDL2_LIBS) -lSDL2_image -lSDL2_ttf
 
@@ -45,10 +46,9 @@ ci-setup:: distclean-c_src-env
 check:: cppcheck scan-build
 
 cppcheck:
-	$(gen_verbose) cppcheck -f -q \
-		--error-exitcode=2 --enable=warning,style \
-		--inconclusive --std=posix -I/usr/include/SDL2 \
-		-U_System -USDL_CreateThread c_src/
+	$(gen_verbose) cppcheck -f -q --error-exitcode=2 \
+		--enable=warning,style --inconclusive --std=posix \
+		$(firstword $(SDL2_CFLAGS)) -U_System -USDL_CreateThread c_src/
 
 scan-build:
 	$(verbose) $(MAKE) clean
