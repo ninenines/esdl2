@@ -17,7 +17,7 @@
 ERLANG_MK_FILENAME := $(realpath $(lastword $(MAKEFILE_LIST)))
 export ERLANG_MK_FILENAME
 
-ERLANG_MK_VERSION = 2018.05.15-1-g9fff0a1
+ERLANG_MK_VERSION = 2018.05.15-1-g9fff0a1-dirty
 ERLANG_MK_WITHOUT = 
 
 # Make 3.81 and 3.82 are deprecated.
@@ -216,6 +216,8 @@ ifeq ($(strip $(KERL)),)
 KERL := $(ERLANG_MK_TMP)/kerl/kerl
 endif
 
+KERL_DIR = $(ERLANG_MK_TMP)/kerl
+
 export KERL
 
 KERL_GIT ?= https://github.com/kerl/kerl
@@ -242,7 +244,9 @@ $(KERL_INSTALL_DIR)/$1-native: $(KERL)
 endif
 endef
 
-$(KERL):
+$(KERL): $(KERL_DIR)
+
+$(KERL_DIR):
 	$(verbose) mkdir -p $(ERLANG_MK_TMP)
 	$(gen_verbose) git clone --depth 1 $(KERL_GIT) $(ERLANG_MK_TMP)/kerl
 	$(verbose) cd $(ERLANG_MK_TMP)/kerl && git checkout $(KERL_COMMIT)
@@ -251,7 +255,7 @@ $(KERL):
 distclean:: distclean-kerl
 
 distclean-kerl:
-	$(gen_verbose) rm -rf $(KERL)
+	$(gen_verbose) rm -rf $(KERL_DIR)
 
 # Allow users to select which version of Erlang/OTP to use for a project.
 
@@ -283,9 +287,9 @@ SHELL := env PATH=$(PATH) $(SHELL)
 $(eval $(call kerl_hipe_target,$(ERLANG_HIPE)))
 
 # Build Erlang/OTP only if it doesn't already exist.
-ifeq ($(wildcard $(KERL_INSTALL_DIR)/$(ERLANG_HIPE))$(BUILD_ERLANG_OTP),)
+ifeq ($(wildcard $(KERL_INSTALL_DIR)/$(ERLANG_HIPE)-native)$(BUILD_ERLANG_OTP),)
 $(info Building HiPE-enabled Erlang/OTP $(ERLANG_OTP)... Please wait...)
-$(shell $(MAKE) $(KERL_INSTALL_DIR)/$(ERLANG_HIPE) ERLANG_HIPE=$(ERLANG_HIPE) BUILD_ERLANG_OTP=1 >&2)
+$(shell $(MAKE) $(KERL_INSTALL_DIR)/$(ERLANG_HIPE)-native ERLANG_HIPE=$(ERLANG_HIPE) BUILD_ERLANG_OTP=1 >&2)
 endif
 
 endif
@@ -6242,7 +6246,7 @@ ci_verbose = $(ci_verbose_$(V))
 
 define ci_target
 ci-$1: $(KERL_INSTALL_DIR)/$2
-	$(verbose) $(MAKE) --no-print-directory clean
+	$(verbose) $(MAKE) --no-print-directory clean distclean-c_src-env
 	$(ci_verbose) \
 		PATH="$(KERL_INSTALL_DIR)/$2/bin:$(PATH)" \
 		CI_OTP_RELEASE="$1" \
