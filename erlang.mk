@@ -6015,7 +6015,7 @@ ifeq ($(PLATFORM),msys2)
 	CXXFLAGS ?= -O3 -finline-functions -Wall
 else ifeq ($(PLATFORM),darwin)
 	CC ?= cc
-	CFLAGS ?= -O3 -std=c99 -arch x86_64 -finline-functions -Wall -Wmissing-prototypes
+	CFLAGS ?= -O3 -std=c99 -arch x86_64 -Wall -Wmissing-prototypes
 	CXXFLAGS ?= -O3 -arch x86_64 -Wall
 	LDFLAGS ?= -arch x86_64 -flat_namespace -undefined suppress
 	C_SRC_SHARED_FLAG = -bundle
