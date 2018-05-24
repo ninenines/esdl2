@@ -1,20 +1,10 @@
-# Copyright (c) 2014-2018, Loïc Hoguin <essen@ninenines.eu>
-#
-# Permission to use, copy, modify, and/or distribute this software for any
-# purpose with or without fee is hereby granted, provided that the above
-# copyright notice and this permission notice appear in all copies.
-#
-# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# See LICENSE for licensing information.
 
 PROJECT = esdl2
 PROJECT_DESCRIPTION = SDL2 Erlang NIF.
 PROJECT_VERSION = 0.1.0
+
+# Dependencies.
 
 BUILD_DEPS = nif_helpers
 dep_nif_helpers = git https://github.com/ninenines/nif_helpers master
@@ -24,11 +14,27 @@ DEP_PLUGINS = nif_helpers
 SDL2_LIBS_FILTER_OUT = -Wl,--no-undefined
 SDL2_LIBS = $(filter-out $(SDL2_LIBS_FILTER_OUT),$(shell sdl2-config --static-libs))
 
+# CI configuration.
+
+dep_ci.erlang.mk = git https://github.com/ninenines/ci.erlang.mk master
+DEP_EARLY_PLUGINS = ci.erlang.mk
+
+AUTO_CI_OTP ?= OTP-19+
+# AUTO_CI_HIPE ?= OTP-LATEST
+# AUTO_CI_ERLLVM ?= OTP-LATEST
+AUTO_CI_WINDOWS ?= OTP-19+
+
+# Standard targets.
+
 include erlang.mk
+
+# SDL2 flags.
 
 CFLAGS += $(shell sdl2-config --cflags)
 # @todo -undefined dynamic_lookup on OSX?
 LDLIBS += $(SDL2_LIBS) -lSDL2_image -lSDL2_ttf
+
+# Additional checks.
 
 check:: cppcheck scan-build
 
