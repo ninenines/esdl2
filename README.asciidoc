@@ -6,7 +6,8 @@ This project tries to implement SDL2 and some of its
 extensions in one convenient NIF. The supported versions
 and features are listed below.
 
-* SDL 2.0.7
+* SDL >= 2.0.5
+* SDL_image 2.0.3
 * SDL_ttf 2.0.14
 
 The implementation is cut into sections corresponding
