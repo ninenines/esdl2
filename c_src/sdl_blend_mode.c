@@ -14,6 +14,10 @@
 
 #include "esdl2.h"
 
+#if !SDL_VERSION_ATLEAST(2, 0, 6)
+#define SDL_BLENDMODE_INVALID 0x7FFFFFFF
+#endif
+
 #define BLEND_MODE_ENUM(E) \
 	E(none, SDL_BLENDMODE_NONE) \
 	E(blend, SDL_BLENDMODE_BLEND) \
@@ -23,6 +27,8 @@
 
 NIF_ATOM_TO_ENUM_FUNCTION(atom_to_blend_mode, SDL_BlendMode, BLEND_MODE_ENUM)
 NIF_ENUM_TO_ATOM_FUNCTION(blend_mode_to_atom, SDL_BlendMode, BLEND_MODE_ENUM)
+
+#if SDL_VERSION_ATLEAST(2, 0, 6)
 
 #define BLEND_OPERATION_ENUM(E) \
 	E(add, SDL_BLENDOPERATION_ADD) \
@@ -82,3 +88,12 @@ NIF_FUNCTION(compose_custom_blend_mode)
 		srcColorFactor, dstColorFactor, colorOp,
 		srcAlphaFactor, dstAlphaFactor, alphaOp);
 }
+
+#else
+
+NIF_FUNCTION(compose_custom_blend_mode)
+{
+	return atom_undefined;
+}
+
+#endif /* SDL_VERSION_ATLEAST(2, 0, 6) */

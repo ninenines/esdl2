@@ -89,10 +89,14 @@ NIF_FUNCTION(has_mmx)
 
 NIF_FUNCTION(has_neon)
 {
+#if SDL_VERSION_ATLEAST(2, 0, 6)
 	if (SDL_HasNEON())
 		return atom_true;
 
 	return atom_false;
+#else
+	return atom_undefined;
+#endif
 }
 
 // has_rdtsc

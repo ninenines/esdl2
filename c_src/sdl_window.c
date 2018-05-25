@@ -23,6 +23,10 @@ void dtor_Window(ErlNifEnv* env, void* obj)
 	esdl2_windows_remove(window);
 }
 
+#if !SDL_VERSION_ATLEAST(2, 0, 6)
+#define SDL_WINDOW_VULKAN 0x10000000
+#endif
+
 #define WINDOW_FLAGS(F) \
 	F(fullscreen, SDL_WINDOW_FULLSCREEN) \
 	F(opengl, SDL_WINDOW_OPENGL) \
