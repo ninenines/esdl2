@@ -12,20 +12,15 @@ DEP_PLUGINS = nif_helpers
 
 TEST_DEPS = $(if $(CI_ERLANG_MK),ci.erlang.mk)
 
-SDL2_CFLAGS = $(shell sdl2-config --cflags)
-# SDL 2.0.3 has this option enabled that causes problems with NIF functions.
-SDL2_LIBS_FILTER_OUT = -Wl,--no-undefined
-SDL2_LIBS = $(filter-out $(SDL2_LIBS_FILTER_OUT),$(shell sdl2-config --static-libs))
-
 # CI configuration.
 
 dep_ci.erlang.mk = git https://github.com/ninenines/ci.erlang.mk master
 DEP_EARLY_PLUGINS = ci.erlang.mk
 
-AUTO_CI_OTP ?= OTP-19+
+AUTO_CI_OTP ?= OTP-20+
 # AUTO_CI_HIPE ?= OTP-LATEST
 # AUTO_CI_ERLLVM ?= OTP-LATEST
-AUTO_CI_WINDOWS ?= OTP-19+
+AUTO_CI_WINDOWS ?= OTP-20+
 
 # Standard targets.
 
@@ -33,9 +28,10 @@ include erlang.mk
 
 # SDL2 flags.
 
+SDL2_CFLAGS = $(shell sdl2-config --cflags)
 CFLAGS += $(SDL2_CFLAGS)
 # @todo -undefined dynamic_lookup on OSX?
-LDLIBS += $(SDL2_LIBS) -lSDL2_image -lSDL2_ttf
+LDLIBS += -lSDL2 -lSDL2_image -lSDL2_ttf
 
 # Clean the environment before each CI builds.
 
