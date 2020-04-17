@@ -42,9 +42,8 @@ ci-setup:: distclean-c_src-env
 check:: cppcheck scan-build
 
 cppcheck:
-	$(gen_verbose) cppcheck -f -q --error-exitcode=2 \
-		--enable=warning,style --inconclusive --std=posix \
-		$(firstword $(SDL2_CFLAGS)) -U_System -USDL_CreateThread c_src/
+	$(gen_verbose) cppcheck -f -q --error-exitcode=2 --enable=warning,style --inconclusive \
+		-I$(DEPS_DIR)/nif_helpers $(firstword $(SDL2_CFLAGS)) -U_System -USDL_CreateThread c_src/
 
 scan-build:
 	$(verbose) $(MAKE) clean
