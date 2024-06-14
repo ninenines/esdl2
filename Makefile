@@ -31,7 +31,7 @@ include erlang.mk
 SDL2_CFLAGS = $(shell sdl2-config --cflags)
 CFLAGS += $(SDL2_CFLAGS)
 # @todo -undefined dynamic_lookup on OSX?
-LDLIBS += -lSDL2 -lSDL2_image -lSDL2_ttf
+LDLIBS += $(shell sdl2-config --libs) -lSDL2_image -lSDL2_ttf
 
 # Clean the environment before each CI builds.
 
