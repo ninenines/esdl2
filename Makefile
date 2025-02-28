@@ -56,3 +56,7 @@ hello_sdl:: all
 bullet_engine:: all
 	erlc -o examples/bullet_engine examples/bullet_engine/*.erl
 	cd examples/bullet_engine && ./start.sh
+
+duck_engine: all
+	erlc -o examples/duck_engine examples/duck_engine/*.erl
+	cd examples/duck_engine && ./start.sh
